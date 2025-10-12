@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1: The Living World – Ecosystems</title>
+<style>
+/* ==================== ORIGINAL UI CSS ==================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f9f6;
+    color: #111;
+    overflow-x: hidden;
+}
+header {
+    background: #116611;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 {
+    font-size: 20px;
+    margin: 0;
+}
+header .buttons {
+    display: flex;
+    gap: 10px;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.sidebar {
+    width: 220px;
+    background: #e8f5e9;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+.sidebar img {
+    width: 160px;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar li {
+    padding: 8px;
+    cursor: pointer;
+    color: #116611;
+}
+.sidebar li:hover {
+    background: #c8e6c9;
+}
+.sidebar li.active {
+    background: #a5d6a7;
+    font-weight: bold;
+}
+.main {
+    margin-left: 240px;
+    padding: 20px;
+}
+.slide {
+    display: none;
+}
+.slide.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+.content-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr;
+    gap: 20px;
+    align-items: start;
+}
+.bullets ul {
+    padding-left: 20px;
+}
+.diagram {
+    border: 2px solid #116611;
+    background: white;
+    padding: 10px;
+    text-align: center;
+    min-height: 250px;
+}
+.diagram img {
+        width: 100%;
+        height: auto;
+        min-height: 250px;
+	object-fit: contain;
+}
+
+
+.notes-panel {
+    position: fixed;
+    bottom: -40%;
+    left: 240px;
+    right: 0;
+    background: #fff;
+    border-top: 3px solid #116611;
+    max-height: 40%;
+    overflow-y: auto;
+    transition: bottom 0.3s;
+    padding: 15px;
+}
+.notes-panel.active {
+    bottom: 0;
+}
+.quiz-panel {
+    position: fixed;
+    top: 60px;
+    right: -400px;
+    width: 350px;
+    height: calc(100% - 60px);
+    background: #fff;
+    border-left: 3px solid #116611;
+    padding: 15px;
+    overflow-y: auto;
+    transition: right 0.3s;
+}
+.quiz-panel.active {
+    right: 0;
+}
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.quiz-btn {
+    padding: 8px 12px;
+    border: 1px solid #116611;
+    background: #e8f5e9;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.quiz-btn:hover:not(:disabled) {
+    background: #c8e6c9;
+}
+.quiz-btn:disabled {
+    opacity: 0.8;
+    cursor: default;
+}
+.show-answer {
+    margin-top: 10px;
+    background: #c8e6c9;
+    border: 1px solid #116611;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+</style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div class="sidebar">
+<img src="../logo.png" alt="Logo">
+<ul id="toc"></ul>
+</div>
+
+<div class="main">
+<header>
+<h1>Unit 1: The Living World – Ecosystems</h1>
+<div class="buttons">
+    <div class="tooltip"><button onclick="prevSlide()">⬅️</button><span class="tooltiptext">Previous Slide</span></div>
+    <div class="tooltip"><button onclick="nextSlide()">➡️</button><span class="tooltiptext">Next Slide</span></div>
+    <div class="tooltip"><button onclick="toggleNotes()">📝</button><span class="tooltiptext">Toggle Notes</span></div>
+    <div class="tooltip"><button onclick="toggleQuiz()">❓</button><span class="tooltiptext">Toggle Quiz</span></div>
+</div>
+</header>
+<div id="slides"></div>
+</div>
+
+<div class="notes-panel" id="notes"></div>
+<div class="quiz-panel" id="quiz"></div>
+
+<script>
+const slidesData = [{"title": "Introduction to Ecosystems", "content": "", "bullets": ["An ecosystem consists of all living organisms (biotic) interacting with their physical environment (abiotic).", "Abiotic components include sunlight, temperature, water, nutrients, soil, and atmosphere.", "Biotic components include producers (plants), consumers (herbivores, carnivores, omnivores), and decomposers.", "Ecosystems are dynamic and exhibit energy flow and nutrient cycling."], "diagram_ref": "1.1_ecosystem_components", "speaker_notes": "Ecosystems are functional units where living and nonliving components interact. Biotic elements include species at multiple trophic levels; abiotic factors regulate resource availability. Studying ecosystems helps explain stability, productivity, and ecological processes. Case study: A pond ecosystem with algae, fish, frogs, and fungi illustrates biotic-abiotic interactions and trophic dynamics.", "quiz": {"question": "Which of the following is an abiotic factor in an ecosystem?", "options": ["Fungi", "Soil pH", "Algae", "Insects"], "ans": 0, "explanation": "Abiotic factors are nonliving elements; soil pH affects nutrient availability and influences organisms."}}, {"title": "Terrestrial Biomes", "content": "", "bullets": ["Biomes are large ecological regions defined by climate, vegetation, and organisms.", "Key biomes include tundra, desert, rainforest, grassland, and temperate forests.", "Climate, particularly temperature and precipitation, shapes biome distribution.", "Species in each biome exhibit specific adaptations to environmental conditions."], "diagram_ref": "1.2_biome_map", "speaker_notes": "Terrestrial biomes are structured by temperature and precipitation patterns. Tundras are cold with permafrost; deserts are dry with water-storing plants; tropical rainforests are wet with high biodiversity. Adaptations may be morphological, physiological, or behavioral. Case study: Rainforest epiphytes use vertical space; desert cacti perform CAM photosynthesis to conserve water.", "quiz": {"question": "Which climatic factor most strongly determines global biome distribution?", "options": ["Wind speed", "Temperature and precipitation", "Soil pH", "Sunspot cycles"], "ans": 0, "explanation": "Temperature and precipitation directly influence vegetation patterns, which define terrestrial biomes."}}, {"title": "Aquatic Biomes", "content": "", "bullets": ["Aquatic biomes are categorized into freshwater, estuarine, and marine systems.", "Key zones include photic (light-penetrated), aphotic (no light), and benthic (bottom) zones.", "Marine zones include intertidal, neritic, pelagic, and abyssal regions.", "Aquatic ecosystems regulate climate, cycle nutrients, and provide food resources."], "diagram_ref": "1.3_marine_zones", "speaker_notes": "Water covers most of Earth and supports immense biodiversity. Freshwater systems provide drinking water and habitats; estuaries serve as nurseries and filter pollutants; marine systems regulate global climate by storing carbon. Case study: Coral reefs harbor diverse species; mangroves protect coastal areas from erosion and storms.", "quiz": {"question": "Describe two ecological roles of estuaries and explain why they are considered critical habitats.", "explanation": "Estuaries serve as nurseries for juvenile fish and invertebrates, providing sheltered environments that increase survival rates of young organisms. They act as natural filters, removing pollutants and improving water quality, which maintains ecosystem health. Additionally, estuaries provide protection from storm surges and coastal erosion, buffering inland areas against flooding and contributing to shoreline stability. These combined roles make estuaries critical habitats for biodiversity, fisheries, and human communities."}}, {"title": "The Carbon Cycle", "content": "", "bullets": ["Carbon moves between atmosphere, biosphere, oceans, and lithosphere.", "Photosynthesis removes CO₂; respiration, decomposition, and combustion release CO₂.", "Oceans act as major carbon sinks, storing dissolved CO₂.", "Human activities (fossil fuel burning, deforestation) disrupt the carbon cycle."], "diagram_ref": "1.4_carbon_cycle", "speaker_notes": "The carbon cycle regulates climate and energy flow. Plants and phytoplankton capture CO₂ via photosynthesis; respiration and decay release it. Oceans absorb CO₂ but face acidification. Case study: Deforestation reduces carbon sequestration, increasing greenhouse gas accumulation.", "quiz": {"question": "Which process removes carbon dioxide from the atmosphere?", "options": ["Respiration", "Combustion", "Photosynthesis", "Volcanic eruption"], "ans": 0, "explanation": "Photosynthesis captures atmospheric CO₂, converting it into organic molecules."}}, {"title": "The Nitrogen Cycle", "content": "", "bullets": ["Nitrogen is essential for proteins and nucleic acids.", "Atmospheric nitrogen (N₂) must be fixed into ammonia, nitrates, or nitrites.", "Key processes: nitrogen fixation, nitrification, assimilation, ammonification, denitrification.", "Human impacts: fertilizers, combustion, and eutrophication alter the cycle."], "diagram_ref": "1.5_nitrogen_cycle", "speaker_notes": "Nitrogen cycling regulates ecosystem productivity. Bacteria fix N₂ into usable forms; plants assimilate nitrates, and consumers acquire nitrogen via food chains. Excess nitrogen causes eutrophication and hypoxic zones. Case study: Gulf of Mexico dead zone due to agricultural runoff.", "quiz": {"question": "Explain how human activity alters the nitrogen cycle and describe one environmental consequence.", "explanation": "Human activities, such as fertilizer application, introduce excess reactive nitrogen into ecosystems, increasing nutrient loads in soil and water. Agricultural runoff carries these nutrients into rivers and lakes, causing eutrophication, which triggers dense algal blooms. When algae die and decompose, oxygen in the water is depleted, resulting in hypoxic conditions that can cause mass fish die-offs. Industrial combustion also releases nitrogen oxides into the atmosphere, contributing to acid rain and further ecosystem stress."}}, {"title": "The Phosphorus Cycle", "content": "", "bullets": ["Phosphorus is essential for DNA, ATP, and cell membranes.", "Unlike carbon and nitrogen, phosphorus has no significant gaseous phase.", "Main reservoirs include rocks, soil, sediments, and water bodies.", "Human impacts include mining, fertilizer runoff, and cultural eutrophication."], "diagram_ref": "1.6_phosphorus_cycle", "speaker_notes": "Phosphorus cycles slowly. Weathering releases phosphates; plants absorb them; animals gain phosphorus through food. Excess phosphates disrupt aquatic ecosystems, causing algal blooms. Case study: Lake Erie eutrophication from phosphorus-rich detergents.", "quiz": {"question": "Which of the following is true about the phosphorus cycle?", "options": ["It has a significant gaseous phase", "Excess phosphorus can cause eutrophication", "It moves primarily through the atmosphere", "Humans have little impact on it"], "ans": 0, "explanation": "Phosphorus has no significant gaseous phase; excess from fertilizers causes eutrophication."}}, {"title": "The Water Cycle", "content": "", "bullets": ["Processes: evaporation, condensation, precipitation, infiltration, runoff, transpiration.", "Primarily powered by solar energy.", "Connects atmosphere, lithosphere, and biosphere.", "Human impacts: deforestation, aquifer depletion, urbanization."], "diagram_ref": "1.7_water_cycle", "speaker_notes": "The hydrologic cycle redistributes water, regulates climate, transports nutrients, and sustains ecosystems. Deforestation reduces transpiration; urbanization increases runoff and flooding risk. Case study: Overuse of aquifers like Ogallala threatens freshwater availability.", "quiz": {"question": "Which process in the water cycle is directly driven by plant activity?", "options": ["Condensation", "Runoff", "Transpiration", "Precipitation"], "ans": 0, "explanation": "Transpiration is the release of water vapor from plant leaves into the atmosphere."}}, {"title": "Primary Productivity in Ecosystems", "content": "", "bullets": ["Gross Primary Productivity (GPP) = total energy captured via photosynthesis.", "Net Primary Productivity (NPP) = GPP minus autotrophic respiration.", "NPP determines energy available to consumers and supports food webs.", "Highest in tropical rainforests and estuaries due to abundant light and nutrients."], "diagram_ref": "1.8_productivity_map", "speaker_notes": "Primary productivity measures energy capture and transfer. GPP quantifies total photosynthesis; NPP measures energy left for consumers. High NPP ecosystems support dense, diverse populations. Case study: Rainforests have high NPP; deserts have low NPP due to water limitation.", "quiz": {"question": "Which ecosystem typically has the highest Net Primary Productivity (NPP)?", "options": ["Desert", "Tundra", "Tropical rainforest", "Open ocean"], "ans": 0, "explanation": "Tropical rainforests have high NPP due to abundant sunlight, warmth, and nutrients."}}, {"title": "Energy Pyramids vs Biomass Pyramids", "content": "", "bullets": ["Energy pyramids always decrease upward due to energy loss at each trophic level.", "Biomass pyramids show standing crop and may invert in aquatic ecosystems.", "Pyramids illustrate inefficiencies in energy transfer.", "Human exploitation can alter pyramid structures and ecosystem balance."], "diagram_ref": "1.10_energy_pyramid", "speaker_notes": "Energy pyramids depict energy flow; biomass pyramids show mass of living tissue. Inverted biomass pyramids occur in oceans because phytoplankton reproduce quickly. Understanding pyramids explains productivity and conservation needs. Case study: Oceanic food webs often have inverted biomass pyramids.", "quiz": {"question": "Why can biomass pyramids be inverted in some aquatic ecosystems?", "options": ["Producers are very large", "Consumers reproduce rapidly", "Phytoplankton reproduce quickly despite small standing biomass", "Energy pyramids are inverted"], "ans": 0, "explanation": "Phytoplankton reproduce rapidly, maintaining high productivity despite low biomass, inverting the biomass pyramid."}}, {"title": "Energy Flow and Ecological Efficiency", "content": "", "bullets": ["Energy flows one way: sunlight → producers → consumers → decomposers → lost as heat.", "Ecological efficiency = proportion of energy passed between trophic levels (~10%).", "Systems with higher efficiency support more trophic levels and larger populations.", "Human diets and energy use impact ecological efficiency and ecosystem sustainability."], "diagram_ref": "1.12_energy_flow", "speaker_notes": "Ecological efficiency measures usable energy transfer between trophic levels. Average ~10%, varies by ecosystem. Explains why food chains are short. Case study: Plant-based diets reduce energy loss and ecological strain compared to high-trophic diets.", "quiz": {"question": "What does ecological efficiency measure?", "options": ["Total energy captured by producers", "Proportion of energy transferred between trophic levels", "Energy lost as heat in producers only", "Number of trophic levels in a food chain"], "ans": 0, "explanation": "Ecological efficiency is the proportion of usable energy transferred from one trophic level to the next."}}];
+let currentIndex=0;
+const slidesEl=document.getElementById('slides');
+const tocEl=document.getElementById('toc');
+
+function createSlideContent(slide){
+    let html='';
+    if(slide.content) html+='<div class="paragraphs"><p>'+slide.content+'</p></div>';
+    if(slide.bullets && slide.bullets.length>0){
+        html+='<div class="bullets"><ul>';
+        slide.bullets.forEach(b=>html+='<li>'+b+'</li>');
+        html+='</ul></div>';
+    }
+    return html;
+}
+
+slidesData.forEach((slide,idx)=>{
+    const div=document.createElement('div');
+    div.className='slide';
+    if(idx===0) div.classList.add('active');
+    div.innerHTML='<h2>'+slide.title+'</h2><div class="content-row">'+createSlideContent(slide)+
+                  '<div class="diagram">'+(slide.diagram_ref?'<img src="../diagrams/'+slide.diagram_ref+'.png">':'Whiteboard')+'</div></div>';
+    slidesEl.appendChild(div);
+
+    const li=document.createElement('li');
+    li.innerText=slide.title;
+    li.setAttribute('data-idx',idx);
+    li.onclick=()=>showSlide(idx);
+    tocEl.appendChild(li);
+});
+
+function showSlide(idx){
+    document.querySelectorAll('.slide').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.slide')[idx].classList.add('active');
+    currentIndex=idx;
+    const slide=slidesData[idx];
+    document.getElementById('notes').innerHTML=slide.speaker_notes||'No notes';
+    const quizEl=document.getElementById('quiz');
+    quizEl.innerHTML='';
+    if(slide.quiz){
+        quizEl.innerHTML='<h3>'+slide.quiz.question+'</h3>';
+        if(slide.quiz.options){
+            const optionsDiv=document.createElement('div');
+            optionsDiv.className='quiz-options';
+            slide.quiz.options.forEach((opt,i)=>{
+                const btn=document.createElement('button');
+                btn.className='quiz-btn';
+                btn.innerHTML=opt;
+                btn.onclick=function(){ checkAnswer(i,slide.quiz.ans,slide.quiz.explanation||''); };
+                optionsDiv.appendChild(btn);
+            });
+            quizEl.appendChild(optionsDiv);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        } else if(slide.quiz.explanation){
+            const frqBtn=document.createElement('button');
+            frqBtn.className='show-answer';
+            frqBtn.innerText='Show Answer';
+            frqBtn.onclick=function(){ showFRQAnswer(slide.quiz.explanation); };
+            quizEl.appendChild(frqBtn);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        }
+    } else {
+        quizEl.innerHTML='<p>No quiz for this slide.</p>';
+    }
+    document.querySelectorAll('.sidebar li').forEach(el=>el.classList.remove('active'));
+    const activeItem=document.querySelector('.sidebar li[data-idx="'+idx+'"]');
+    if(activeItem) activeItem.classList.add('active');
+    MathJax.typesetPromise(); // render math
+}
+
+function checkAnswer(i,ans,explanation){
+    const exp=document.getElementById('quiz-exp');
+    const btns=document.querySelectorAll('.quiz-btn');
+    btns.forEach((b,idx)=>{ b.disabled=true; if(idx==ans)b.style.background='#a5d6a7'; if(idx==i && i!=ans)b.style.background='#ef9a9a'; });
+    exp.innerHTML=(i==ans?'✅ Correct! ':'❌ Incorrect. ')+explanation;
+    MathJax.typesetPromise();
+}
+
+function showFRQAnswer(text){
+    const exp=document.getElementById('quiz-exp');
+    exp.innerHTML='💡 '+text;
+    MathJax.typesetPromise();
+}
+
+function toggleNotes(){ document.getElementById('notes').classList.toggle('active'); }
+function toggleQuiz(){ document.getElementById('quiz').classList.toggle('active'); }
+function nextSlide(){ showSlide((currentIndex+1)%slidesData.length); }
+function prevSlide(){ showSlide((currentIndex-1+slidesData.length)%slidesData.length); }
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') nextSlide(); if(e.key==='ArrowLeft') prevSlide(); });
+showSlide(0);
+</script>
+</body>
+</html>
