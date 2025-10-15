@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 0 — Introduction to Environmental Science and APES</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f9f6;
+        color: #111;
+        overflow-x: hidden;
+    }
+    header {
+        background: #116611;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    header h1 {
+        font-size: 20px;
+        margin: 0;
+    }
+    header .buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+    }
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .sidebar {
+        width: 220px;
+        background: #e8f5e9;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        padding: 10px;
+        overflow-y: auto;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    .sidebar img {
+        width: 160px;
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+    .sidebar li {
+        padding: 8px;
+        cursor: pointer;
+        color: #116611;
+    }
+    .sidebar li:hover {
+        background: #c8e6c9;
+    }
+    .sidebar li.active {
+        background: #a5d6a7;
+        font-weight: bold;
+    }
+
+    .main {
+        margin-left: 240px;
+        padding: 20px;
+    }
+    .slide {
+        display: none;
+    }
+    .slide.active {
+        display: block;
+        animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    .content-row {
+        display: grid;
+        grid-template-columns: 2fr 1.5fr;
+        gap: 20px;
+        align-items: start;
+    }
+    .bullets ul {
+        padding-left: 20px;
+    }
+    .diagram {
+        border: 2px solid #116611;
+        background: white;
+        padding: 10px;
+        text-align: center;
+        min-height: 250px;
+    }
+    .diagram img {
+        width: 100%;
+        height: auto;
+        min-height: 250px;
+	object-fit: contain;
+    }
+
+    .notes-panel {
+        position: fixed;
+        bottom: -40%;
+        left: 240px;
+        right: 0;
+        background: #fff;
+        border-top: 3px solid #116611;
+        max-height: 40%;
+        overflow-y: auto;
+        transition: bottom 0.3s;
+        padding: 15px;
+    }
+    .notes-panel.active {
+        bottom: 0;
+    }
+
+    .quiz-panel {
+        position: fixed;
+        top: 60px;
+        right: -400px;
+        width: 350px;
+        height: calc(100% - 60px);
+        background: #fff;
+        border-left: 3px solid #116611;
+        padding: 15px;
+        overflow-y: auto;
+        transition: right 0.3s;
+    }
+    .quiz-panel.active {
+        right: 0;
+    }
+    .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .quiz-btn {
+        padding: 8px 12px;
+        border: 1px solid #116611;
+        background: #e8f5e9;
+        cursor: pointer;
+        text-align: left;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    .quiz-btn:hover:not(:disabled) {
+        background: #c8e6c9;
+    }
+    .quiz-btn:disabled {
+        opacity: 0.8;
+        cursor: default;
+    }
+</style>
+</head>
+<body>
+<div class="sidebar">
+    <img src="logo.png" alt="Logo">
+    <ul id="toc"></ul>
+</div>
+
+<div class="main">
+    <header>
+        <h1>Class 0 — Introduction to Environmental Science and APES</h1>
+        <div class="buttons">
+            <div class="tooltip">
+                <button onclick="prevSlide()">⬅️</button>
+                <span class="tooltiptext">Previous Slide</span>
+            </div>
+            <div class="tooltip">
+                <button onclick="nextSlide()">➡️</button>
+                <span class="tooltiptext">Next Slide</span>
+            </div>
+            <div class="tooltip">
+                <button onclick="toggleNotes()">📝</button>
+                <span class="tooltiptext">Toggle Notes</span>
+            </div>
+            <div class="tooltip">
+                <button onclick="toggleQuiz()">❓</button>
+                <span class="tooltiptext">Toggle Quiz</span>
+            </div>
+        </div>
+    </header>
+    <div id="slides"></div>
+</div>
+
+<div class="notes-panel" id="notes"></div>
+<div class="quiz-panel" id="quiz"></div>
+
+<script>
+const slidesData = [{"id": "0.1", "title": "What is Environmental Science?", "bullets": ["Interdisciplinary field integrating biology, chemistry, physics, geology, sociology, and economics.", "Focuses on understanding human impacts on the environment and developing sustainable solutions.", "Bridges scientific knowledge with societal decision-making."], "speaker_notes": "Environmental science examines human interactions with the environment. It combines natural sciences to understand ecosystem dynamics, chemical processes, energy flows, and geological systems. Social sciences help understand human behavior and policy impacts.", "diagram_ref": "0.1_interdisciplinary_venn", "quiz": {"question": "Which field is least directly involved in environmental science?", "options": ["Sociology", "Chemistry", "Astronomy", "Geology"], "ans": 2, "explanation": "Astronomy is not directly concerned with Earth's environmental systems."}}, {"id": "0.2", "title": "Sustainability and Ecosystem Services", "bullets": ["Sustainability: meeting present needs without compromising future generations.", "Ecosystem services: provisioning, regulating, cultural, and supporting.", "Ecosystem structure \u2192 function \u2192 service \u2192 benefit \u2192 value."], "speaker_notes": "Sustainability emphasizes long-term ecological balance. Ecosystem services show how ecosystems support humans: provisioning (food, timber), regulating (climate, water), cultural (recreation, spirituality), and supporting (nutrient cycling).", "diagram_ref": "0.2_ecosystem_services_wheel", "quiz": {"question": "Which is an example of a regulating service?", "options": ["Timber production", "Pollination", "Water purification", "Recreation"], "ans": 2, "explanation": "Water purification regulates environmental balance."}}, {"id": "0.3", "title": "Scientific Method in Environmental Science", "bullets": ["Observation \u2192 Hypothesis \u2192 Experiment \u2192 Data Collection \u2192 Conclusion.", "Emphasizes empirical evidence, reproducibility, and falsifiability.", "Foundation for developing environmental policies and solutions."], "speaker_notes": "Environmental science relies on scientific inquiry. Observations lead to hypotheses, tested through experiments, guiding policies and conservation strategies.", "diagram_ref": "0.3_scientific_method_flowchart", "quiz": {"question": "What is the first step in the scientific method?", "options": ["Observation", "Hypothesis", "Experiment", "Conclusion"], "ans": 0, "explanation": "Observation identifies the phenomenon or problem to study."}}, {"id": "0.4", "title": "Systems Thinking and Feedback Loops", "bullets": ["Systems thinking: understanding interconnected natural and human components.", "Positive feedback amplifies changes (e.g., ice-albedo effect).", "Negative feedback stabilizes systems (e.g., predator-prey dynamics)."], "speaker_notes": "Systems thinking allows us to see environmental processes as interconnected networks. Feedback loops either accelerate (positive) or dampen (negative) changes.", "diagram_ref": "0.4_feedback_loops", "quiz": {"question": "Which is an example of a positive feedback loop?", "options": ["Melting ice reduces albedo \u2192 more warming", "Predator-prey balance", "Plant growth \u2192 oxygen production", "Nutrient cycling in soil"], "ans": 0, "explanation": "Melting ice decreases reflectivity, accelerating warming."}}, {"id": "0.5", "title": "Interdisciplinary and Global Perspective", "bullets": ["Environmental issues are global: climate change, biodiversity loss, water scarcity.", "Requires integration of science, policy, ethics, and economics.", "Local actions can have global consequences due to interconnected systems."], "speaker_notes": "Environmental challenges require global thinking. Science informs, policy implements, ethics guides, and economics evaluates costs and benefits.", "diagram_ref": "0.5_global_interconnected_systems", "quiz": {"question": "Why are environmental issues considered global?", "options": ["They only affect certain regions", "Local actions can have global impacts", "They are purely scientific", "They are only economic problems"], "ans": 1, "explanation": "Climate change and pollution can propagate globally."}}, {"id": "0.6", "title": "Introduction to AP Environmental Science (APES)", "bullets": ["APES is a college-level course for high school students.", "Focuses on scientific principles, data analysis, and environmental problem-solving.", "Emphasizes sustainability, human impact, and interdisciplinary understanding."], "speaker_notes": "APES provides both conceptual understanding and practical skills. Students analyze environmental issues, quantify impacts, and develop solutions based on evidence.", "diagram_ref": "0.6_apes_course_overview", "quiz": {"question": "Which skill is NOT emphasized in APES?", "options": ["Data analysis", "Critical thinking", "Creative writing", "Problem-solving"], "ans": 2, "explanation": "APES focuses on scientific reasoning rather than creative writing."}}, {"id": "0.7", "title": "APES Exam Overview", "bullets": ["Two sections: Multiple Choice (80 questions, 60%) and Free Response (3 questions, 40%).", "Tests both content knowledge and application of scientific practices.", "Students must interpret data, design investigations, and propose solutions."], "speaker_notes": "Understanding the exam structure helps in targeted preparation. Multiple-choice assesses recognition and interpretation, free-response assesses analysis and reasoning.", "diagram_ref": "0.7_exam_structure", "quiz": {"question": "What percentage of APES exam does the multiple-choice section constitute?", "options": ["40%", "50%", "60%", "70%"], "ans": 2, "explanation": "Multiple-choice questions account for 60%."}}, {"id": "0.8", "title": "Multiple Choice Section", "bullets": ["Includes standalone and set-based questions.", "Requires data interpretation, quantitative reasoning, and conceptual understanding.", "Timed: 90 minutes for 80 questions."], "speaker_notes": "Set-based questions provide tables, graphs, or scenarios. Students must extract key information, analyze patterns, and apply environmental principles.", "diagram_ref": "0.8_multiple_choice_format", "quiz": {"question": "What type of reasoning is primarily tested in multiple-choice questions?", "options": ["Data interpretation", "Essay writing", "Lab execution", "None of the above"], "ans": 0, "explanation": "Multiple-choice questions emphasize data interpretation and conceptual understanding."}}, {"id": "0.9", "title": "Free Response Section", "bullets": ["3 questions requiring written responses.", "Assess experimental design, data analysis, and problem-solving.", "Timed: 70 minutes."], "speaker_notes": "Free-response questions may ask students to: design an experiment, propose solutions to environmental problems, or calculate impacts using data. Practicing past prompts is highly recommended.", "diagram_ref": "0.9_free_response_format", "quiz": {"question": "Which is NOT assessed in free-response questions?", "options": ["Data analysis", "Experimental design", "Literary interpretation", "Problem-solving"], "ans": 2, "explanation": "Literary interpretation is unrelated to APES content."}}, {"id": "0.10", "title": "APES Units Overview with Weightings", "bullets": ["Unit 1: The Living World: Ecosystems \u2013 10\u201315%", "Unit 2: The Living World: Biodiversity \u2013 10\u201315%", "Unit 3: Populations \u2013 10%", "Unit 4: Earth Systems and Resources \u2013 10\u201315%", "Unit 5: Land and Water Use \u2013 10\u201315%", "Unit 6: Energy Resources and Consumption \u2013 10\u201315%", "Unit 7: Atmospheric Pollution \u2013 10\u201315%", "Unit 8: Aquatic and Terrestrial Pollution \u2013 10\u201315%", "Unit 9: Global Change \u2013 10\u201315%"], "speaker_notes": "These weightings are from College Board. Students should allocate study time accordingly, focusing on units with higher weighting and integrating scientific practices throughout.", "diagram_ref": "0.10_unit_weightings_chart", "quiz": {"question": "Which unit is most heavily weighted in APES?", "options": ["Biodiversity", "Populations", "Energy", "All units are roughly equal"], "ans": 3, "explanation": "All units have similar weightings; no single unit dominates, though students should pay attention to content overlap."}}, {"id": "0.11", "title": "Key Environmental Science Themes", "bullets": ["Sustainability and human impact", "Energy flows and matter cycles", "Population dynamics", "Global change and conservation", "Interconnectedness of systems"], "speaker_notes": "These overarching themes appear throughout APES and environmental science. Recognizing them aids in connecting concepts across units.", "diagram_ref": "0.11_key_themes", "quiz": {"question": "Which theme emphasizes resource use for future generations?", "options": ["Population dynamics", "Sustainability", "Energy flows", "Global change"], "ans": 1, "explanation": "Sustainability addresses long-term resource management."}}, {"id": "0.12", "title": "Environmental Policies and Ethics", "bullets": ["Understanding legislation, treaties, and ethics is integral to environmental science.", "Examples: Clean Air Act, Kyoto Protocol, Endangered Species Act.", "Ethical considerations guide resource use and conservation decisions."], "speaker_notes": "APES integrates policy and ethics to teach students that science alone cannot solve environmental problems; societal decisions are essential.", "diagram_ref": "0.12_policy_ethics", "quiz": {"question": "Which is an international environmental agreement?", "options": ["Clean Water Act", "Kyoto Protocol", "Endangered Species Act", "National Environmental Policy Act"], "ans": 1, "explanation": "The Kyoto Protocol addresses global climate change."}}, {"id": "0.13", "title": "Environmental Data and Quantitative Skills", "bullets": ["Analyze tables, graphs, and maps.", "Perform calculations for population growth, energy efficiency, and pollutant concentration.", "Interpret data trends and anomalies."], "speaker_notes": "Quantitative skills are tested in both multiple-choice and free-response sections. Understanding data presentation and performing calculations are critical.", "diagram_ref": "0.13_data_skills_chart", "quiz": {"question": "Which skill is essential for APES exam success?", "options": ["Graph interpretation", "Calculations", "Data analysis", "All of the above"], "ans": 3, "explanation": "All listed skills are essential for both sections of the exam."}}, {"id": "0.14", "title": "Laboratory and Field Investigations", "bullets": ["Hands-on experiments reinforce concepts: water quality, biodiversity surveys, energy measurement.", "Fieldwork emphasizes real-world application.", "Laboratory notebooks document hypotheses, methods, results, and conclusions."], "speaker_notes": "APES emphasizes experiential learning. Labs and fieldwork develop skills in observation, measurement, and analysis that mirror professional environmental science practices.", "diagram_ref": "0.14_lab_field_investigations", "quiz": {"question": "Which activity is part of APES lab work?", "options": ["Water quality testing", "Literature review", "Creative writing", "None of the above"], "ans": 0, "explanation": "Water quality testing is a standard APES lab activity."}}, {"id": "0.15", "title": "Human Population and Sustainability", "bullets": ["Human population growth influences resource consumption and environmental stress.", "Population models: exponential and logistic growth.", "Sustainable strategies include family planning, resource management, and technological innovation."], "speaker_notes": "Population dynamics underpin many environmental problems. APES requires understanding growth models and their ecological and societal implications.", "diagram_ref": "0.15_population_growth_models", "quiz": {"question": "Which growth model shows a population stabilizing at carrying capacity?", "options": ["Exponential", "Logistic", "Linear", "Oscillatory"], "ans": 1, "explanation": "Logistic growth considers environmental limits and carrying capacity."}}, {"id": "0.16", "title": "Energy Flow and Matter Cycling", "bullets": ["Energy flows through ecosystems via food chains and webs.", "Matter cycles include carbon, nitrogen, phosphorus, and water.", "Understanding these flows is critical for predicting ecosystem responses."], "speaker_notes": "Energy enters ecosystems through sunlight and is transferred through trophic levels. Matter cycles recycle nutrients essential for life.", "diagram_ref": "0.16_energy_matter_cycles", "quiz": {"question": "Which is an example of a biogeochemical cycle?", "options": ["Food web", "Nitrogen cycle", "Predation", "Weathering"], "ans": 1, "explanation": "The nitrogen cycle is a classic biogeochemical cycle."}}, {"id": "0.17", "title": "Global Environmental Change", "bullets": ["Climate change, deforestation, pollution, and biodiversity loss are interconnected.", "Anthropogenic activities accelerate environmental change.", "Understanding drivers and consequences is essential for mitigation."], "speaker_notes": "Global change is a unifying theme in APES, highlighting human impact and the need for mitigation strategies at multiple scales.", "diagram_ref": "0.17_global_change_drivers", "quiz": {"question": "Which factor contributes most to global climate change?", "options": ["Solar cycles", "Volcanic activity", "Greenhouse gas emissions", "Ocean currents"], "ans": 2, "explanation": "Human-induced greenhouse gas emissions are the primary driver of recent climate change."}}, {"id": "0.18", "title": "Environmental Ethics and Decision-Making", "bullets": ["Ethics shapes policy, resource use, and conservation priorities.", "Frameworks: anthropocentric, biocentric, ecocentric.", "Decision-making integrates scientific evidence, societal needs, and ethical considerations."], "speaker_notes": "APES explores environmental ethics to guide responsible decision-making. Different ethical perspectives influence how resources are valued and conserved.", "diagram_ref": "0.18_environmental_ethics", "quiz": {"question": "Which perspective prioritizes intrinsic value of all living things?", "options": ["Anthropocentric", "Biocentric", "Ecocentric", "Utilitarian"], "ans": 2, "explanation": "Ecocentric ethics values all life and ecosystem integrity."}}, {"id": "0.19", "title": "Preparing for APES: Study Strategies", "bullets": ["Review past exams and scoring guidelines.", "Practice quantitative skills and data interpretation.", "Integrate concepts across units using thematic connections.", "Participate in labs and field investigations to reinforce understanding."], "speaker_notes": "Effective preparation requires understanding the exam structure, practicing problem-solving, and connecting concepts across units.", "diagram_ref": "0.19_study_strategies", "quiz": {"question": "Which study approach is least effective for APES?", "options": ["Practicing past exams", "Data analysis exercises", "Memorizing without understanding", "Lab participation"], "ans": 2, "explanation": "Memorization without conceptual understanding is ineffective."}}];
+
+let currentIndex = 0;
+const slidesEl = document.getElementById("slides");
+const tocEl = document.getElementById("toc");
+
+slidesData.forEach((s, idx) => {
+    const slideDiv = document.createElement("div");
+    slideDiv.className = "slide";
+    if(idx===0) slideDiv.classList.add("active");
+    slideDiv.innerHTML = `
+        <h2>${s.title}</h2>
+        <div class="content-row">
+            <div class="bullets">
+                <ul>${s.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>
+            </div>
+            <div class="diagram">
+                ${s.diagram_ref ? `<img src="diagrams/${s.diagram_ref}.png">` : "Whiteboard"}
+            </div>
+        </div>
+    `;
+    slidesEl.appendChild(slideDiv);
+
+    const li = document.createElement("li");
+    li.innerText = s.title;
+    li.setAttribute("data-idx", idx);
+    li.onclick = () => showSlide(idx);
+    tocEl.appendChild(li);
+});
+
+function showSlide(idx) {
+    document.querySelectorAll(".slide").forEach(el=>el.classList.remove("active"));
+    document.querySelectorAll(".slide")[idx].classList.add("active");
+    currentIndex = idx;
+
+    document.getElementById("notes").innerHTML = slidesData[idx].speaker_notes || "No notes";
+    if(slidesData[idx].quiz){
+        const q = slidesData[idx].quiz;
+        document.getElementById("quiz").innerHTML = `
+            <h3>${q.question}</h3>
+            <div class="quiz-options">
+                ${q.options.map((o,i)=>`<button class="quiz-btn" onclick='checkAnswer(${i},${q.ans}, "${q.explanation}")'>${o}</button>`).join("")}
+            </div>
+            <p id="quiz-exp"></p>
+        `;
+    } else {
+        document.getElementById("quiz").innerHTML = "<p>No quiz for this slide.</p>";
+    }
+
+    document.querySelectorAll(".sidebar li").forEach(el=>el.classList.remove("active"));
+    const activeItem = document.querySelector(`.sidebar li[data-idx='${idx}']`);
+    if(activeItem){
+        activeItem.classList.add("active");
+        activeItem.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+}
+
+function checkAnswer(i, ans, explanation){
+    const exp = document.getElementById("quiz-exp");
+    const buttons = document.querySelectorAll(".quiz-btn");
+    buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if(idx == ans){
+            btn.style.background = "#a5d6a7";
+        }
+        if(idx == i && i !== ans){
+            btn.style.background = "#ef9a9a";
+        }
+    });
+    if(i == ans){
+        exp.innerHTML = "✅ Correct! " + explanation;
+    } else {
+        exp.innerHTML = "❌ Incorrect. " + explanation;
+    }
+}
+
+function toggleNotes(){
+    document.getElementById("notes").classList.toggle("active");
+}
+function toggleQuiz(){
+    document.getElementById("quiz").classList.toggle("active");
+}
+function nextSlide(){
+    showSlide((currentIndex+1)%slidesData.length);
+}
+function prevSlide(){
+    showSlide((currentIndex-1+slidesData.length)%slidesData.length);
+}
+
+document.addEventListener("keydown", e => {
+    if(e.key === "ArrowRight") nextSlide();
+    if(e.key === "ArrowLeft") prevSlide();
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
