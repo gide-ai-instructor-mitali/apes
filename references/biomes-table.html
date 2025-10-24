@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomes</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
+.legend-container { display:flex; flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:20; background:#fff; padding:8px; border-bottom:1px solid #ccc; }
+.legend-box { flex:1 1 250px; min-width:200px; border:1px solid #ccc; padding:6px; background:#f9f9f9; border-radius:4px; }
+.legend-box-header { font-weight:bold; margin-bottom:4px; text-align:center; border-bottom:1px solid #999; padding-bottom:2px; font-size:13px; }
+.legend-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(100px,1fr)); gap:4px 8px; font-size:12px; }
+.legend-item { display:flex; align-items:center; gap:4px; }
+.color-box { width:16px; height:16px; border:1px solid #999; flex-shrink:0; }
+
+.biome-table { width:100%; border-collapse:collapse; margin-top:8px; font-size:12px; }
+.biome-table th, .biome-table td { border:1px solid #ccc; padding:6px 8px; text-align:left; vertical-align:top; }
+.biome-table th { position:sticky; top:0; background-color:#333; color:#fff; z-index:10; }
+
+.rationale-btn { cursor:pointer; background-color:#eee; border:1px solid #ccc; padding:2px 5px; font-size:11px; border-radius:3px; margin-bottom:2px; display:block; }
+.rationale-content { display:none; padding:4px 6px; background:#f9f9f9; font-size:11px; border-top:1px solid #ccc; border-radius:2px; }
+
+.pressure-icons { display:flex; flex-wrap:wrap; gap:3px; font-size:14px; }
+
+.biome-row { color:#fff; font-weight:600; }
+.biome-row-light td { color:#000; }
+
+@media(max-width:700px){ .legend-container{flex-direction:column;} .legend-box{min-width:100%;} }
+</style>
+</head>
+<body>
+
+<div class="legend-container">
+  <div class="legend-box">
+    <div class="legend-box-header">Biome Colors</div>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="color-box" style="background-color:#006400;"></span> Tropical Rainforest</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#90ee90;"></span> Savanna / Grassland</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#f4e2a0;"></span> Desert</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#808000;"></span> Mediterranean</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#a0522d;"></span> Temperate Forest</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#ffd700;"></span> Steppe</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#006b6b;"></span> Taiga / Boreal</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#add8e6;"></span> Tundra</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#008080;"></span> Mangroves / Wetlands</div>
+      <div class="legend-item"><span class="color-box" style="background-color:#ff7f50;"></span> Coral Reef</div>
+    </div>
+  </div>
+
+  <div class="legend-box">
+    <div class="legend-box-header">Evolutionary Pressures</div>
+    <div class="legend-grid">
+      <div class="legend-item">🌞 High Temp</div>
+      <div class="legend-item">❄️ Low Temp</div>
+      <div class="legend-item">☔ High Rainfall</div>
+      <div class="legend-item">💧 Low Rainfall</div>
+      <div class="legend-item">🔄 Seasonality</div>
+      <div class="legend-item">🔥 Fire</div>
+      <div class="legend-item">🐐 Grazers</div>
+      <div class="legend-item">🐘 Megafauna</div>
+      <div class="legend-item">🌱 Fertile Soil</div>
+      <div class="legend-item">🏜️ Poor Soil</div>
+      <div class="legend-item">🪨 Rocky Soil</div>
+      <div class="legend-item">🌊 Salinity</div>
+      <div class="legend-item">💦 Waterlogged</div>
+      <div class="legend-item">🪸 Reef Comp</div>
+      <div class="legend-item">🐟 Reef Grazing</div>
+    </div>
+  </div>
+</div>
+
+<table class="biome-table">
+<thead>
+<tr>
+  <th>Biome</th><th>Area / Region</th><th>Climate</th><th>Precipitation</th><th>Temperature</th>
+  <th>Vegetation</th><th>Fauna</th><th>Soil Type</th><th>Adaptations</th>
+  <th>Evolutionary Pressures</th><th>Rationale</th><th>Rich Adaptations</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- Tropical Rainforest -->
+<tr class="biome-row" style="background-color:#006400;">
+  <td>Tropical Rainforest</td>
+  <td>Amazon, Congo, SE Asia</td>
+  <td>Hot, Humid</td>
+  <td>2000–10000 mm</td>
+  <td>20–34°C</td>
+  <td>Dense, layered canopy</td>
+  <td>Primates, Birds, Insects</td>
+  <td>Oxisols</td>
+  <td>Broad leaves, drip tips</td>
+  <td class="pressure-icons">🌞☔🔄🌱</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Constant warmth & rainfall → high biodiversity; stratified canopy maximizes light capture. Rapid nutrient cycling drives competition.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: broad evergreen leaves, drip tips, epiphytes. Fauna: arboreal primates, camouflaged insects. Shallow soil adaptations.</div></td>
+</tr>
+
+<!-- Savanna / Grassland -->
+<tr class="biome-row-light" style="background-color:#90ee90;">
+  <td>Savanna / Grassland</td>
+  <td>Sub-Saharan Africa, Brazil, India</td>
+  <td>Warm, Seasonal</td>
+  <td>500–1500 mm</td>
+  <td>20–30°C</td>
+  <td>Grasses with scattered trees</td>
+  <td>Elephants, Antelopes, Lions</td>
+  <td>Alfisols</td>
+  <td>Deep roots, fire-resistant bark</td>
+  <td class="pressure-icons">🌞💧🔥🐐🐘</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Fire and grazing maintain open grasslands; seasonal rainfall favors drought-resistant plants; herbivores shape vegetation.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: fire-tolerant trees, perennial grasses. Fauna: migratory herbivores, burrowing rodents.</div></td>
+</tr>
+
+<!-- Desert -->
+<tr class="biome-row-light" style="background-color:#f4e2a0;">
+  <td>Desert</td>
+  <td>Sahara, Arabian, Gobi</td>
+  <td>Arid</td>
+  <td>0–250 mm</td>
+  <td>20–45°C</td>
+  <td>Sparse shrubs, cacti</td>
+  <td>Camels, Lizards, Scorpions</td>
+  <td>Aridisols</td>
+  <td>Water storage tissues, nocturnal activity</td>
+  <td class="pressure-icons">🌞💧🏜️</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Extreme heat & aridity drive water conservation; nutrient-poor soils select for slow-growing plants.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: succulent leaves, deep roots. Fauna: nocturnal, burrowing, water storage.</div></td>
+</tr>
+
+<!-- Mediterranean / Chaparral -->
+<tr class="biome-row-light" style="background-color:#808000;">
+  <td>Mediterranean / Chaparral</td>
+  <td>Mediterranean Basin, California, South Australia</td>
+  <td>Hot dry summer, mild wet winter</td>
+  <td>300–1000 mm</td>
+  <td>10–30°C</td>
+  <td>Sclerophyll shrubs, evergreen trees</td>
+  <td>Goats, Foxes, Birds</td>
+  <td>Ultisols, Inceptisols</td>
+  <td>Fire-resistant leaves, drought tolerance</td>
+  <td class="pressure-icons">🌞💧🔥🐐🔄</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Seasonal drought and periodic fires shape shrubland structure and biodiversity.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: thick leaves, resprouting after fire. Fauna: burrowing and nocturnal behavior, diet adaptation.</div></td>
+</tr>
+
+<!-- Temperate Forest -->
+<tr class="biome-row-light" style="background-color:#a0522d;">
+  <td>Temperate Forest</td>
+  <td>Eastern USA, Europe, China</td>
+  <td>Moderate, Seasonal</td>
+  <td>750–1500 mm</td>
+  <td>0–25°C</td>
+  <td>Deciduous trees, mixed understory</td>
+  <td>Deer, Foxes, Birds</td>
+  <td>Alfisols</td>
+  <td>Deciduous leaves, hibernation</td>
+  <td class="pressure-icons">🔄☔🌱🐐</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Seasonal variation drives leaf shedding; fertile soils allow diverse understory growth.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: deciduous trees, layered canopy. Fauna: hibernation, migration, seed dispersal adaptations.</div></td>
+</tr>
+
+<!-- Steppe -->
+<tr class="biome-row-light" style="background-color:#ffd700;">
+  <td>Steppe</td>
+  <td>Central Asia, Eastern Europe</td>
+  <td>Semi-arid, Seasonal</td>
+  <td>250–500 mm</td>
+  <td>-5–25°C</td>
+  <td>Grasses, sparse shrubs</td>
+  <td>Rodents, Horses, Predators</td>
+  <td>Chestnut soils</td>
+  <td>Drought tolerance, fire resistance</td>
+  <td class="pressure-icons">💧🔄🔥🐐</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Grass-dominated vegetation maintained by grazing and periodic fires; limited rainfall selects drought-adapted species.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: drought-resistant grasses. Fauna: burrowing rodents, migratory grazers, predator-prey dynamics.</div></td>
+</tr>
+
+<!-- Taiga / Boreal -->
+<tr class="biome-row" style="background-color:#006b6b;">
+  <td>Taiga / Boreal</td>
+  <td>Canada, Russia, Scandinavia</td>
+  <td>Cold, Seasonal</td>
+  <td>300–850 mm</td>
+  <td>-40–20°C</td>
+  <td>Coniferous trees, mosses</td>
+  <td>Moose, Wolves, Lynx</td>
+  <td>Podzols</td>
+  <td>Needle leaves, antifreeze compounds</td>
+  <td class="pressure-icons">❄️🔄🌱</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Cold winters limit growing season; coniferous forests adapted to snow and poor soils.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: conifer needles, resin for frost. Fauna: thick fur, hibernation, migration.</div></td>
+</tr>
+
+<!-- Tundra -->
+<tr class="biome-row-light" style="background-color:#add8e6;">
+  <td>Tundra</td>
+  <td>Arctic, Alpine regions</td>
+  <td>Very cold, harsh</td>
+  <td>150–250 mm</td>
+  <td>-50–10°C</td>
+  <td>Mosses, Lichens, Dwarf shrubs</td>
+  <td>Caribou, Arctic Fox, Lemmings</td>
+  <td>Gelisols</td>
+  <td>Permafrost tolerance, low stature</td>
+  <td class="pressure-icons">❄️💧🪨</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Extreme cold and short growing seasons drive low biodiversity and specialized growth forms.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: low-growing, cushion plants. Fauna: seasonal migration, insulation, fat storage.</div></td>
+</tr>
+
+<!-- Mangroves / Wetlands -->
+<tr class="biome-row" style="background-color:#008080;">
+  <td>Mangroves / Wetlands</td>
+  <td>SE Asia, Florida, Africa coasts</td>
+  <td>Tropical/Subtropical</td>
+  <td>1000–4000 mm</td>
+  <td>20–30°C</td>
+  <td>Salt-tolerant trees, emergent plants</td>
+  <td>Crocodiles, Fish, Birds</td>
+  <td>Hydric, saline soils</td>
+  <td>Aerial roots, salt excretion</td>
+  <td class="pressure-icons">🌞💦🌊</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Salinity and waterlogging drive aerial roots and salt excretion; wetlands act as nutrient traps and breeding grounds.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: mangroves, salt-tolerant plants. Fauna: tidal-adapted fish, birds; adaptations to fluctuating water levels.</div></td>
+</tr>
+
+<!-- Coral Reef -->
+<tr class="biome-row-light" style="background-color:#ff7f50;">
+  <td>Coral Reef</td>
+  <td>Great Barrier Reef, Caribbean</td>
+  <td>Warm, Tropical</td>
+  <td>1000–2000 mm</td>
+  <td>20–30°C</td>
+  <td>Coral polyps, symbiotic algae</td>
+  <td>Fish, Sea Turtles, Invertebrates</td>
+  <td>Calcareous substrate</td>
+  <td>Symbiosis, calcium skeletons</td>
+  <td class="pressure-icons">🌞☔🪸🐟</td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">High biodiversity maintained by mutualistic relationships, clear shallow waters, and warm temperatures. Competition for light and space drives complex 3D structures.</div></td>
+  <td><button class="rationale-btn" onclick="toggleRationale(this)">Show</button><div class="rationale-content">Flora: corals, symbiotic algae. Fauna: reef fish, turtles, invertebrates; adaptations for reef niches and grazing pressure.</div></td>
+</tr>
+
+</tbody>
+</table>
+
+<script>
+function toggleRationale(btn){
+  const content=btn.nextElementSibling;
+  if(content.style.display==="block"){ content.style.display="none"; btn.textContent="Show";}
+  else{ content.style.display="block"; btn.textContent="Hide";}
+}
+
+function adjustStickyHeader(){
+  const legendHeight=document.querySelector('.legend-container').offsetHeight;
+  document.querySelectorAll('.biome-table th').forEach(th=>th.style.top=legendHeight+'px');
+}
+
+window.addEventListener('load', adjustStickyHeader);
+window.addEventListener('resize', adjustStickyHeader);
+</script>
+
+</body>
+</html>
