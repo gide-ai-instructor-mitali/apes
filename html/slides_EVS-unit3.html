@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3: Populations</title>
+<style>
+/* ==================== ORIGINAL UI CSS ==================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f9f6;
+    color: #111;
+    overflow-x: hidden;
+}
+header {
+    background: #116611;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 { font-size: 20px; margin: 0; }
+header .buttons { display: flex; gap: 10px; }
+.tooltip { position: relative; display: inline-block; }
+.tooltip .tooltiptext {
+    visibility: hidden; background-color: #333; color: #fff;
+    text-align: center; border-radius: 6px; padding: 5px;
+    position: absolute; z-index: 1; bottom: -30px; left: 50%;
+    transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 12px;
+}
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+.sidebar { width: 220px; background: #e8f5e9; position: fixed; top: 0; left: 0; bottom: 0; padding: 10px; overflow-y: auto; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+.sidebar img { width: 160px; display: block; margin: 0 auto 20px auto; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { padding: 8px; cursor: pointer; color: #116611; }
+.sidebar li:hover { background: #c8e6c9; }
+.sidebar li.active { background: #a5d6a7; font-weight: bold; }
+.main { margin-left: 240px; padding: 20px; }
+.slide { display: none; }
+.slide.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+.content-row { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; align-items: start; }
+.bullets ul { padding-left: 20px; }
+.diagram { border: 2px solid #116611; background: white; padding: 10px; text-align: center; min-height: 250px; }
+.diagram img { width: 100%; height: auto; min-height: 250px; object-fit: contain; }
+.notes-panel { position: fixed; bottom: -40%; left: 240px; right: 0; background: #fff; border-top: 3px solid #116611; max-height: 40%; overflow-y: auto; transition: bottom 0.3s; padding: 15px; }
+.notes-panel.active { bottom: 0; }
+.quiz-panel { position: fixed; top: 60px; right: -400px; width: 350px; height: calc(100% - 60px); background: #fff; border-left: 3px solid #116611; padding: 15px; overflow-y: auto; transition: right 0.3s; }
+.quiz-panel.active { right: 0; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-btn { padding: 8px 12px; border: 1px solid #116611; background: #e8f5e9; cursor: pointer; text-align: left; border-radius: 6px; font-size: 14px; }
+.quiz-btn:hover:not(:disabled) { background: #c8e6c9; }
+.quiz-btn:disabled { opacity: 0.8; cursor: default; }
+.show-answer { margin-top: 10px; background: #c8e6c9; border: 1px solid #116611; padding: 6px 12px; cursor: pointer; border-radius: 6px; }
+</style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div class="sidebar">
+<img src="../logo.png" alt="Logo">
+<ul id="toc"></ul>
+</div>
+
+<div class="main">
+<header>
+<h1>Unit 3: Populations</h1>
+<div class="buttons">
+    <div class="tooltip"><button onclick="prevSlide()">⬅️</button><span class="tooltiptext">Previous Slide</span></div>
+    <div class="tooltip"><button onclick="nextSlide()">➡️</button><span class="tooltiptext">Next Slide</span></div>
+    <div class="tooltip"><button onclick="toggleNotes()">📝</button><span class="tooltiptext">Toggle Notes</span></div>
+    <div class="tooltip"><button onclick="toggleQuiz()">❓</button><span class="tooltiptext">Toggle Quiz</span></div>
+</div>
+</header>
+<div id="slides"></div>
+</div>
+
+<div class="notes-panel" id="notes"></div>
+<div class="quiz-panel" id="quiz"></div>
+
+<script>
+const slidesData = [{"title": "Generalist Species", "content": "Generalist species exploit a wide variety of habitats and resources. Their flexible behaviors and broad diets allow them to thrive in variable and human-altered environments. They often act as ecosystem stabilizers, persisting under fluctuating conditions.", "bullets": ["Occupy broad ecological niches and utilize diverse resources.", "Adaptable to variable environmental and human-modified habitats.", "Resilient to disturbances and environmental changes."], "diagram_ref": "3.1_generalist_species", "speaker_notes": "Generalist species are organisms that exhibit ecological flexibility, allowing them to utilize a wide range of resources and inhabit diverse environments. Unlike specialists, whose survival depends on a narrow set of conditions or food sources, generalists can adjust their behavior, diet, and habitat preferences to survive in both natural and human-modified landscapes. Examples include raccoons, which consume fruits, insects, small vertebrates, and human refuse, and rats, which thrive in urban areas with highly variable food availability. Their adaptability makes them resilient to disturbances, such as habitat fragmentation or climate variability, and enables them to maintain population stability even when conditions fluctuate. Ecologically, generalists often function as stabilizing agents, providing continuity of ecosystem processes such as seed dispersal and nutrient cycling. Understanding generalists highlights how plasticity in behavior and diet confers evolutionary advantages in dynamic or unpredictable environments, and it informs management strategies where invasive generalist species may outcompete native organisms.", "quiz": {"question": "Which of the following is a characteristic of a generalist species?", "options": ["Specialized diet", "Broad niche", "Habitat restriction", "High extinction risk"], "ans": 1, "explanation": "Generalist species occupy broad ecological niches and utilize diverse resources, allowing adaptability."}}, {"title": "Specialist Species", "content": "Specialist species have narrow ecological niches, relying on specific diets, habitats, or conditions. They are highly efficient within their niche but highly sensitive to environmental changes, making them more vulnerable to extinction.", "bullets": ["Occupy narrow niches with specific resource requirements.", "Efficient in stable environments but sensitive to change.", "High conservation priority due to elevated extinction risk."], "diagram_ref": "3.1_specialist_species", "speaker_notes": "Specialist species are organisms that have evolved to exploit a very specific set of environmental conditions, dietary requirements, or microhabitats. Their ecological efficiency is high within their niche, meaning they are exceptionally adapted to extract energy and resources from their preferred environment or diet. Examples include koalas, which feed almost exclusively on eucalyptus leaves, and giant pandas, which rely on bamboo. While this specialization allows them to thrive under stable environmental conditions, it also renders them extremely vulnerable to environmental change, habitat destruction, or climate variability. Even small perturbations can reduce resource availability or introduce competition, leading to population decline. Conservation biologists often prioritize specialist species because their narrow niches make them indicators of ecosystem health and vulnerable to extinction. Studying specialists underscores the trade-offs between efficiency and flexibility in evolutionary strategies and highlights the ecological consequences of habitat alteration.", "quiz": {"question": "Which of the following is an example of a specialist species?", "options": ["Coyote", "Raccoon", "Koala", "Cockroach"], "ans": 2, "explanation": "Koalas feed almost exclusively on eucalyptus leaves, demonstrating a narrow niche and specialist adaptation."}}, {"title": "r-selected Species", "content": "r-selected species thrive in unpredictable or disturbed environments. They reproduce quickly, produce many offspring with minimal parental care, and often have short lifespans. Populations fluctuate widely depending on environmental conditions.", "bullets": ["High reproductive rate; produce many offspring.", "Short lifespan, early maturity, minimal parental care.", "Adapted to variable or unpredictable environments."], "diagram_ref": "3.2_r_selected", "speaker_notes": "r-selected species represent an evolutionary strategy characterized by high reproductive output, rapid development, and minimal parental investment. They are typically found in environments that are unpredictable or frequently disturbed, where survival of individual offspring is uncertain. These species produce numerous offspring to maximize the probability that some will survive to adulthood, offsetting high juvenile mortality. Examples include mosquitoes, dandelions, and many annual plants. r-strategists often have short lifespans, mature early, and exhibit population sizes that fluctuate widely in response to environmental conditions. The ecological significance of r-selection lies in rapid colonization and exploitation of ephemeral or disturbed habitats, enabling these species to rebound quickly after environmental perturbations. Studying r-selected species illustrates the trade-offs between quantity and quality of offspring, and provides insight into population dynamics under fluctuating conditions.", "quiz": {"question": "Which is a characteristic of r-selected species?", "options": ["Few offspring", "High parental care", "Rapid reproduction", "Long lifespan"], "ans": 2, "explanation": "r-selected species reproduce rapidly with many offspring and minimal parental investment."}}, {"title": "K-selected Species", "content": "K-selected species are adapted to stable environments with limited resources. They produce fewer offspring but invest heavily in parental care. Populations grow slowly and tend to stabilize near the environment\\'s carrying capacity.", "bullets": ["Low reproductive rate; produce fewer offspring.", "Long lifespan, extensive parental care, high competitive ability.", "Populations stabilize near carrying capacity in stable environments."], "diagram_ref": "3.2_k_selected", "speaker_notes": "K-selected species are adapted to stable or predictable environments, where resource competition is intense and population sizes approach the carrying capacity (K). These organisms invest heavily in the survival of each offspring through extended parental care, protection, and provisioning, thereby enhancing individual survival rates. Examples include elephants, whales, and humans. Their long lifespans, slow development, and competitive abilities allow them to persist in ecosystems with limited but relatively predictable resources. The ecological strategy of K-selection emphasizes quality over quantity, in contrast to r-selected species, and results in relatively stable population sizes with minimal fluctuations. Understanding K-strategists provides insight into long-term population dynamics, species interactions, and conservation priorities for organisms vulnerable to environmental change.", "quiz": {"question": "K-selected species are best adapted to:", "options": ["Highly variable environments", "Stable environments", "High predation with rapid turnover", "Short-lived habitats"], "ans": 1, "explanation": "K-selected species thrive in stable environments with population sizes near carrying capacity."}}, {"title": "Type I Survivorship Curve", "content": "Type I survivorship curves show high survival during early and middle life, with most mortality occurring in older age groups. This is typical of K-selected species with extensive parental care.", "bullets": ["High survival in early and middle life.", "Mortality concentrated in older age classes.", "Typical of K-selected species."], "diagram_ref": "3.3_type1_curve", "speaker_notes": "Type I survivorship curves illustrate populations where mortality is low during early and middle life stages, followed by a sharp increase in mortality in older age classes. This pattern is characteristic of K-selected species, which invest significantly in offspring survival and parental care. Humans, elephants, and other large mammals exemplify this strategy. High juvenile survival is ensured through protective behaviors, extended parental care, and social structures. Understanding Type I curves is important in demography and conservation, as it informs predictions about population growth, aging populations, and resource needs. These curves also provide insights into ecological and evolutionary pressures favoring investment in fewer, well-provisioned offspring.", "quiz": {"question": "Which species exhibits a Type I survivorship curve?", "options": ["Elephants", "Oysters", "Songbirds", "Mosquitoes"], "ans": 0, "explanation": "Elephants show high early survival and most mortality occurs in old age."}}, {"title": "Type II Survivorship Curve", "content": "Type II survivorship curves have a constant mortality rate across all age groups. These species experience an equal chance of dying at any stage of life.", "bullets": ["Mortality is constant across all ages.", "Common in birds and some reptiles.", "Population declines linearly on a log scale."], "diagram_ref": "3.3_type2_curve", "speaker_notes": "Type II survivorship curves depict populations where the probability of death is roughly constant throughout life. This linear decline on a logarithmic scale indicates that individuals have similar mortality risks at every age. Species such as many birds, lizards, and some rodents display this pattern. Ecologically, this strategy represents a balance between the extremes of Type I and Type III survivorship, reflecting moderate parental investment and moderate reproductive output. Understanding Type II curves helps in modeling population dynamics, estimating lifespan probabilities, and planning conservation measures for species with constant mortality pressures.", "quiz": {"question": "Type II survivorship is characterized by:", "options": ["High juvenile mortality", "Low adult mortality", "Constant mortality", "High late-life mortality"], "ans": 2, "explanation": "Type II curves show consistent mortality throughout life stages."}}, {"title": "Type III Survivorship Curve", "content": "Type III survivorship curves show high mortality in early life, with few individuals surviving to adulthood. Typical of r-selected species producing many offspring with minimal care.", "bullets": ["High juvenile mortality; few survive to adulthood.", "Common in r-selected species with large offspring numbers.", "Survivors reproduce abundantly."], "diagram_ref": "3.3_type3_curve", "speaker_notes": "Type III survivorship curves characterize populations with extremely high mortality during early life stages, resulting in few individuals reaching adulthood. This pattern is typical of r-selected species, such as oysters, many fish, amphibians, and invertebrates, which produce large numbers of offspring but provide little or no parental care. The strategy relies on quantity over quality, with survivors contributing to population persistence. Ecologically, this pattern ensures rapid colonization and exploitation of transient resources. Analyzing Type III curves is essential for understanding reproductive strategies, population recovery after disturbances, and management of species with high juvenile mortality.", "quiz": {"question": "Which is an example of a Type III survivorship curve?", "options": ["Humans", "Elephants", "Oysters", "Songbirds"], "ans": 2, "explanation": "Oysters produce many offspring but few survive to adulthood, characteristic of Type III."}}, {"title": "Carrying Capacity (K)", "content": "Carrying capacity is the maximum population size an environment can sustain indefinitely. Resources such as food, water, and space, along with density-dependent factors, regulate population size near K.", "bullets": ["Maximum population sustainable by environment indefinitely.", "Determined by resource availability: food, water, habitat space.", "Populations stabilize near K in logistic growth models."], "diagram_ref": "3.4_carrying_capacity", "speaker_notes": "Carrying capacity (K) represents the upper limit of population size that a habitat can sustain over time without resource depletion. It is determined by the availability of food, water, space, shelter, and other limiting factors. Populations approaching K experience density-dependent constraints such as increased competition, disease, and predation. Logistic growth models illustrate how populations slow as they near K, transitioning from exponential growth to equilibrium. Exceeding K results in overshoot and subsequent dieback, demonstrating the importance of resource regulation. Ecologically, K provides a framework for understanding population dynamics, species interactions, and management of wildlife or human populations within environmental limits.", "quiz": {"question": "Carrying capacity is defined as:", "options": ["Minimum population size", "Maximum sustainable population", "Population growth rate", "Number of offspring per year"], "ans": 1, "explanation": "Carrying capacity (K) is the maximum population an environment can sustainably support."}}, {"title": "Population Overshoot & Dieback", "content": "Population overshoot occurs when numbers exceed carrying capacity, depleting resources and causing a population crash or dieback. This is often observed in predator-free or newly colonized environments.", "bullets": ["Overshoot happens when population exceeds carrying capacity.", "Leads to resource depletion and population crash (dieback).", "Occurs in predator-free or newly colonized areas."], "diagram_ref": "3.4_overshoot_dieback", "speaker_notes": "Population overshoot occurs when a population exceeds the carrying capacity of its environment. Excessive numbers lead to rapid depletion of critical resources such as food, water, and shelter. The resulting stress triggers a population dieback, sometimes dramatic and sudden, until the population falls below or stabilizes around K. Overshoot is common in newly colonized habitats where species encounter abundant resources, or in predator-free systems where natural regulation is absent. Historical examples include reintroduced deer populations and locust swarms. Understanding overshoot and dieback is critical for wildlife management, conservation planning, and predicting the consequences of human-induced environmental changes.", "quiz": {"question": "What typically follows a population overshoot?", "options": ["Continued exponential growth", "Population stability", "Dieback or crash", "Migration to new habitats"], "ans": 2, "explanation": "Overshoot leads to resource depletion, causing population dieback."}}, {"title": "Exponential (J-shaped) Growth", "content": "Exponential growth occurs when populations have unlimited resources, resulting in rapid increase. Often observed in r-selected species or invasive organisms during initial colonization of habitats.", "bullets": ["Population grows without resource limitation.", "Growth rate remains constant; common in r-selected species.", "Rapid increase occurs under favorable conditions."], "diagram_ref": "3.5_exponential_growth", "speaker_notes": "Exponential growth, represented by a J-shaped curve, occurs when populations experience ideal conditions with unlimited resources, minimal competition, and negligible predation. Under such circumstances, the population grows at a constant per capita rate, leading to rapid increases in numbers. This pattern is commonly observed in r-selected species, invasive organisms, or populations newly introduced into predator-free habitats. While exponential growth can appear sustainable in the short term, it is inherently unstable; as resource limitations eventually arise, populations overshoot carrying capacity, leading to crashes or dieback. Studying exponential growth provides insight into the dynamics of population explosions, invasive species impacts, and the consequences of environmental disturbances, emphasizing the importance of regulatory mechanisms in natural ecosystems.", "quiz": {"question": "Exponential growth assumes:", "options": ["Unlimited resources", "Resource limitation", "Carrying capacity reached", "Population decline"], "ans": 0, "explanation": "Exponential growth occurs when resources are abundant and growth is not limited."}}, {"title": "Logistic (S-shaped) Growth", "content": "Logistic growth incorporates carrying capacity, slowing as populations approach K. Density-dependent factors regulate population size, resulting in stabilization over time.", "bullets": ["Growth slows as population nears carrying capacity (K).", "Density-dependent factors regulate size.", "Represents realistic population dynamics."], "diagram_ref": "3.5_logistic_growth", "speaker_notes": "Logistic growth, depicted as an S-shaped curve, models population dynamics under resource-limited conditions. Initially, when populations are small, growth may resemble exponential expansion. However, as population size approaches the environment\\'s carrying capacity (K), density-dependent factors such as competition, predation, disease, and waste accumulation slow growth. The population eventually stabilizes around K, maintaining equilibrium between resource availability and demand. Logistic growth provides a realistic framework for understanding population regulation, species interactions, and the impact of environmental constraints. It illustrates how natural systems balance reproduction with resource limitations, offering a predictive model for wildlife management, conservation planning, and human population studies.", "quiz": {"question": "Logistic growth differs from exponential growth by:", "options": ["Including density-dependent limits", "Unlimited resources", "Rapid constant growth", "J-shaped curve"], "ans": 0, "explanation": "Logistic growth incorporates carrying capacity and resource limits."}}, {"title": "Expanding Populations", "content": "Expanding populations have a wide base in age-structure diagrams, indicating many young individuals. Population momentum sustains growth even with declining fertility rates.", "bullets": ["Wide base reflects many young individuals.", "Continued growth due to population momentum.", "Common in developing countries with high fertility."], "diagram_ref": "3.6_expanding_population", "speaker_notes": "Expanding populations are characterized by age structures with a broad base, indicating a large proportion of young individuals relative to older cohorts. This demographic pattern reflects high fertility rates and predicts continued population growth even if fertility begins to decline—a phenomenon known as population momentum. The broad base implies that as the young cohorts reach reproductive age, they will contribute to further population expansion, potentially straining resources, infrastructure, and social systems. Expanding population pyramids are common in developing countries with limited access to family planning, high birth rates, and improving childhood survival. Analyzing these structures is crucial for anticipating future needs in healthcare, education, employment, and resource management, providing insight into demographic transitions and development planning.", "quiz": {"question": "A population pyramid with a wide base indicates:", "options": ["Declining population", "Stable population", "Expanding population", "High elderly ratio"], "ans": 2, "explanation": "Wide base reflects many young individuals, predicting population growth."}}, {"title": "Stable and Declining Populations", "content": "Stable populations have balanced age distributions; declining populations have narrow bases and aging cohorts. Age-structure diagrams predict future growth trends and societal implications.", "bullets": ["Stable: roughly equal births and deaths; balanced age structure.", "Declining: narrow base, fewer young, larger proportion elderly.", "Age structure predicts future growth or decline."], "diagram_ref": "3.6_stable_declining_population", "speaker_notes": "Stable and declining populations are differentiated by age-structure diagrams. Stable populations display relatively uniform age distributions, with births roughly equal to deaths, maintaining equilibrium over time. Declining populations exhibit narrow bases and a larger proportion of older individuals, reflecting lower fertility and aging cohorts. These demographic patterns have significant social and economic implications, including workforce availability, healthcare needs, and pension sustainability. Declining populations may experience population aging, labor shortages, and shifts in dependency ratios. Understanding age-structure diagrams allows demographers and policymakers to anticipate challenges, plan interventions, and implement strategies to address population decline or maintain stability in developed and developing nations.", "quiz": {"question": "A population pyramid with a narrow base indicates:", "options": ["Expanding population", "Stable population", "Declining population", "High fertility rate"], "ans": 2, "explanation": "Narrow base reflects fewer young individuals, indicating population decline."}}, {"title": "Total Fertility Rate (TFR)", "content": "TFR is the average number of children born per woman. Rates above replacement (~2.1) indicate population growth; rates below suggest decline unless offset by immigration.", "bullets": ["Average number of children per woman.", "Above replacement (~2.1) → population growth.", "Below replacement → population decline unless offset by immigration."], "diagram_ref": "3.7_tfr", "speaker_notes": "Total Fertility Rate (TFR) measures the average number of children a woman would bear over her lifetime under current age-specific fertility rates. Replacement-level fertility, typically around 2.1 in developed countries, ensures population stability by replacing parental generations. TFR above replacement signals potential population growth, whereas TFR below replacement can lead to long-term decline unless compensated by immigration. TFR is influenced by cultural, economic, educational, and healthcare factors. Monitoring TFR is critical for demographic planning, assessing population momentum, and anticipating social and economic pressures. Globally, TFR varies widely: high in developing regions due to limited access to contraception and lower in developed regions due to career prioritization and family planning. TFR directly impacts age structures, labor markets, and resource management.", "quiz": {"question": "A TFR above replacement level indicates:", "options": ["Population decline", "Population growth", "Stable population", "High mortality"], "ans": 1, "explanation": "TFR above replacement level leads to population increase."}}, {"title": "Stages of Demographic Transition", "content": "Demographic transition describes the shift from high birth and death rates to low rates as societies develop. Stages predict growth patterns and age structures over time.", "bullets": ["Stage 1: high birth & death → low growth.", "Stage 2: death declines → rapid growth.", "Stage 3: birth declines → slowing growth.", "Stage 4: low birth & death → stable.", "Stage 5 (optional): population decline."], "diagram_ref": "3.8_dtm", "speaker_notes": "The Demographic Transition Model (DTM) explains population changes associated with socio-economic development. Stage 1 represents pre-industrial societies with high birth and death rates, leading to minimal growth. Stage 2 occurs as healthcare, sanitation, and food supply improvements reduce mortality, particularly in children, while birth rates remain high, producing rapid growth. Stage 3 sees declining fertility due to urbanization, education, and access to contraception, slowing population increase. Stage 4 features low birth and death rates, stabilizing the population. Stage 5, observed in some highly developed nations, shows declining populations due to sustained low fertility below replacement. The DTM provides a framework to understand population momentum, aging, and implications for economic planning, labor supply, and social infrastructure.", "quiz": {"question": "Which stage is characterized by low birth and death rates?", "options": ["Stage 1", "Stage 2", "Stage 3", "Stage 4"], "ans": 3, "explanation": "Stage 4 features low birth and death rates, leading to population stabilization."}}, {"title": "Earth’s Carrying Capacity", "content": "Earth’s carrying capacity depends on resource availability, technology, and consumption patterns. High per-capita consumption reduces sustainable population; ecological footprint frameworks quantify limits.", "bullets": ["Depends on technology, resource use, and distribution.", "High consumption reduces sustainable population.", "Planetary boundaries and ecological footprint frameworks quantify limits."], "diagram_ref": "3.9_earth_capacity", "speaker_notes": "Earth’s carrying capacity is the maximum number of humans that can be sustained indefinitely, given available resources, technology, and ecological constraints. Factors such as agricultural productivity, water availability, energy systems, and waste assimilation determine global limits. Consumption patterns significantly influence carrying capacity; high-resource lifestyles require disproportionately more land, water, and energy, reducing the number of people that can be supported sustainably. Concepts such as the ecological footprint and planetary boundaries quantify these limits, linking human activity to global environmental thresholds. Understanding Earth’s carrying capacity highlights the interplay between population, technology, and consumption, emphasizing the need for sustainable development, equitable resource distribution, and policies mitigating environmental degradation to prevent overshoot and ecological collapse.", "quiz": {"question": "Earth’s carrying capacity is influenced by:", "options": ["Population numbers only", "Technology and consumption", "Fertility rates only", "Predator-prey cycles"], "ans": 1, "explanation": "Technology, consumption patterns, and resource distribution influence sustainable population size."}}];
+const diagramsDir = 'C:/Users/billi/Downloads/content/subjects/ap-es/diagrams';
+let currentIndex=0;
+const slidesEl=document.getElementById('slides');
+const tocEl=document.getElementById('toc');
+
+function createSlideContent(slide){
+    let html='';
+    if(slide.content) html+='<div class="paragraphs"><p>'+slide.content+'</p></div>';
+    if(slide.bullets && slide.bullets.length>0){
+        html+='<div class="bullets"><ul>';
+        slide.bullets.forEach(b=>html+='<li>'+b+'</li>');
+        html+='</ul></div>';
+    }
+    return html;
+}
+
+slidesData.forEach((slide,idx)=>{
+    const div=document.createElement('div');
+    div.className='slide';
+    if(idx===0) div.classList.add('active');
+    div.innerHTML='<h2>'+slide.title+'</h2><div class="content-row">'+createSlideContent(slide)+
+                  '<div class="diagram">'+(slide.diagram_ref?'<img src="'+diagramsDir+'/'+slide.diagram_ref+'.png">':'Whiteboard')+'</div></div>';
+    slidesEl.appendChild(div);
+
+    const li=document.createElement('li');
+    li.innerText=slide.title;
+    li.setAttribute('data-idx',idx);
+    li.onclick=()=>showSlide(idx);
+    tocEl.appendChild(li);
+});
+
+function showSlide(idx){
+    document.querySelectorAll('.slide').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.slide')[idx].classList.add('active');
+    currentIndex=idx;
+    const slide=slidesData[idx];
+    document.getElementById('notes').innerHTML=slide.speaker_notes||'No notes';
+    const quizEl=document.getElementById('quiz');
+    quizEl.innerHTML='';
+    if(slide.quiz){
+        quizEl.innerHTML='<h3>'+slide.quiz.question+'</h3>';
+        if(slide.quiz.options){
+            const optionsDiv=document.createElement('div');
+            optionsDiv.className='quiz-options';
+            slide.quiz.options.forEach((opt,i)=>{
+                const btn=document.createElement('button');
+                btn.className='quiz-btn';
+                btn.innerHTML=opt;
+                btn.onclick=function(){ checkAnswer(i,slide.quiz.ans,slide.quiz.explanation||''); };
+                optionsDiv.appendChild(btn);
+            });
+            quizEl.appendChild(optionsDiv);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        } else if(slide.quiz.explanation){
+            const frqBtn=document.createElement('button');
+            frqBtn.className='show-answer';
+            frqBtn.innerText='Show Answer';
+            frqBtn.onclick=function(){ showFRQAnswer(slide.quiz.explanation); };
+            quizEl.appendChild(frqBtn);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        }
+    } else {
+        quizEl.innerHTML='<p>No quiz for this slide.</p>';
+    }
+    document.querySelectorAll('.sidebar li').forEach(el=>el.classList.remove('active'));
+    const activeItem=document.querySelector('.sidebar li[data-idx="'+idx+'"]');
+    if(activeItem) activeItem.classList.add('active');
+    MathJax.typesetPromise();
+}
+
+function checkAnswer(i,ans,explanation){
+    const exp=document.getElementById('quiz-exp');
+    const btns=document.querySelectorAll('.quiz-btn');
+    btns.forEach((b,idx)=>{ b.disabled=true; if(idx==ans)b.style.background='#a5d6a7'; if(idx==i && i!=ans)b.style.background='#ef9a9a'; });
+    exp.innerHTML=(i==ans?'✅ Correct! ':'❌ Incorrect. ')+explanation;
+    MathJax.typesetPromise();
+}
+
+function showFRQAnswer(text){
+    const exp=document.getElementById('quiz-exp');
+    exp.innerHTML='💡 '+text;
+    MathJax.typesetPromise();
+}
+
+function toggleNotes(){ document.getElementById('notes').classList.toggle('active'); }
+function toggleQuiz(){ document.getElementById('quiz').classList.toggle('active'); }
+function nextSlide(){ showSlide((currentIndex+1)%slidesData.length); }
+function prevSlide(){ showSlide((currentIndex+slidesData.length-1)%slidesData.length); }
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') nextSlide(); if(e.key==='ArrowLeft') prevSlide(); });
+showSlide(0);
+</script>
+</body>
+</html>

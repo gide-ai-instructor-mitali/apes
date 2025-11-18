@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2: The Living World – Biodiversity</title>
+<style>
+/* ==================== ORIGINAL UI CSS ==================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f9f6;
+    color: #111;
+    overflow-x: hidden;
+}
+header {
+    background: #116611;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 { font-size: 20px; margin: 0; }
+header .buttons { display: flex; gap: 10px; }
+.tooltip { position: relative; display: inline-block; }
+.tooltip .tooltiptext {
+    visibility: hidden; background-color: #333; color: #fff;
+    text-align: center; border-radius: 6px; padding: 5px;
+    position: absolute; z-index: 1; bottom: -30px; left: 50%;
+    transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 12px;
+}
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+.sidebar { width: 220px; background: #e8f5e9; position: fixed; top: 0; left: 0; bottom: 0; padding: 10px; overflow-y: auto; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+.sidebar img { width: 160px; display: block; margin: 0 auto 20px auto; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { padding: 8px; cursor: pointer; color: #116611; }
+.sidebar li:hover { background: #c8e6c9; }
+.sidebar li.active { background: #a5d6a7; font-weight: bold; }
+.main { margin-left: 240px; padding: 20px; }
+.slide { display: none; }
+.slide.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+.content-row { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; align-items: start; }
+.bullets ul { padding-left: 20px; }
+.diagram { border: 2px solid #116611; background: white; padding: 10px; text-align: center; min-height: 250px; }
+.diagram img { width: 100%; height: auto; min-height: 250px; object-fit: contain; }
+.notes-panel { position: fixed; bottom: -40%; left: 240px; right: 0; background: #fff; border-top: 3px solid #116611; max-height: 40%; overflow-y: auto; transition: bottom 0.3s; padding: 15px; }
+.notes-panel.active { bottom: 0; }
+.quiz-panel { position: fixed; top: 60px; right: -400px; width: 350px; height: calc(100% - 60px); background: #fff; border-left: 3px solid #116611; padding: 15px; overflow-y: auto; transition: right 0.3s; }
+.quiz-panel.active { right: 0; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-btn { padding: 8px 12px; border: 1px solid #116611; background: #e8f5e9; cursor: pointer; text-align: left; border-radius: 6px; font-size: 14px; }
+.quiz-btn:hover:not(:disabled) { background: #c8e6c9; }
+.quiz-btn:disabled { opacity: 0.8; cursor: default; }
+.show-answer { margin-top: 10px; background: #c8e6c9; border: 1px solid #116611; padding: 6px 12px; cursor: pointer; border-radius: 6px; }
+</style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div class="sidebar">
+<img src="../logo.png" alt="Logo">
+<ul id="toc"></ul>
+</div>
+
+<div class="main">
+<header>
+<h1>Unit 2: The Living World – Biodiversity</h1>
+<div class="buttons">
+    <div class="tooltip"><button onclick="prevSlide()">⬅️</button><span class="tooltiptext">Previous Slide</span></div>
+    <div class="tooltip"><button onclick="nextSlide()">➡️</button><span class="tooltiptext">Next Slide</span></div>
+    <div class="tooltip"><button onclick="toggleNotes()">📝</button><span class="tooltiptext">Toggle Notes</span></div>
+    <div class="tooltip"><button onclick="toggleQuiz()">❓</button><span class="tooltiptext">Toggle Quiz</span></div>
+</div>
+</header>
+<div id="slides"></div>
+</div>
+
+<div class="notes-panel" id="notes"></div>
+<div class="quiz-panel" id="quiz"></div>
+
+<script>
+const slidesData = [{"title": "What is Biodiversity?", "content": "", "bullets": ["Biodiversity = genetic + species + ecosystem diversity.", "Essential for ecosystem resilience, stability, and services.", "Loss reduces adaptability and impairs ecosystem functions."], "diagram_ref": "2.1.1_biodiversity_levels", "speaker_notes": "Biodiversity encompasses the variety of life at multiple levels: genetic diversity within species, species diversity within ecosystems, and ecosystem diversity across landscapes. Genetic diversity allows species to adapt to changing environments; species diversity ensures functional redundancy and ecosystem stability; ecosystem diversity maintains landscape-level processes and services. Examples include crop varietals providing resilience to pests and climate, coral reefs supporting thousands of species, and wetlands regulating water quality. Loss of biodiversity weakens ecosystems, reduces adaptability to disturbances, and compromises the ecosystem services humans rely upon, such as food, clean water, and climate regulation.", "quiz": {"question": "Which is an example of genetic diversity?", "options": ["Different forest types", "Drought-resistant crop variety", "River vs lake", "Bird migration routes"], "ans": 1, "explanation": "Genetic diversity refers to variation within a species. Different crop varieties, such as drought-resistant wheat, illustrate genetic variation that enhances adaptability and breeding potential."}}, {"title": "Measuring Biodiversity: Richness and Evenness", "content": "", "bullets": ["Species richness = total number of species in a community or area.", "Species evenness = relative abundance of individuals across species.", "Diversity indices (Shannon, Simpson) combine richness and evenness to quantify biodiversity."], "diagram_ref": "2.1.2_biodiversity_measures", "speaker_notes": "Biodiversity measurement involves both how many species exist (richness) and how individuals are distributed among species (evenness). High richness with low evenness indicates dominance by a few species, whereas high evenness indicates balanced populations. The Shannon index accounts for both factors mathematically, providing a single value for comparison between communities. For example, two forests may each have 10 species, but if one forest is dominated by a single species, its diversity is lower than a forest with evenly distributed populations. Accurate measurement is essential for conservation planning and monitoring ecosystem health.", "quiz": {"question": "Which metric accounts for both species number and abundance?", "options": ["Species richness", "Species evenness", "Shannon index", "Range size"], "ans": 2, "explanation": "The Shannon index incorporates both species richness and evenness, reflecting both the number of species and how evenly individuals are distributed among them."}}, {"title": "Genetic Diversity and Its Importance", "content": "", "bullets": ["Genetic variation provides the raw material for adaptation and evolution.", "Low genetic diversity increases extinction risk from disease or environmental change.", "Conservation strategies include seed banks, captive breeding, and managed gene pools."], "diagram_ref": "2.1.3_genetic_diversity", "speaker_notes": "Genetic diversity is the variety of alleles within a species\\' gene pool. High genetic diversity allows populations to adapt to environmental changes, resist diseases, and survive climate fluctuations. Bottlenecks or inbreeding reduce this diversity, leading to inbreeding depression and reduced fitness. Historical examples include the Irish potato famine, where lack of genetic variation in crops amplified vulnerability to pathogens. Conservation strategies such as seed banks, botanical gardens, and captive breeding programs aim to preserve genetic resources for future adaptation and restoration.", "quiz": {"question": "What is inbreeding depression?", "options": ["Increased fitness", "Reduced genetic diversity leading to reduced fitness", "More species colonizing an area", "Higher mutation rates"], "ans": 1, "explanation": "Inbreeding depression occurs when closely related individuals mate, increasing the likelihood of harmful recessive traits being expressed and reducing overall population fitness."}}, {"title": "Species Diversity: Patterns and Drivers", "content": "", "bullets": ["Latitudinal gradient: tropical regions have higher species richness than temperate or polar regions.", "Habitat heterogeneity and productivity influence species diversity.", "Evolutionary history and isolation shape local species pools."], "diagram_ref": "2.1.4_species_patterns", "speaker_notes": "Species diversity varies across space due to abiotic and biotic factors. The latitudinal gradient shows more species near the equator due to stable climate, high productivity, and long-term evolutionary history. Habitat heterogeneity, such as mountains or river valleys, provides niches supporting diverse species. Productivity, measured as energy capture, also drives diversity by supporting larger populations. Island isolation and evolutionary history affect colonization and extinction rates, influencing species richness. Mapping these patterns helps identify conservation priorities.", "quiz": {"question": "Which region generally has the highest species richness?", "options": ["Tundra", "Temperate forest", "Tropical rainforest", "Desert"], "ans": 2, "explanation": "Tropical rainforests exhibit high species richness due to favorable climate, resource availability, and long-term stable evolutionary conditions."}}, {"title": "Ecosystem Diversity and Landscape Heterogeneity", "content": "", "bullets": ["Ecosystem diversity reflects the number and variety of habitats within a landscape.", "Landscape mosaics, connectivity, and ecotones influence species distributions and interactions.", "Fragmentation and land-use change reduce ecosystem diversity."], "diagram_ref": "2.1.5_ecosystem_diversity", "speaker_notes": "Ecosystem diversity is the variety of ecosystems in a region, encompassing different habitat types and community compositions. Landscape heterogeneity includes corridors, patches, and ecotones, which facilitate movement and species interactions. Edge effects—changes in microclimate or predation at habitat boundaries—can affect species differently. Human activities, such as urbanization, agriculture, and deforestation, fragment habitats, reduce connectivity, and decrease ecosystem diversity, threatening both species survival and ecosystem function. Conservation planning often focuses on maintaining heterogeneity and connectivity.", "quiz": {"question": "What is an ecotone?", "options": ["A species", "A transitional zone between ecosystems", "A remote island", "A genetic variant"], "ans": 1, "explanation": "An ecotone is a transitional area between two distinct ecosystems where species from both ecosystems may coexist, often supporting unique communities."}}, {"title": "Ecosystem Services – Overview", "content": "", "bullets": ["Provisioning services: food, timber, water, raw materials.", "Regulating services: climate regulation, flood control, water purification.", "Cultural services: recreation, education, spiritual value.", "Supporting services: nutrient cycling, soil formation, primary productivity."], "diagram_ref": "2.2.1_ecosystem_services_infographic", "speaker_notes": "Ecosystem services are the benefits humans derive from functioning ecosystems. Provisioning services supply tangible goods like crops and timber. Regulating services maintain environmental stability, e.g., wetlands mitigating floods. Cultural services provide recreational, educational, and spiritual benefits. Supporting services underpin all other services, including nutrient cycling and soil formation. These services are interdependent; degradation of one service can compromise others. Understanding these services informs sustainable management and policy decisions.", "quiz": {"question": "Which is a regulating service?", "options": ["Timber", "Pollination", "Flood control", "Recreation"], "ans": 2, "explanation": "Flood control exemplifies a regulating service as it maintains ecosystem stability and protects human communities."}}, {"title": "Valuing Ecosystem Services – Methods and Challenges", "content": "", "bullets": ["Valuation methods: market-based, non-market (contingent valuation, hedonic pricing), and Payments for Ecosystem Services (PES).", "Challenges include assigning monetary value to non-market benefits, temporal variability, and equity considerations.", "Integration into policy is critical for conservation planning."], "diagram_ref": "2.2.2_service_valuation", "speaker_notes": "Valuing ecosystem services quantifies their contribution to human welfare. Market-based methods assign value to goods sold commercially, like timber. Non-market methods, such as contingent valuation, survey willingness to pay for ecosystem benefits, while hedonic pricing assesses property value changes due to environmental quality. PES schemes incentivize conservation by compensating landowners for maintaining ecosystem functions. Challenges include measuring intangible benefits, capturing long-term effects, and ensuring fair distribution. Accurate valuation aids resource allocation, environmental policy, and sustainable development.", "quiz": {"question": "Which valuation method uses surveys to elicit willingness to pay?", "options": ["Hedonic pricing", "Contingent valuation", "Replacement cost", "Travel cost"], "ans": 1, "explanation": "Contingent valuation surveys individuals to estimate the monetary value they assign to ecosystem services."}}, {"title": "Island Biogeography – Core Concepts", "content": "", "bullets": ["Species richness depends on island size (area) and isolation (distance from mainland).", "Larger islands support more species due to greater habitat diversity and resources.", "Equilibrium model balances immigration and extinction rates, guiding reserve design."], "diagram_ref": "2.3.1_island_biogeography_model", "speaker_notes": "Island biogeography theory explains species richness patterns on islands and habitat fragments. Larger islands offer more niches and sustain larger populations, reducing extinction risk. Proximity to the mainland affects immigration rates; nearby islands are colonized more readily. The equilibrium model predicts a balance between immigration and extinction rates, informing design of reserves and corridors. Conservationists apply these principles to create connected habitats, minimize isolation, and maximize species persistence.", "quiz": {"question": "Which factor increases species immigration to an island?", "options": ["Greater distance from mainland", "Smaller island area", "Proximity to mainland", "Higher elevation"], "ans": 2, "explanation": "Islands closer to the mainland receive more colonizing species, increasing immigration rates."}}, {"title": "Species-Area Curve and Conservation", "content": "", "bullets": ["Species–area relationship (S = cA^z) describes how species richness increases with area.", "Conservation implications: larger reserves retain more species, fragmentation reduces richness.", "Power-law exponent z varies by taxa and habitat isolation."], "diagram_ref": "2.2.1_species_area_curve", "speaker_notes": "The species–area relationship quantifies the increase in species richness with habitat area. Log–log plots help visualize scaling, with slope z indicating rate of accumulation. Smaller fragments support fewer species; habitat loss can predict extinctions using S = cA^z. Conservation planning uses this relationship to optimize reserve size, connectivity, and mitigate fragmentation effects. Different taxa have distinct z values, reflecting dispersal and sensitivity to isolation.", "quiz": {"question": "On a log-log plot, what does the slope represent in S = cA^z?", "options": ["c value", "z exponent (rate of accumulation)", "Area", "Species richness"], "ans": 1, "explanation": "The slope equals z, the rate at which species richness increases with area in the species–area relationship."}}, {"title": "Ecological Niches and Species Roles", "content": "", "bullets": ["A species’ niche includes habitat, resource use, and interactions.", "Resource partitioning reduces competition, allowing coexistence.", "Fundamental niche = potential range; realized niche = actual range considering interactions."], "diagram_ref": "2.4.1_niche_concept", "speaker_notes": "An ecological niche defines the functional role of a species, including where it lives, what it eats, and how it interacts with others. Resource partitioning allows similar species to coexist by using different resources or times. Fundamental niches show where a species could survive without competition; realized niches show where it actually exists given competition, predation, and other constraints. Examples include warblers feeding at different heights in a tree or lions and hyenas partitioning prey. Niches structure communities and maintain biodiversity.", "quiz": {"question": "What is a realized niche?", "options": ["Potential range without competitors", "Actual range with competitors", "Only habitat location", "Only feeding behavior"], "ans": 1, "explanation": "The realized niche is the portion of a species\\' fundamental niche actually occupied, limited by biotic interactions like competition or predation."}}, {"title": "Species Interactions and Biodiversity", "content": "", "bullets": ["Interactions include competition, predation, parasitism (negative) and mutualism, commensalism (positive/neutral).", "Positive and negative interactions shape population dynamics and community composition.", "Keystone species disproportionately affect ecosystem structure."], "diagram_ref": "2.4.2_species_interactions", "speaker_notes": "Species interactions drive ecosystem dynamics. Predation, parasitism, and competition limit population growth. Mutualism and commensalism provide benefits or neutrality, e.g., pollinators and epiphytes. Keystone species, such as sea otters controlling urchin populations, maintain trophic structure; their removal can cause cascading effects. Understanding these interactions helps predict ecosystem responses to disturbance and informs management strategies for conservation.", "quiz": {"question": "Which species has a disproportionate effect on its ecosystem?", "options": ["Dominant species", "Keystone species", "Rare species", "Invasive species"], "ans": 1, "explanation": "Keystone species maintain ecosystem structure and function beyond what would be expected from their abundance."}}, {"title": "Succession: Primary and Secondary", "content": "", "bullets": ["Primary succession occurs on bare substrates (lava, sand).", "Secondary succession follows disturbance (fire, agriculture).", "Processes: facilitation, tolerance, inhibition.", "Climax community represents a stable end-point."], "diagram_ref": "2.5.1_succession_process", "speaker_notes": "Succession is the gradual, directional change in community composition over time. Primary succession starts on bare surfaces with pioneer species like lichens and mosses, building soil for later plants. Secondary succession occurs after disturbances, e.g., forest regrowth after fire. Facilitation occurs when early species modify habitat for later species; tolerance allows later species to establish despite pioneers; inhibition occurs when early species suppress colonization. Succession leads to climax communities, which are relatively stable. Humans can accelerate or disrupt succession through land use and restoration.", "quiz": {"question": "Which is an example of primary succession?", "options": ["Forest regrowth after fire", "Lava flow colonization", "Abandoned farmland", "Pond succession"], "ans": 1, "explanation": "Primary succession occurs on newly exposed substrates like lava, where no soil exists initially."}}, {"title": "Biodiversity Threats – Overview", "content": "", "bullets": ["Major threats: habitat loss, overexploitation, pollution, invasive species, climate change.", "Synergistic effects exacerbate extinction risk.", "Conservation requires addressing proximate and ultimate causes."], "diagram_ref": "2.6.1_biodiversity_threats", "speaker_notes": "Biodiversity faces multiple, interacting threats. Habitat loss through deforestation, urbanization, and agriculture is the leading driver of species decline. Overharvesting, pollution, invasive species, and climate change further stress populations. These threats often act synergistically, e.g., climate change exacerbating invasive species impacts. Understanding proximate (direct) and ultimate (underlying) causes helps prioritize conservation strategies. Global examples include coral bleaching, Amazon deforestation, and overfishing.", "quiz": {"question": "Which is the leading cause of biodiversity loss?", "options": ["Climate change", "Invasive species", "Habitat destruction", "Pollution"], "ans": 2, "explanation": "Habitat destruction removes critical living space, fragmenting populations and reducing survival chances, making it the primary driver of global biodiversity loss."}}, {"title": "Invasive Species and Impacts", "content": "", "bullets": ["Invasive species outcompete native species, alter habitats, and introduce diseases.", "They disrupt ecosystem services and trophic interactions.", "Management includes prevention, early detection, and eradication/control programs."], "diagram_ref": "2.6.2_invasive_species", "speaker_notes": "Invasive species are non-native organisms that establish, spread, and harm ecosystems. Examples: Nile perch in Lake Victoria causing native fish declines; brown tree snake in Guam decimating birds; kudzu in North America overgrowing native vegetation. Early detection and rapid response are key to control. Prevention includes regulations on trade, quarantine, and public awareness. Ecological impacts include reduced native biodiversity, altered nutrient cycling, and economic losses.", "quiz": {"question": "What is a common effect of invasive species?", "options": ["Increased native species richness", "Habitat restoration", "Native species decline", "Reduced human impact"], "ans": 2, "explanation": "Invasive species often outcompete or prey on native species, causing population declines or extinctions."}}, {"title": "Conservation Strategies: In Situ", "content": "", "bullets": ["In situ conservation protects species within their natural habitats.", "Methods include national parks, wildlife sanctuaries, and biosphere reserves.", "Corridors and buffer zones enhance connectivity and ecosystem resilience."], "diagram_ref": "2.6.3_in_situ_conservation", "speaker_notes": "In situ conservation maintains species in their natural environments, preserving ecological interactions and evolutionary processes. Large protected areas reduce edge effects and maintain population viability. Corridors allow gene flow and species movement, preventing isolation. Examples: Yellowstone National Park protects large mammals and ecosystems; Sundarbans mangroves protect tigers and coastal biodiversity. This approach is preferred for long-term conservation but may require active management to mitigate human pressures.", "quiz": {"question": "Which is an in situ method?", "options": ["Seed bank", "Botanical garden", "National park", "Tissue culture lab"], "ans": 2, "explanation": "In situ conservation involves protecting species in their natural habitat, such as national parks."}}, {"title": "Conservation Strategies: Ex Situ", "content": "", "bullets": ["Ex situ conservation safeguards species outside their natural habitats.", "Techniques include seed banks, botanical gardens, captive breeding, and cryopreservation.", "Complements in situ conservation for critically endangered species."], "diagram_ref": "2.6.4_ex_situ_conservation", "speaker_notes": "Ex situ conservation preserves species outside their native environment, protecting against extinction when in situ conservation is insufficient. Seed banks store genetic material for future restoration; botanical gardens maintain living plant collections; captive breeding programs propagate endangered animals for reintroduction. Cryopreservation allows long-term storage of gametes or embryos. Ex situ strategies complement in situ efforts, particularly for species with extremely small populations or habitats under severe threat. Examples: Svalbard Global Seed Vault preserves global crop diversity; black-footed ferret recovery program in North America.", "quiz": {"question": "Which is an ex situ conservation approach?", "options": ["Wildlife sanctuary", "National park", "Botanical garden", "Biosphere reserve"], "ans": 2, "explanation": "Botanical gardens conserve plants outside their natural habitats, representing ex situ conservation."}}, {"title": "Biodiversity Hotspots and Global Priority Areas", "content": "", "bullets": ["Biodiversity hotspots are regions with high species richness, endemism, and threat.", "Criteria: >1,500 endemic plant species and <30% original habitat remaining.", "Examples: Madagascar, Western Ghats, Himalayas."], "diagram_ref": "2.6.5_biodiversity_hotspots", "speaker_notes": "Biodiversity hotspots focus conservation efforts where the need is greatest. These regions harbor numerous endemic species and face significant habitat loss. Protecting hotspots maximizes biodiversity conservation per unit area. Examples include Madagascar with unique lemurs, Western Ghats with endemic amphibians, and Himalayas with diverse flora and fauna. International collaboration, funding, and policy frameworks are essential for preserving these critical areas.", "quiz": {"question": "Which region is a biodiversity hotspot?", "options": ["Sahara Desert", "Western Ghats", "Gobi Desert", "Tundra"], "ans": 1, "explanation": "Western Ghats meet the hotspot criteria of high endemism and significant habitat threat."}}];
+const diagramsDir = 'C:/Users/billi/Downloads/content/subjects/ap-es/diagrams';
+let currentIndex=0;
+const slidesEl=document.getElementById('slides');
+const tocEl=document.getElementById('toc');
+
+function createSlideContent(slide){
+    let html='';
+    if(slide.content) html+='<div class="paragraphs"><p>'+slide.content+'</p></div>';
+    if(slide.bullets && slide.bullets.length>0){
+        html+='<div class="bullets"><ul>';
+        slide.bullets.forEach(b=>html+='<li>'+b+'</li>');
+        html+='</ul></div>';
+    }
+    return html;
+}
+
+slidesData.forEach((slide,idx)=>{
+    const div=document.createElement('div');
+    div.className='slide';
+    if(idx===0) div.classList.add('active');
+    div.innerHTML='<h2>'+slide.title+'</h2><div class="content-row">'+createSlideContent(slide)+
+                  '<div class="diagram">'+(slide.diagram_ref?'<img src="'+diagramsDir+'/'+slide.diagram_ref+'.png">':'Whiteboard')+'</div></div>';
+    slidesEl.appendChild(div);
+
+    const li=document.createElement('li');
+    li.innerText=slide.title;
+    li.setAttribute('data-idx',idx);
+    li.onclick=()=>showSlide(idx);
+    tocEl.appendChild(li);
+});
+
+function showSlide(idx){
+    document.querySelectorAll('.slide').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.slide')[idx].classList.add('active');
+    currentIndex=idx;
+    const slide=slidesData[idx];
+    document.getElementById('notes').innerHTML=slide.speaker_notes||'No notes';
+    const quizEl=document.getElementById('quiz');
+    quizEl.innerHTML='';
+    if(slide.quiz){
+        quizEl.innerHTML='<h3>'+slide.quiz.question+'</h3>';
+        if(slide.quiz.options){
+            const optionsDiv=document.createElement('div');
+            optionsDiv.className='quiz-options';
+            slide.quiz.options.forEach((opt,i)=>{
+                const btn=document.createElement('button');
+                btn.className='quiz-btn';
+                btn.innerHTML=opt;
+                btn.onclick=function(){ checkAnswer(i,slide.quiz.ans,slide.quiz.explanation||''); };
+                optionsDiv.appendChild(btn);
+            });
+            quizEl.appendChild(optionsDiv);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        } else if(slide.quiz.explanation){
+            const frqBtn=document.createElement('button');
+            frqBtn.className='show-answer';
+            frqBtn.innerText='Show Answer';
+            frqBtn.onclick=function(){ showFRQAnswer(slide.quiz.explanation); };
+            quizEl.appendChild(frqBtn);
+            const p=document.createElement('p'); p.id='quiz-exp'; quizEl.appendChild(p);
+        }
+    } else {
+        quizEl.innerHTML='<p>No quiz for this slide.</p>';
+    }
+    document.querySelectorAll('.sidebar li').forEach(el=>el.classList.remove('active'));
+    const activeItem=document.querySelector('.sidebar li[data-idx="'+idx+'"]');
+    if(activeItem) activeItem.classList.add('active');
+    MathJax.typesetPromise();
+}
+
+function checkAnswer(i,ans,explanation){
+    const exp=document.getElementById('quiz-exp');
+    const btns=document.querySelectorAll('.quiz-btn');
+    btns.forEach((b,idx)=>{ b.disabled=true; if(idx==ans)b.style.background='#a5d6a7'; if(idx==i && i!=ans)b.style.background='#ef9a9a'; });
+    exp.innerHTML=(i==ans?'✅ Correct! ':'❌ Incorrect. ')+explanation;
+    MathJax.typesetPromise();
+}
+
+function showFRQAnswer(text){
+    const exp=document.getElementById('quiz-exp');
+    exp.innerHTML='💡 '+text;
+    MathJax.typesetPromise();
+}
+
+function toggleNotes(){ document.getElementById('notes').classList.toggle('active'); }
+function toggleQuiz(){ document.getElementById('quiz').classList.toggle('active'); }
+function nextSlide(){ showSlide((currentIndex+1)%slidesData.length); }
+function prevSlide(){ showSlide((currentIndex+slidesData.length-1)%slidesData.length); }
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') nextSlide(); if(e.key==='ArrowLeft') prevSlide(); });
+showSlide(0);
+</script>
+</body>
+</html>
