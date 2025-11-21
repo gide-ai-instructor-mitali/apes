@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Environmental Science: Units 1-3 Comprehensive Assessment</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background: #ffffff;
+  min-height: 100vh;
+  height: 100vh;
+  margin: 0;
+  line-height: 1.7;
+  overflow: hidden;
+  color: #000000;
+}
+
+.container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+}
+
+/* Welcome Screen */
+.welcome-screen {
+  background: #ffffff;
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.welcome-screen h1 {
+  color: #dc2626;
+  font-size: 3.5em;
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 4px solid #dc2626;
+  display: inline-block;
+  padding-bottom: 15px;
+}
+
+.welcome-screen .description {
+  color: #000000;
+  font-size: 1.2em;
+  margin: 30px auto 50px;
+  line-height: 2;
+  max-width: 700px;
+  font-style: italic;
+}
+
+.quiz-info {
+  background: rgba(220, 38, 38, 0.03);
+  border: 3px solid rgba(220, 38, 38, 0.15);
+  border-left: 6px solid #dc2626;
+  padding: 30px 40px;
+  margin: 40px auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+.quiz-info p {
+  color: #000000;
+  font-size: 1.1em;
+  margin: 12px 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quiz-info p::before {
+  content: '■';
+  color: #dc2626;
+  font-size: 0.8em;
+}
+
+.form-group {
+  margin: 50px auto;
+  text-align: left;
+  max-width: 600px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 18px 20px;
+  border: 3px solid rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  font-size: 1.15em;
+  transition: all 0.3s ease;
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 0.5px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.02);
+  box-shadow: inset 0 0 0 1px #dc2626;
+}
+
+.form-group .error {
+  color: #dc2626;
+  font-size: 0.9em;
+  margin-top: 8px;
+  display: none;
+}
+
+.btn {
+  padding: 18px 50px;
+  border: 3px solid #000000;
+  background: #dc2626;
+  font-size: 1.15em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #dc2626;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Quiz Interface */
+.quiz-container {
+  display: none;
+  width: 100%;
+  height: 100vh;
+}
+
+.quiz-container.active {
+  display: flex;
+  gap: 0;
+}
+
+.quiz-area {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  background: #dc2626;
+  padding: 25px 40px;
+  border-bottom: 4px solid #000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  color: #ffffff;
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.student-badge {
+  background: rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 30px;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 1.05em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.quiz-content {
+  background: #ffffff;
+  padding: 40px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: #dc2626;
+  padding: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: 4px solid #000000;
+  box-shadow: 4px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  width: 100%;
+  height: 100px;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  border-bottom: 4px solid #ffffff;
+  position: relative;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #dc2626, transparent);
+}
+
+.sidebar-content {
+  padding: 30px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-section {
+  margin-bottom: 30px;
+}
+
+.progress-label {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ffffff;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 1px;
+  border-right: 3px solid #dc2626;
+}
+
+.timer-box {
+  text-align: center;
+  margin: 30px 0;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-left: 5px solid #ffffff;
+}
+
+.timer-label {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.timer-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-title {
+  font-size: 0.85em;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 30px 0 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.question-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.nav-btn {
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #ffffff;
+}
+
+.nav-btn.current {
+  background: #ffffff;
+  color: #dc2626;
+  border-color: #ffffff;
+}
+
+.nav-btn.answered {
+  background: rgba(34, 197, 94, 0.3);
+  color: #ffffff;
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.nav-btn.answered.incorrect {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-btn.unanswered {
+  background: rgba(251, 191, 36, 0.3);
+  color: #ffffff;
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-submit button {
+  width: 100%;
+  background: #000000;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  padding: 18px;
+  font-size: 1.05em;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: 'Times New Roman', Times, serif;
+  transition: all 0.3s ease;
+}
+
+.btn-submit button:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Question Styles */
+.question {
+  margin: 30px 0;
+  padding: 45px;
+  background: rgba(220, 38, 38, 0.02);
+  border: 3px solid rgba(220, 38, 38, 0.15);
+  border-left: 8px solid #dc2626;
+  position: relative;
+}
+
+.question::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: rgba(220, 38, 38, 0.05);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 25px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.question-header h3 {
+  color: #000000;
+  font-size: 1.3em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.question-meta {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 8px 18px;
+  font-size: 0.85em;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+}
+
+.badge-difficulty {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+.badge-topic {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.question-text {
+  font-size: 1.2em;
+  line-height: 2;
+  color: #000000;
+  margin: 30px 0;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.options {
+  display: grid;
+  gap: 18px;
+  margin-top: 35px;
+}
+
+.option {
+  padding: 22px 30px;
+  background: #ffffff;
+  border: 3px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.1em;
+  line-height: 1.7;
+  position: relative;
+  border-left: 6px solid transparent;
+}
+
+.option::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: #dc2626;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.option:hover:not(.disabled) {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.03);
+  transform: translateX(5px);
+}
+
+.option:hover:not(.disabled)::before {
+  transform: scaleY(1);
+}
+
+.option.selected {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  font-weight: 700;
+  transform: translateX(5px);
+  border-left-color: #dc2626;
+}
+
+.option.correct {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+  font-weight: 700;
+  border-left-color: #22c55e;
+}
+
+.option.correct::before {
+  background: #22c55e;
+  transform: scaleY(1);
+}
+
+.option.wrong {
+  border-color: #000000;
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+  border-left-color: #000000;
+}
+
+.option.wrong::before {
+  background: #000000;
+  transform: scaleY(1);
+}
+
+.option.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.option-indicator {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.option.correct .option-indicator {
+  opacity: 1;
+  color: #22c55e;
+}
+
+.option.wrong .option-indicator {
+  opacity: 1;
+  color: #000000;
+}
+
+.explanation {
+  margin-top: 30px;
+  padding: 25px;
+  background: rgba(220, 38, 38, 0.05);
+  border: 2px solid rgba(220, 38, 38, 0.2);
+  border-left: 4px solid #dc2626;
+  display: none;
+}
+
+.explanation.show {
+  display: block;
+}
+
+.explanation-title {
+  color: #dc2626;
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.explanation-text {
+  color: #000000;
+  line-height: 1.8;
+  font-size: 1.05em;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+}
+
+.btn-secondary:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.btn-success {
+  background: #dc2626;
+  color: #ffffff;
+  border: 2px solid #dc2626;
+}
+
+.btn-success:hover {
+  background: #ffffff;
+  color: #dc2626;
+}
+
+/* Results Screen */
+.results {
+  display: none;
+  text-align: center;
+  padding: 60px 40px;
+  background: rgba(220, 38, 38, 0.02);
+  border: 3px solid rgba(220, 38, 38, 0.2);
+}
+
+.results.show {
+  display: block;
+}
+
+.results h2 {
+  font-size: 2.5em;
+  color: #000000;
+  margin-bottom: 30px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.score-circle {
+  width: 200px;
+  height: 200px;
+  border: 5px solid #dc2626;
+  background: #ffffff;
+  margin: 40px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em;
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.results-stats {
+  margin: 40px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 25px;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.result-stat {
+  background: #ffffff;
+  padding: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.result-stat-label {
+  font-size: 0.85em;
+  color: #000000;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.result-stat-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.results p {
+  font-size: 1.2em;
+  color: #000000;
+  margin: 25px 0;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.results-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    max-height: none;
+  }
+  
+  .quiz-container.active {
+    flex-direction: column;
+  }
+  
+  .quiz-area {
+    margin-left: 0;
+    height: auto;
+  }
+  
+  .question-nav {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  body {
+    overflow: auto;
+    height: auto;
+  }
+  
+  .container {
+    height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-content {
+    padding: 20px 15px;
+  }
+  
+  .logo {
+    height: 70px;
+    font-size: 18px;
+  }
+  
+  .header {
+    padding: 15px 20px;
+  }
+  
+  .header h1 {
+    font-size: 1.3em;
+  }
+  
+  .quiz-content {
+    padding: 25px 20px;
+  }
+  
+  .question {
+    padding: 25px 20px;
+  }
+  
+  .question-nav {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  
+  .score-circle {
+    width: 150px;
+    height: 150px;
+    font-size: 2.5em;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  
+  .sidebar, .nav-buttons {
+    display: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="welcomeScreen" class="welcome-screen">
+    <h1>AP Environmental Science: Units 1-3 Comprehensive Assessment</h1>
+    <p class="description">Advanced critical thinking assessment covering Ecosystems, Biodiversity, and Populations with multi-layered analysis questions</p>
+    
+    <div class="quiz-info">
+      <p><strong>40</strong> Questions</p>
+      <p>No time limit - take your time</p>
+      <p>Instant feedback with explanations</p>
+    </div>
+    
+    <div class="form-group">
+      <label for="studentName">Student Name</label>
+      <input 
+        type="text" 
+        id="studentName" 
+        placeholder="Enter your full name"
+        autocomplete="name"
+        required
+      >
+      <div class="error" id="nameError">Please enter your name</div>
+    </div>
+    
+    <button class="btn btn-primary" onclick="startQuiz()">
+      Start Quiz
+    </button>
+  </div>
+
+  <div id="quizContainer" class="quiz-container">
+    <div class="sidebar">
+      <div class="logo">QUIZ</div>
+      
+      <div class="sidebar-content">
+        <div class="progress-section">
+          <div class="progress-label">Progress</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">
+              <span id="progressText">0/40</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timer-box">
+          <div class="timer-label">Time Elapsed</div>
+          <div class="timer-value" id="timer">0:00</div>
+        </div>
+        
+        <div class="nav-title">Questions</div>
+        <div class="question-nav" id="questionNav"></div>
+        
+        <button class="btn-submit" onclick="submitQuiz()">Submit Quiz</button>
+      </div>
+    </div>
+    
+    <div class="quiz-area">
+      <div class="header">
+        <h1>AP Environmental Science: Units 1-3 Comprehensive Assessment</h1>
+        <div class="student-badge" id="studentBadge"></div>
+      </div>
+      
+      <div class="quiz-content">
+        <div id="quizArea"></div>
+        
+        <div id="results" class="results">
+          <h2>QUIZ COMPLETE</h2>
+          <div class="score-circle" id="scoreCircle">0%</div>
+          
+          <div class="results-stats">
+            <div class="result-stat">
+              <div class="result-stat-label">Correct</div>
+              <div class="result-stat-value" style="color: #22c55e;" id="correctCount">0</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-label">Incorrect</div>
+              <div class="result-stat-value" style="color: #000000;" id="incorrectCount">0</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-label">Time</div>
+              <div class="result-stat-value" id="finalTime">0:00</div>
+            </div>
+          </div>
+          
+          <p id="scoreText"></p>
+          
+          <div class="results-actions">
+            <button class="btn btn-success" onclick="downloadTSV()">Download Results</button>
+            <button class="btn btn-secondary" onclick="location.reload()">Retake Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const quizData = [{"id": 1, "question": "A research team measures GPP at 25,000 kcal/m\u00b2/year and plant respiration at 15,000 kcal/m\u00b2/year in a temperate forest. If herbivores consume 10% of the available NPP, how much energy is available to primary consumers?", "options": ["1,000 kcal/m\u00b2/year", "2,500 kcal/m\u00b2/year", "10,000 kcal/m\u00b2/year", "15,000 kcal/m\u00b2/year"], "answer": 0, "explanation": "NPP = GPP - Respiration = 25,000 - 15,000 = 10,000 kcal/m\u00b2/year. If herbivores consume 10% of NPP, they receive 10,000 \u00d7 0.10 = 1,000 kcal/m\u00b2/year. This demonstrates both the NPP calculation and the concept that not all plant productivity is consumed.", "difficulty": "Hard", "topic": "Primary Productivity & Energy Flow", "subunit": "1.4 & 1.7", "tags": ["calculation", "GPP", "NPP", "energy transfer", "quantitative"], "reference": "Unit 1.4 & 1.7"}, {"id": 2, "question": "An invasive sea otter population is removed from a kelp forest ecosystem, leading to an explosion of sea urchin populations and subsequent depletion of kelp. What ecological concept does this best demonstrate?", "options": ["Primary succession following disturbance", "Trophic cascade caused by keystone species removal", "Resource partitioning among competing species", "Density-independent population regulation"], "answer": 1, "explanation": "This is a classic trophic cascade. Sea otters are keystone species that control sea urchin populations. Their removal allows urchins to overgraze kelp, demonstrating how top predators maintain ecosystem structure through indirect effects on multiple trophic levels.", "difficulty": "Medium", "topic": "Food Webs & Keystone Species", "subunit": "1.8", "tags": ["trophic cascade", "keystone species", "indirect effects", "food web"], "reference": "Unit 1.8"}, {"id": 3, "question": "A small island 50 km from the mainland has 12 bird species, while a larger island of the same distance has 45 species. A small island only 5 km from the mainland has 38 species. Which principle of island biogeography is BEST supported by this data?", "options": ["Immigration rate decreases with distance from mainland", "Extinction rate is independent of island size", "Both island size and distance from mainland influence species richness", "Species-area relationships only apply to terrestrial ecosystems"], "answer": 2, "explanation": "The data shows both factors matter: the large distant island (45 species) has more species than the small distant island (12 species), demonstrating the size effect. The small near island (38 species) has more than the small distant island, demonstrating the distance effect. This supports the dual-factor model of island biogeography.", "difficulty": "Hard", "topic": "Island Biogeography", "subunit": "2.3", "tags": ["species-area", "immigration", "distance effect", "data interpretation"], "reference": "Unit 2.3"}, {"id": 4, "question": "In a nitrogen-limited lake, scientists add phosphorus fertilizer expecting increased algae growth. However, algae populations remain unchanged. What is the MOST likely explanation?", "options": ["Liebig's Law of the Minimum: nitrogen is still the limiting factor", "The phosphorus caused toxic conditions preventing growth", "Algae in lakes cannot utilize phosphorus as a nutrient", "The 10% rule prevents energy transfer to producers"], "answer": 0, "explanation": "Liebig's Law states that growth is limited by the scarcest essential resource, not the total resources available. Since nitrogen was limiting before and wasn't added, it remains the bottleneck regardless of phosphorus availability. This demonstrates the concept of limiting factors and ecological thresholds.", "difficulty": "Medium", "topic": "Limiting Factors & Productivity", "subunit": "1.1.4 & 1.4.3", "tags": ["limiting factors", "Liebig's Law", "nutrients", "primary productivity"], "reference": "Unit 1.1 & 1.4"}, {"id": 5, "question": "A population of deer exhibits the following characteristics: high reproductive rate, high juvenile mortality (80%), low parental care, and small body size. Which survivorship curve and reproductive strategy does this population exhibit?", "options": ["Type I curve; K-selected strategy", "Type II curve; K-selected strategy", "Type III curve; r-selected strategy", "Type III curve; K-selected strategy"], "answer": 2, "explanation": "High juvenile mortality (80%) indicates Type III survivorship where most individuals die young. The high reproductive rate, low parental care, and small body size are all characteristics of r-selected species that produce many offspring with low individual investment. Typical K-selected species show Type I curves.", "difficulty": "Medium", "topic": "Survivorship Curves & Life History", "subunit": "3.2", "tags": ["survivorship", "r-selected", "K-selected", "life history strategies"], "reference": "Unit 3.2"}, {"id": 6, "question": "After a volcanic eruption completely destroys all life on an island, lichens are the first organisms to colonize the bare rock, followed by mosses, then grasses, shrubs, and eventually trees. Why are lichens typically the pioneer species in primary succession?", "options": ["They have the fastest growth rate of all plant species", "They can photosynthesize without soil and weather rock to create soil", "They are K-selected species adapted to stable environments", "They require high nutrient levels only available on bare rock"], "answer": 1, "explanation": "Lichens are pioneer species because they can grow on bare rock without soil (symbiotic relationship between fungi and algae allows this), and they produce acids that weather rock, gradually creating soil for other species. This is a key characteristic of primary succession where soil must be created from scratch.", "difficulty": "Medium", "topic": "Ecological Succession", "subunit": "2.6", "tags": ["primary succession", "pioneer species", "soil formation", "lichens"], "reference": "Unit 2.6"}, {"id": 7, "question": "An aquatic ecosystem has the following trophic pyramid data: Producers = 10,000 kg biomass, Primary consumers = 1,200 kg, Secondary consumers = 150 kg, Tertiary consumers = 12 kg. Which statement BEST explains why this pyramid violates the typical 10% rule?", "options": ["Primary consumers are 12% efficient, suggesting higher herbivore digestive efficiency", "The ecosystem is unhealthy and will collapse soon", "Decomposers are removing energy before it reaches consumers", "All trophic levels show perfect 10% efficiency"], "answer": 0, "explanation": "Primary consumers have 1,200/10,000 = 12% of producer biomass (not 10%). Secondary consumers have 150/1,200 = 12.5%. Tertiary consumers have 12/150 = 8%. The 10% rule is an average; actual efficiency can vary by ecosystem and organism type. Herbivores can sometimes be more efficient than 10%, especially in aquatic systems.", "difficulty": "Hard", "topic": "Energy Flow & 10% Rule", "subunit": "1.7", "tags": ["10% rule", "energy transfer", "trophic efficiency", "calculation"], "reference": "Unit 1.7"}, {"id": 8, "question": "A country has a Total Fertility Rate (TFR) of 1.8, a Crude Birth Rate of 11 per 1,000, and a Crude Death Rate of 10 per 1,000. The age structure diagram shows a large elderly population and small youth cohort. Which demographic stage is this country MOST likely in?", "options": ["Stage 1: High birth rate, high death rate, pre-industrial", "Stage 2: High birth rate, declining death rate, rapidly growing", "Stage 3: Declining birth rate, low death rate, slowing growth", "Stage 4: Low birth rate, low death rate, stable or declining population"], "answer": 3, "explanation": "Stage 4 is characterized by TFR below replacement level (2.1), low birth and death rates that are nearly equal, and an aging population (large elderly cohort, small youth). This describes developed countries like Japan or Germany with potential population decline. The low growth rate (11-10 = 1 per 1,000) confirms this stage.", "difficulty": "Medium", "topic": "Demographic Transition & Age Structure", "subunit": "3.5 & 3.6", "tags": ["demographic transition", "TFR", "age structure", "population dynamics"], "reference": "Unit 3.5 & 3.6"}, {"id": 9, "question": "Scientists compare two forest plots: Plot A (tropical rainforest) has 250 tree species in 1 hectare; Plot B (boreal forest) has 12 tree species in 1 hectare. Both have similar total tree biomass. What explains this difference in species diversity while maintaining similar biomass?", "options": ["Tropical forests have higher temperatures, which directly increases species numbers", "Year-round growing conditions and complex structure in tropics allow more niche specialization", "Boreal forests have superior ecosystem services despite lower diversity", "The 10% rule limits species diversity in colder climates"], "answer": 1, "explanation": "Tropical rainforests have consistent warm temperatures, abundant rainfall year-round, and complex vertical structure (canopy layers), allowing extreme niche specialization and resource partitioning. This supports high species diversity. Boreal forests have harsh winters and simpler structure, supporting fewer specialist species but similar total biomass through different ecological strategies.", "difficulty": "Hard", "topic": "Biodiversity & Biomes", "subunit": "1.2 & 2.1", "tags": ["species diversity", "niche", "tropical vs boreal", "biome comparison"], "reference": "Unit 1.2 & 2.1"}, {"id": 10, "question": "A generalist bird species and a specialist bird species both live in the same region. A decade-long drought occurs. Which outcome is MOST likely and why?", "options": ["The specialist survives better due to superior adaptation to specific conditions", "The generalist survives better due to ability to exploit alternative food sources", "Both survive equally as they occupy the same habitat", "Neither survives as drought is a density-independent factor"], "answer": 1, "explanation": "Generalist species have broad niches and can utilize multiple resources, making them more resilient to environmental changes. When drought eliminates a specialist's preferred food source, the specialist cannot adapt. Generalists can switch to alternative foods, demonstrating the trade-off between specialization (efficiency) and generalization (flexibility).", "difficulty": "Medium", "topic": "Generalist vs Specialist Species", "subunit": "3.1", "tags": ["generalist", "specialist", "niche breadth", "environmental change"], "reference": "Unit 3.1"}, {"id": 11, "question": "In the carbon cycle, deforestation in the Amazon increases atmospheric CO\u2082 through two mechanisms. What are these two mechanisms?", "options": ["Reduced photosynthesis (less carbon uptake) and burning/decomposition of trees (carbon release)", "Increased animal respiration and volcanic activity", "Ocean acidification and reduced nitrogen fixation", "Soil erosion and increased phosphorus runoff"], "answer": 0, "explanation": "Deforestation increases atmospheric CO\u2082 through: (1) removing trees that would photosynthesize and sequester carbon, reducing carbon uptake, and (2) burning or decomposition of cut trees, which releases stored carbon back to atmosphere. This demonstrates both the storage and flux aspects of biogeochemical cycles.", "difficulty": "Medium", "topic": "Biogeochemical Cycles", "subunit": "1.5", "tags": ["carbon cycle", "deforestation", "photosynthesis", "decomposition"], "reference": "Unit 1.5"}, {"id": 12, "question": "A population of rabbits on an island shows logistic growth, approaching a carrying capacity of 500 individuals. When the population reaches 600 rabbits due to a mild winter, what is MOST likely to occur?", "options": ["The population will continue exponential growth indefinitely", "A population crash (dieback) due to resource depletion and increased competition", "The carrying capacity will permanently increase to 600", "Immigration will balance the overshoot automatically"], "answer": 1, "explanation": "When a population overshoots carrying capacity, resources become depleted faster than they can regenerate. This leads to increased competition, starvation, disease, and eventually a population crash (dieback) below carrying capacity. This is followed by fluctuations around K as the system re-stabilizes, demonstrating density-dependent regulation.", "difficulty": "Medium", "topic": "Population Growth & Carrying Capacity", "subunit": "3.3 & 3.4", "tags": ["carrying capacity", "overshoot", "dieback", "logistic growth"], "reference": "Unit 3.3 & 3.4"}, {"id": 13, "question": "An estuary ecosystem transitions from freshwater input (river) to saltwater (ocean). Organisms living here must tolerate salinity ranging from 0-35 ppt. What ecological concept explains why estuaries often have LOWER species diversity than either pure freshwater or pure marine ecosystems?", "options": ["The intermediate disturbance hypothesis", "Only organisms with wide tolerance ranges can survive the variable conditions", "Estuaries lack sufficient primary productivity", "Trophic cascades eliminate most species"], "answer": 1, "explanation": "Estuaries have fluctuating salinity, temperature, and other conditions requiring wide tolerance ranges. Most specialists (adapted to either freshwater or saltwater) cannot survive the variable conditions. Only eurytolerant generalist species can persist, resulting in lower diversity. However, these species often have high abundance, demonstrating the trade-off between diversity and tolerance.", "difficulty": "Hard", "topic": "Ecological Tolerance & Aquatic Biomes", "subunit": "1.3 & 2.4", "tags": ["tolerance range", "estuaries", "salinity", "eurytolerant"], "reference": "Unit 1.3 & 2.4"}, {"id": 14, "question": "A grassland ecosystem experiences a wildfire (episodic disturbance). Two years later, species diversity is higher than before the fire. Which ecological principle BEST explains this observation?", "options": ["The fire initiated primary succession on bare ground", "Intermediate disturbance maintains diversity by preventing competitive exclusion", "Fires always increase biodiversity in all ecosystems", "The fire eliminated all K-selected species permanently"], "answer": 1, "explanation": "The intermediate disturbance hypothesis states that moderate disturbances (like periodic fires) prevent dominant competitors from excluding other species, maintaining higher diversity. The fire set back succession, creating gaps for colonization by pioneer and early successional species alongside recovering climax species. This is secondary succession, not primary (soil remains).", "difficulty": "Hard", "topic": "Natural Disruptions & Succession", "subunit": "2.5 & 2.6", "tags": ["intermediate disturbance", "wildfire", "secondary succession", "diversity"], "reference": "Unit 2.5 & 2.6"}, {"id": 15, "question": "The nitrogen cycle requires nitrogen-fixing bacteria to convert atmospheric N\u2082 into ammonia (NH\u2083). Why can't most organisms use N\u2082 directly from the atmosphere despite it comprising 78% of air?", "options": ["N\u2082 is toxic to most organisms at atmospheric concentrations", "The triple bond in N\u2082 is extremely strong and requires significant energy to break", "Organisms lack the cellular machinery to absorb gaseous molecules", "Atmospheric N\u2082 is actually N\u2083, not the usable N\u2082 form"], "answer": 1, "explanation": "N\u2082 has a very strong triple covalent bond (N\u2261N) that requires enormous energy to break. Only specialized nitrogen-fixing bacteria (like Rhizobium) have the nitrogenase enzyme capable of breaking this bond. Most organisms can only use 'fixed' nitrogen forms like ammonia (NH\u2083), nitrate (NO\u2083\u207b), or organic nitrogen, making nitrogen fixation a crucial ecosystem service.", "difficulty": "Hard", "topic": "Biogeochemical Cycles - Nitrogen", "subunit": "1.5.2", "tags": ["nitrogen cycle", "nitrogen fixation", "limiting nutrient", "bacteria"], "reference": "Unit 1.5"}, {"id": 16, "question": "An ecosystem has the following: 500 individual plants (producers), 50 herbivores (primary consumers), 5 carnivores (secondary consumers). This represents a pyramid of numbers. Why might a pyramid of biomass give a DIFFERENT pattern than this pyramid of numbers?", "options": ["Biomass pyramids are always inverted regardless of ecosystem type", "Individual producers may be very small (phytoplankton) with low biomass despite high numbers", "The 10% rule only applies to energy, not biomass or numbers", "Decomposers are included in biomass pyramids but not number pyramids"], "answer": 1, "explanation": "In some aquatic ecosystems, phytoplankton are numerous but tiny, resulting in high numbers but relatively low total biomass. A few large fish (consumers) might actually have greater total biomass than the phytoplankton at any moment, creating an inverted biomass pyramid. However, phytoplankton reproduce rapidly, so productivity and energy pyramids remain upright. This demonstrates different ways to measure trophic structure.", "difficulty": "Hard", "topic": "Trophic Pyramids", "subunit": "1.6", "tags": ["pyramid of biomass", "pyramid of numbers", "phytoplankton", "trophic structure"], "reference": "Unit 1.6"}, {"id": 17, "question": "A country's age structure diagram shows a wide base (0-14 years), narrowing middle (15-64 years), and narrow top (65+ years). The country has high infant mortality rate (IMR = 45 per 1,000) and Total Fertility Rate (TFR = 4.5). What is the MOST significant environmental challenge this country will likely face in the next 30 years?", "options": ["Shrinking workforce and pension crisis from aging population", "Rapid population growth increasing demand for resources, food, and infrastructure", "Population decline leading to economic stagnation", "Decreased biodiversity from reduced human activity"], "answer": 1, "explanation": "A wide base indicates a young, rapidly growing population (expanding pyramid). With TFR well above replacement (2.1), this country will experience significant population growth as the large youth cohort reaches reproductive age. This creates pressure on resources, agriculture, water, education, healthcare, and infrastructure. This is characteristic of Stage 2 demographic transition (declining death rate but still high birth rate).", "difficulty": "Medium", "topic": "Age Structure & Population Dynamics", "subunit": "3.5 & 3.6", "tags": ["age structure", "population growth", "TFR", "environmental impact"], "reference": "Unit 3.5 & 3.6"}, {"id": 18, "question": "In a deciduous forest food web, remove the apex predator (wolves) and observe: deer population increases \u2192 overgrazing of shrubs \u2192 loss of songbird nesting habitat \u2192 decline in insect-eating birds \u2192 increase in herbivorous insects \u2192 further damage to plants. This scenario BEST demonstrates:", "options": ["Bottom-up control where producers determine consumer populations", "A trophic cascade with indirect effects propagating through multiple levels", "Resource partitioning among competing herbivore species", "Primary succession following major ecosystem disturbance"], "answer": 1, "explanation": "This is a classic trophic cascade where removing a top predator (wolves) causes cascading effects through multiple trophic levels via indirect interactions. Wolves control deer (direct), which affects plant abundance (indirect), which affects songbirds (indirect), which affects insects (indirect). This demonstrates ecosystem interconnectedness and the importance of apex predators in maintaining structure.", "difficulty": "Medium", "topic": "Food Webs & Trophic Cascades", "subunit": "1.8", "tags": ["trophic cascade", "indirect effects", "apex predator", "food web"], "reference": "Unit 1.8"}, {"id": 19, "question": "Two warbler species coexist in the same spruce trees by feeding in different zones: one in the top canopy, one in middle branches, and one in lower branches. They all eat insects but avoid direct competition. This is BEST described as:", "options": ["Mutualistic symbiosis between warbler species", "Resource partitioning through spatial niche differentiation", "Competitive exclusion principle in action", "Convergent evolution producing similar species"], "answer": 1, "explanation": "This describes resource partitioning, where similar species coexist by dividing resources (spatial niches in this case). Each species occupies a different vertical zone of the tree, reducing competition for the same insects. This is a classic example studied by Robert MacArthur showing how species can coexist by specializing in different microhabitats, demonstrating realized niches are smaller than fundamental niches.", "difficulty": "Medium", "topic": "Niche & Resource Partitioning", "subunit": "1.1.3", "tags": ["resource partitioning", "niche", "coexistence", "competition"], "reference": "Unit 1.1"}, {"id": 20, "question": "A lake shows signs of eutrophication with algal blooms. Analysis reveals high phosphorus but normal nitrogen levels. Runoff from nearby farms contains both nitrogen and phosphorus fertilizers. Why is only phosphorus causing the problem?", "options": ["Phosphorus is more soluble than nitrogen in water", "Freshwater ecosystems are typically phosphorus-limited, not nitrogen-limited", "Nitrogen evaporates from water while phosphorus accumulates", "Algae cannot absorb nitrogen from fertilizers"], "answer": 1, "explanation": "Freshwater ecosystems are typically limited by phosphorus because nitrogen can be fixed from the atmosphere by cyanobacteria, but phosphorus can only enter through weathering of rocks (very slow) or runoff. Even though both nutrients are added by fertilizer, phosphorus is the limiting factor, so adding it triggers algal blooms (eutrophication). Marine systems are typically nitrogen-limited instead.", "difficulty": "Hard", "topic": "Limiting Factors & Productivity", "subunit": "1.4 & 1.5", "tags": ["eutrophication", "limiting nutrient", "phosphorus", "freshwater"], "reference": "Unit 1.4 & 1.5"}, {"id": 21, "question": "Scientists create a large nature reserve by connecting several small forest fragments with wildlife corridors. Ten years later, they observe increased genetic diversity in local deer populations. Which ecological principle does this BEST support?", "options": ["The intermediate disturbance hypothesis maintains genetic variation", "Metapopulation dynamics with gene flow between subpopulations", "Primary succession creates new genetic combinations", "Density-dependent factors reduce genetic diversity over time"], "answer": 1, "explanation": "Connecting habitat fragments allows animals to move between previously isolated populations, creating a metapopulation structure. Gene flow between subpopulations increases genetic diversity, reduces inbreeding depression, and improves population viability. This demonstrates practical application of island biogeography theory and conservation biology principles to combat habitat fragmentation effects.", "difficulty": "Hard", "topic": "Island Biogeography & Genetic Diversity", "subunit": "2.1 & 2.3", "tags": ["genetic diversity", "habitat fragmentation", "corridors", "metapopulation"], "reference": "Unit 2.1 & 2.3"}, {"id": 22, "question": "A tundra biome has extremely low primary productivity despite having a 24-hour growing season in summer with continuous sunlight. What is the PRIMARY limiting factor for productivity?", "options": ["Lack of sunlight during winter months", "Low temperatures limit enzyme activity and nutrient availability from frozen soil", "Absence of herbivores to stimulate plant growth", "Excessive precipitation causing waterlogged conditions"], "answer": 1, "explanation": "Despite 24-hour summer sun, tundra has very low productivity because: (1) cold temperatures slow enzyme reactions and metabolic processes, (2) permafrost keeps nutrients locked in frozen soil and unavailable to plants, and (3) the growing season is extremely short. Temperature and nutrient availability are the primary limiting factors, not light. This demonstrates how multiple abiotic factors interact to limit productivity.", "difficulty": "Medium", "topic": "Biomes & Primary Productivity", "subunit": "1.2 & 1.4", "tags": ["tundra", "limiting factors", "primary productivity", "temperature"], "reference": "Unit 1.2 & 1.4"}, {"id": 23, "question": "An r-selected species is introduced to an island with no predators and abundant resources. Which population growth pattern will MOST likely occur initially?", "options": ["Logistic growth immediately stabilizing at carrying capacity", "Linear growth with constant population increase", "Exponential (J-curve) growth followed by potential overshoot and crash", "Negative growth leading to immediate extinction"], "answer": 2, "explanation": "r-selected species have high reproductive rates (high 'r' in population equation). With no predators and abundant resources, the population will show exponential growth (J-curve) initially. However, this rapid growth may overshoot carrying capacity, potentially leading to a crash when resources are depleted. Eventually, density-dependent factors will slow growth to logistic, but initial pattern is exponential.", "difficulty": "Medium", "topic": "Population Growth & r-selection", "subunit": "3.2 & 3.3", "tags": ["r-selected", "exponential growth", "J-curve", "population dynamics"], "reference": "Unit 3.2 & 3.3"}, {"id": 24, "question": "Coral reefs provide coastal storm protection, tourism revenue, fisheries, and carbon sequestration. These benefits are collectively called:", "options": ["Trophic pyramids representing energy distribution", "Ecosystem services with provisioning, regulating, and cultural components", "Biogeochemical cycling of essential nutrients", "Primary succession establishing climax communities"], "answer": 1, "explanation": "Ecosystem services are benefits humans receive from ecosystems. The examples show: provisioning services (fisheries - food), regulating services (storm protection, carbon sequestration), and cultural services (tourism, recreation). Coral reefs also provide supporting services like nutrient cycling and habitat provision. This demonstrates the economic value of biodiversity and ecosystem health.", "difficulty": "Easy", "topic": "Ecosystem Services", "subunit": "2.2", "tags": ["ecosystem services", "coral reefs", "provisioning", "regulating"], "reference": "Unit 2.2"}, {"id": 25, "question": "A population of fish shows the following data over 5 years: Year 1: 1000, Year 2: 2000, Year 3: 4000, Year 4: 7500, Year 5: 8000. The carrying capacity is estimated at 8000. Which statement BEST describes this growth pattern?", "options": ["Pure exponential growth throughout all five years", "Linear growth with constant addition each year", "Logistic growth transitioning from exponential to stable phase near K", "Boom-bust cycles with regular oscillations above and below K"], "answer": 2, "explanation": "Years 1-3 show exponential doubling (1000\u21922000\u21924000), indicating unlimited growth. Years 4-5 show slowing growth (4000\u21927500\u21928000) as population approaches carrying capacity (8000). This is classic logistic (S-curve) growth: exponential when small, slowing as density-dependent factors increase near K, then stabilizing. The growth rate decreases from 100% to 87.5% to 6.7% as K is approached.", "difficulty": "Hard", "topic": "Population Growth Patterns", "subunit": "3.3", "tags": ["logistic growth", "carrying capacity", "S-curve", "data analysis"], "reference": "Unit 3.3"}, {"id": 26, "question": "A grassland has high genetic diversity within its plant species. A new fungal disease emerges. What is the MOST likely outcome and why?", "options": ["All plants will die as disease spreads through the entire population", "Some genetically resistant individuals survive, allowing population recovery", "Genetic diversity has no effect on disease resistance", "The disease will cause primary succession to restart"], "answer": 1, "explanation": "High genetic diversity increases the probability that some individuals possess alleles conferring disease resistance. These resistant individuals survive, reproduce, and pass resistance to offspring, allowing population recovery. This demonstrates why genetic diversity is crucial for ecosystem resilience and adaptation to environmental stressors. Low diversity populations face greater extinction risk from disease.", "difficulty": "Medium", "topic": "Genetic Diversity & Resilience", "subunit": "2.1", "tags": ["genetic diversity", "disease resistance", "resilience", "natural selection"], "reference": "Unit 2.1"}, {"id": 27, "question": "Wetlands filter pollutants, buffer flooding, and provide nursery habitat for fish. A developer wants to drain wetlands for agriculture, arguing they are 'unproductive wastelands.' What is the BEST counterargument from an environmental science perspective?", "options": ["Wetlands have low NPP compared to agricultural fields", "Wetlands provide critical regulating and supporting ecosystem services worth more than agricultural output", "Wetlands only benefit birds and have no human value", "Agricultural productivity always exceeds ecosystem service value"], "answer": 1, "explanation": "While wetlands may have moderate NPP, their ecosystem services (flood control, water filtration, carbon storage, nursery habitat, biodiversity support) provide enormous economic value - often exceeding agricultural revenue. The '10% rule' and trophic efficiency are irrelevant here. This demonstrates the importance of valuing regulating and supporting services, not just provisioning services like food production.", "difficulty": "Medium", "topic": "Ecosystem Services", "subunit": "2.2", "tags": ["wetlands", "ecosystem services", "economic value", "conservation"], "reference": "Unit 2.2"}, {"id": 28, "question": "In the phosphorus cycle, phosphorus moves from rocks \u2192 soil \u2192 plants \u2192 animals \u2192 decomposition \u2192 soil, but has NO significant atmospheric component. Why does phosphorus lack a gaseous phase unlike carbon and nitrogen?", "options": ["Phosphorus is too heavy to exist as a gas under Earth's conditions", "Phosphorus compounds are not volatile at normal Earth temperatures and don't form stable gases", "Plants cannot absorb gaseous phosphorus compounds", "The ozone layer blocks all gaseous phosphorus from escaping"], "answer": 1, "explanation": "Phosphorus compounds (phosphates) are not volatile and don't readily form gases at normal Earth temperatures. Carbon forms CO\u2082 gas, nitrogen forms N\u2082 gas, but phosphorus exists primarily as phosphate (PO\u2084\u00b3\u207b) in rocks, soil, and water. This makes phosphorus cycling much slower than other nutrients and explains why it's often the limiting nutrient in freshwater - it can only enter via slow rock weathering.", "difficulty": "Hard", "topic": "Biogeochemical Cycles - Phosphorus", "subunit": "1.5.3", "tags": ["phosphorus cycle", "no atmospheric phase", "limiting nutrient", "rock weathering"], "reference": "Unit 1.5"}, {"id": 29, "question": "A population exhibits the following tolerance curve for temperature: optimal range 20-25\u00b0C (high survival), stress zones 15-20\u00b0C and 25-30\u00b0C (reduced survival), intolerance zones below 15\u00b0C and above 30\u00b0C (death). Climate change increases average temperature from 22\u00b0C to 28\u00b0C. What is the MOST likely population response?", "options": ["Population increases due to warmer temperatures enhancing metabolism", "Population decreases as average temperature moves from optimal to stress zone", "No change because the species will immediately adapt genetically", "Population goes extinct immediately at 28\u00b0C"], "answer": 1, "explanation": "The population's optimal temperature was 20-25\u00b0C. At 28\u00b0C, the average temperature moves into the stress zone (25-30\u00b0C) where survival and reproduction are reduced. While not immediately lethal, chronic stress decreases fitness, population growth rate, and increases vulnerability to other stressors. Heat waves above 30\u00b0C could cause mortality. This demonstrates how climate change affects populations through tolerance ranges.", "difficulty": "Medium", "topic": "Ecological Tolerance", "subunit": "2.4", "tags": ["tolerance curve", "climate change", "stress zone", "optimal range"], "reference": "Unit 2.4"}, {"id": 30, "question": "An abandoned agricultural field in North Carolina undergoes succession: Year 1 - grasses/weeds; Year 5 - shrubs; Year 20 - pine trees; Year 80 - mixed hardwood forest. Why do shade-intolerant pine trees eventually get replaced by shade-tolerant hardwoods?", "options": ["Pine trees have shorter lifespans and naturally die after 50 years", "Pine seedlings cannot survive in the deep shade they create, while hardwood seedlings can", "Hardwood trees have allelopathic chemicals that poison pines", "Climate change favors hardwoods over conifers"], "answer": 1, "explanation": "This demonstrates facilitation and tolerance in succession. Pines are shade-intolerant pioneers that grow quickly in open fields. As they mature, they create dense shade. Pine seedlings require high light and cannot regenerate under their own canopy. Shade-tolerant hardwood seedlings survive in low light, grow up, and eventually replace pines when old pines die. This shows how early successional species modify conditions, enabling climax species.", "difficulty": "Hard", "topic": "Secondary Succession", "subunit": "2.6", "tags": ["secondary succession", "shade tolerance", "climax community", "facilitation"], "reference": "Unit 2.6"}, {"id": 31, "question": "Compare two lakes: Lake A has high turbidity (cloudy water) from sediment; Lake B has clear water. Both have equal nutrient levels and surface area. Which will have HIGHER primary productivity and why?", "options": ["Lake A - suspended sediment provides nutrients for phytoplankton", "Lake B - light penetrates deeper, allowing photosynthesis in larger water volume", "Equal productivity - nutrients determine productivity, not light", "Lake A - turbidity increases water temperature, speeding metabolism"], "answer": 1, "explanation": "While both lakes have equal nutrients, turbidity limits light penetration in Lake A. Phytoplankton can only photosynthesize in the photic zone where light reaches. In cloudy water, this zone is shallow. Clear water (Lake B) allows deeper light penetration, expanding the volume where photosynthesis occurs. This demonstrates that both light AND nutrients are required - either can be limiting factors for aquatic productivity.", "difficulty": "Medium", "topic": "Aquatic Biomes & Primary Productivity", "subunit": "1.3 & 1.4", "tags": ["turbidity", "light limitation", "photic zone", "aquatic productivity"], "reference": "Unit 1.3 & 1.4"}, {"id": 32, "question": "A country implements a one-child policy, dramatically reducing TFR from 6.0 to 1.5 over 30 years. However, population continues growing for decades. What demographic phenomenon explains this?", "options": ["Immigration is offsetting the low birth rate", "Population momentum - large youth cohort entering reproductive years drives growth despite low TFR", "Infant mortality rate increased, causing more births", "The demographic transition reversed to Stage 2"], "answer": 1, "explanation": "Population momentum occurs when a large cohort of young people (from previous high birth rates) reaches reproductive age. Even with low TFR (1.5 births per woman), the large number of women having children causes continued population growth until age structure equilibrates. China experienced this after implementing the one-child policy. This demonstrates the lag between fertility decline and population stabilization.", "difficulty": "Hard", "topic": "Population Momentum", "subunit": "3.6", "tags": ["population momentum", "TFR", "age structure", "demographic lag"], "reference": "Unit 3.6"}, {"id": 33, "question": "Two species of barnacles live on rocky shores: Species A occupies the upper intertidal zone; Species B occupies the lower zone. When Species A is experimentally removed, Species B spreads into the upper zone. When Species B is removed, Species A remains only in the upper zone. What BEST explains this distribution?", "options": ["Species A has a wider fundamental niche but is competitively excluded by Species B from lower zones", "Both species have identical niches but random chance determines distribution", "Species B requires mutualistic algae only found in lower zones", "Wave action physically prevents Species A from reaching lower zones"], "answer": 0, "explanation": "Species B is the superior competitor and excludes Species A from the preferred lower zone (where conditions are less stressful - more submersion time). Species A's fundamental niche includes lower zones, but its realized niche is limited to the upper zone where it can tolerate stress that Species B cannot. This demonstrates competitive exclusion and the difference between fundamental versus realized niches.", "difficulty": "Hard", "topic": "Niche & Competition", "subunit": "1.1.3", "tags": ["fundamental niche", "realized niche", "competition", "competitive exclusion"], "reference": "Unit 1.1"}, {"id": 34, "question": "A forest fire occurs in August (episodic disturbance), and severe flooding occurs in October (random disturbance) in the same forest. Compared to forests experiencing only ONE disturbance type, what is the MOST likely outcome for this forest's recovery?", "options": ["Faster recovery due to increased nutrient cycling from both disturbances", "Slower recovery and potentially prolonged early successional stage due to compounding stress", "Identical recovery rate - number of disturbances doesn't matter", "Immediate transition to climax community skipping intermediate stages"], "answer": 1, "explanation": "Multiple disturbances in rapid succession create compound stress on ecosystems. The fire kills vegetation and depletes seed banks; flooding then erodes exposed soil, removes remaining seeds, and further damages recovering plants. This sets succession back repeatedly, potentially creating an alternate stable state or prolonging early succession. This demonstrates how disturbance frequency and timing affect recovery trajectories and resilience.", "difficulty": "Hard", "topic": "Natural Disruptions & Succession", "subunit": "2.5 & 2.6", "tags": ["multiple disturbances", "compound stress", "recovery", "resilience"], "reference": "Unit 2.5 & 2.6"}, {"id": 35, "question": "In the hydrologic cycle, transpiration from plants returns about 10% of terrestrial water to the atmosphere. Deforestation of 50% of a watershed would MOST directly affect which aspect of the local water cycle?", "options": ["Increased surface runoff and reduced groundwater recharge due to less transpiration and infiltration", "Increased precipitation due to more atmospheric moisture", "Complete elimination of all water cycling in the region", "Decreased evaporation from oceans globally"], "answer": 0, "explanation": "Trees facilitate infiltration (roots create soil pores) and return water to atmosphere via transpiration. Removing them increases surface runoff (water flows over bare ground rather than infiltrating), reduces groundwater recharge, increases soil erosion, and may decrease local rainfall. This demonstrates the interconnection between biotic components (trees) and abiotic cycles (water), and the ecosystem service of water regulation.", "difficulty": "Medium", "topic": "Biogeochemical Cycles - Hydrologic", "subunit": "1.5.4", "tags": ["water cycle", "deforestation", "runoff", "transpiration"], "reference": "Unit 1.5"}, {"id": 36, "question": "A marine food web includes: phytoplankton \u2192 zooplankton \u2192 small fish \u2192 tuna \u2192 sharks. Mercury bioaccumulates at each level with concentration factors: zooplankton (10x phytoplankton), small fish (10x zooplankton), tuna (10x small fish), sharks (10x tuna). If phytoplankton contain 0.01 ppm mercury, what concentration will sharks have?", "options": ["0.1 ppm", "1.0 ppm", "10 ppm", "100 ppm"], "answer": 3, "explanation": "Biomagnification calculation: Phytoplankton = 0.01 ppm; Zooplankton = 0.01 \u00d7 10 = 0.1 ppm; Small fish = 0.1 \u00d7 10 = 1 ppm; Tuna = 1 \u00d7 10 = 10 ppm; Sharks = 10 \u00d7 10 = 100 ppm. This demonstrates biomagnification - concentration increasing at each trophic level - and explains why top predators face toxicity risks. Each level represents a 10x increase, compounding across 4 trophic transfers.", "difficulty": "Hard", "topic": "Trophic Levels & Biomagnification", "subunit": "1.6", "tags": ["biomagnification", "trophic levels", "calculation", "mercury"], "reference": "Unit 1.6"}, {"id": 37, "question": "Island A (100 km\u00b2) has 50 species; Island B (400 km\u00b2) has 100 species. Both are equally distant from mainland. According to island biogeography, if Island A is reduced to 25 km\u00b2 by rising sea levels, approximately how many species would you predict remain?", "options": ["50 species - species number is independent of area", "25 species - linear relationship between area and species", "35-40 species - species-area relationship is logarithmic, not linear", "0 species - all will go extinct"], "answer": 2, "explanation": "The species-area relationship follows a logarithmic curve (S = cA^z), not a linear one, where z typically equals 0.25-0.33. Island A losing 75% of area will lose fewer than 75% of species because small habitat fragments retain disproportionately high diversity. Using z \u2248 0.25: (25/100)^0.25 \u2248 0.71, predicting ~35-36 species (71% of original 50). This demonstrates the mathematical relationship underlying island biogeography.", "difficulty": "Hard", "topic": "Island Biogeography - Species-Area", "subunit": "2.3", "tags": ["species-area relationship", "habitat loss", "calculation", "logarithmic"], "reference": "Unit 2.3"}, {"id": 38, "question": "A population of deer in a fenced reserve shows declining birth rates and increasing mortality as population size increases from 100 to 500 individuals. This is BEST described as:", "options": ["Density-independent regulation by abiotic factors", "Density-dependent regulation through intraspecific competition", "Exponential growth approaching carrying capacity", "Type I survivorship with high juvenile survival"], "answer": 1, "explanation": "As population density increases, competition for limited resources (food, water, space, mates) intensifies among individuals of the same species (intraspecific competition). This increases stress, reduces reproduction (lower birth rate), and increases mortality. These are density-dependent factors because their impact increases with population density. This negative feedback mechanism regulates populations around carrying capacity.", "difficulty": "Medium", "topic": "Population Growth & Density Dependence", "subunit": "3.3", "tags": ["density-dependent", "intraspecific competition", "regulation", "birth rate"], "reference": "Unit 3.3"}, {"id": 39, "question": "Tropical rainforests cover 6% of Earth's land surface but contain over 50% of terrestrial species. Temperate forests are much more extensive but less diverse. What combination of factors BEST explains rainforest hyperdiversity?", "options": ["Higher temperatures and consistent moisture year-round allowing continuous growth and niche specialization", "Superior soil quality providing more nutrients than temperate zones", "Absence of natural disturbances allowing undisturbed succession", "Lower primary productivity forcing species to compete more intensely"], "answer": 0, "explanation": "Tropical rainforests have: (1) warm temperatures year-round enabling continuous growth and evolution, (2) high consistent precipitation supporting complex vertical structure, (3) no winter dormancy allowing specialized adaptations, (4) long evolutionary history without ice ages. These factors promote extreme niche partitioning and specialization. Paradoxically, tropical soils are often nutrient-poor due to heavy leaching - nutrients are in living biomass, not soil.", "difficulty": "Hard", "topic": "Biodiversity & Biomes", "subunit": "1.2 & 2.1", "tags": ["tropical rainforest", "biodiversity", "climate factors", "niche specialization"], "reference": "Unit 1.2 & 2.1"}, {"id": 40, "question": "A grassland ecosystem has: 1,000,000 kcal/m\u00b2/year of sunlight energy reaching producers. Primary productivity (NPP) = 10,000 kcal/m\u00b2/year. What is the efficiency of energy capture by producers?", "options": ["1% - typical for most terrestrial ecosystems", "10% - following the 10% rule", "50% - most sunlight is captured", "100% - all energy is captured and stored"], "answer": 0, "explanation": "Efficiency = (NPP / Solar input) \u00d7 100 = (10,000 / 1,000,000) \u00d7 100 = 1%. Producers typically capture only 1-2% of available sunlight due to: wrong wavelengths, reflection, photosynthesis inefficiency, and respiration costs. The 10% rule applies to transfer BETWEEN trophic levels, not to initial energy capture. This explains why food chains are short - energy loss at each step.", "difficulty": "Medium", "topic": "Primary Productivity & Energy Flow", "subunit": "1.4 & 1.7", "tags": ["energy efficiency", "photosynthesis", "NPP", "calculation"], "reference": "Unit 1.4 & 1.7"}];
+let studentName = '';
+let currentQuestion = 0;
+let answers = new Array(quizData.length).fill(null);
+let startTime = null;
+let timerInterval = null;
+
+function startQuiz() {
+  const nameInput = document.getElementById('studentName');
+  studentName = nameInput.value.trim();
+  
+  if (!studentName || studentName.length < 2) {
+    document.getElementById('nameError').style.display = 'block';
+    nameInput.focus();
+    nameInput.style.borderColor = '#dc2626';
+    return;
+  }
+  
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('quizContainer').classList.add('active');
+  document.getElementById('studentBadge').textContent = studentName;
+  
+  startTime = Date.now();
+  startTimer();
+  renderQuestion();
+  renderNav();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    document.getElementById('timer').textContent = 
+      mins + ':' + (secs < 10 ? '0' : '') + secs;
+  }, 1000);
+}
+
+function renderNav() {
+  const nav = document.getElementById('questionNav');
+  nav.innerHTML = '';
+  
+  quizData.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.textContent = i + 1;
+    btn.title = 'Question ' + (i + 1);
+    
+    if (i === currentQuestion) {
+      btn.classList.add('current');
+    }
+    
+    if (answers[i] !== null) {
+      btn.classList.add('answered');
+      if (answers[i] !== q.answer) {
+        btn.classList.add('incorrect');
+      }
+    } else {
+      btn.classList.add('unanswered');
+    }
+    
+    btn.onclick = () => {
+      currentQuestion = i;
+      renderQuestion();
+      renderNav();
+    };
+    
+    nav.appendChild(btn);
+  });
+}
+
+function renderQuestion() {
+  const q = quizData[currentQuestion];
+  const answered = answers[currentQuestion] !== null;
+  
+  let html = '<div class="question">';
+  
+  html += '<div class="question-header">';
+  html += '<h3>Question ' + (currentQuestion + 1) + ' of ' + quizData.length + '</h3>';
+  html += '<div class="question-meta">';
+  
+  if (q.difficulty) {
+    html += '<span class="badge badge-difficulty">' + q.difficulty + '</span>';
+  }
+  
+  if (q.topic) {
+    html += '<span class="badge badge-topic">' + q.topic + '</span>';
+  }
+  
+  html += '</div></div>';
+  
+  html += '<div class="question-text">' + escapeHtml(q.question) + '</div>';
+  
+  html += '<div class="options">';
+  
+  q.options.forEach((opt, i) => {
+    let classes = 'option';
+    if (answered) classes += ' disabled';
+    if (answers[currentQuestion] === i) classes += ' selected';
+    if (answered && i === q.answer) classes += ' correct';
+    if (answered && answers[currentQuestion] === i && i !== q.answer) classes += ' wrong';
+    
+    html += '<div class="' + classes + '" onclick="selectAnswer(' + i + ')">';
+    html += escapeHtml(opt);
+    
+    if (answered && i === q.answer) {
+      html += '<span class="option-indicator">✓</span>';
+    } else if (answered && answers[currentQuestion] === i && i !== q.answer) {
+      html += '<span class="option-indicator">✗</span>';
+    }
+    
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  
+  if (answered) {
+    html += '<div class="explanation show">';
+    html += '<div class="explanation-title">Explanation</div>';
+    html += '<div class="explanation-text">' + escapeHtml(q.explanation) + '</div>';
+    html += '</div>';
+  }
+  
+  html += '</div>';
+  
+  html += '<div class="nav-buttons">';
+  
+  if (currentQuestion > 0) {
+    html += '<button class="btn btn-secondary" onclick="prevQuestion()">Previous</button>';
+  }
+  
+  if (currentQuestion < quizData.length - 1) {
+    html += '<button class="btn btn-success" onclick="nextQuestion()">Next</button>';
+  }
+  
+  html += '</div>';
+  
+  document.getElementById('quizArea').innerHTML = html;
+  updateProgress();
+}
+
+function selectAnswer(idx) {
+  if (answers[currentQuestion] !== null) return;
+  
+  answers[currentQuestion] = idx;
+  renderQuestion();
+  renderNav();
+}
+
+function nextQuestion() {
+  if (currentQuestion < quizData.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+    renderNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+    renderNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function updateProgress() {
+  const answered = answers.filter(a => a !== null).length;
+  const percent = (answered / quizData.length) * 100;
+  
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressText').textContent = answered + '/' + quizData.length;
+}
+
+function submitQuiz() {
+  const unanswered = answers.filter(a => a === null).length;
+  
+  if (unanswered > 0) {
+    if (!confirm('You have ' + unanswered + ' unanswered question(s). Submit anyway?')) {
+      return;
+    }
+  }
+  
+  showResults();
+}
+
+function showResults() {
+  clearInterval(timerInterval);
+  
+  const correct = answers.filter((a, i) => a === quizData[i].answer).length;
+  const incorrect = quizData.length - correct;
+  const percent = Math.round((correct / quizData.length) * 100);
+  
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+  const timeStr = mins + ':' + (secs < 10 ? '0' : '') + secs;
+  
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('results').classList.add('show');
+  document.getElementById('scoreCircle').textContent = percent + '%';
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('incorrectCount').textContent = incorrect;
+  document.getElementById('finalTime').textContent = timeStr;
+  
+  let message = '';
+  if (percent >= 90) {
+    message = 'Outstanding performance. Excellent mastery of the material.';
+  } else if (percent >= 70) {
+    message = 'Good performance. Solid understanding demonstrated.';
+  } else if (percent >= 50) {
+    message = 'Satisfactory performance. Review recommended for improvement.';
+  } else {
+    message = 'Additional study required. Please review the material carefully.';
+  }
+  
+  document.getElementById('scoreText').textContent = message;
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function downloadTSV() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const timeStr = Math.floor(elapsed / 60) + ':' + 
+                  (elapsed % 60 < 10 ? '0' : '') + (elapsed % 60);
+  
+  const now = new Date();
+  const dateStr = now.toLocaleString();
+  const fileDate = now.toISOString().split('T')[0];
+  
+  let tsv = 'Student Name\t' + studentName + '\n';
+  tsv += 'Quiz Unit\tAP Environmental Science: Units 1-3 Comprehensive Assessment\n';
+  tsv += 'Date\t' + dateStr + '\n';
+  tsv += 'Time Taken\t' + timeStr + '\n';
+  tsv += '\n';
+  tsv += 'Question\tYour Answer\tCorrect Answer\tCorrect?\tDifficulty\tTopic\tSubunit\tExplanation\tHint\n';
+  
+  quizData.forEach((q, i) => {
+    const yourAns = answers[i] !== null ? q.options[answers[i]] : 'No answer';
+    const correctAns = q.options[q.answer];
+    const correct = answers[i] === q.answer ? 'Yes' : 'No';
+    
+    tsv += '"' + q.question.replace(/"/g, '""') + '"\t';
+    tsv += '"' + yourAns.replace(/"/g, '""') + '"\t';
+    tsv += '"' + correctAns.replace(/"/g, '""') + '"\t';
+    tsv += correct + '\t';
+    tsv += (q.difficulty || '') + '\t';
+    tsv += (q.topic || '') + '\t';
+    tsv += (q.subunit || '') + '\t';
+    tsv += '"' + q.explanation.replace(/"/g, '""') + '"\t';
+    tsv += '"' + (q.hint || '').replace(/"/g, '""') + '"\n';
+  });
+  
+  const blob = new Blob([tsv], { type: 'text/tab-separated-values;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'quiz_results_' + 
+               studentName.replace(/[^a-zA-Z0-9]/g, '_') + '_' + 
+               fileDate + '.tsv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('welcomeScreen').style.display !== 'none') {
+    if (e.key === 'Enter') {
+      startQuiz();
+    }
+    return;
+  }
+  
+  if (document.getElementById('results').classList.contains('show')) {
+    return;
+  }
+  
+  if (e.key === 'ArrowRight' && currentQuestion < quizData.length - 1) {
+    nextQuestion();
+  } else if (e.key === 'ArrowLeft' && currentQuestion > 0) {
+    prevQuestion();
+  } else if (e.key >= '1' && e.key <= '4') {
+    const idx = parseInt(e.key) - 1;
+    if (idx < quizData[currentQuestion].options.length) {
+      selectAnswer(idx);
+    }
+  }
+});
+
+window.addEventListener('beforeunload', function(e) {
+  if (answers.some(a => a !== null) && 
+      !document.getElementById('results').classList.contains('show')) {
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  }
+});
+</script>
+</body>
+</html>
