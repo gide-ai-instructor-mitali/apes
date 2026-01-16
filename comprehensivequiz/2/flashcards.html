@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcard Review</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary-red: #dc2626;
+  --dark-red: #991b1b;
+  --light-red: #fee2e2;
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-700: #374151;
+  --gray-900: #111827;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.header {
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.header p {
+  opacity: 0.9;
+  font-size: 1.1em;
+}
+
+.flashcard-container {
+  perspective: 1000px;
+  margin-bottom: 30px;
+}
+
+.flashcard {
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  min-height: 400px;
+  backface-visibility: hidden;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-front {
+  z-index: 2;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-label {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--primary-red);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card-content {
+  font-size: 1.3em;
+  line-height: 1.8;
+  color: var(--gray-900);
+  margin-top: 30px;
+}
+
+.card-back .card-content {
+  font-size: 1.1em;
+}
+
+.your-answer {
+  background: rgba(249, 115, 22, 0.1);
+  border-left: 4px solid #f97316;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.your-answer strong {
+  color: #f97316;
+}
+
+.correct-answer {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid #22c55e;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.correct-answer strong {
+  color: #22c55e;
+}
+
+.explanation {
+  background: var(--light-red);
+  border-left: 4px solid var(--primary-red);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 1em;
+  line-height: 1.7;
+}
+
+.flip-hint {
+  text-align: center;
+  color: var(--gray-700);
+  font-size: 0.9em;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--primary-red);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.counter {
+  text-align: center;
+  color: var(--white);
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.export-options {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.export-options button {
+  margin: 0 10px;
+}
+
+.no-cards {
+  text-align: center;
+  color: var(--white);
+  padding: 60px 20px;
+}
+
+.no-cards h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.no-cards button {
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2em;
+  }
+  
+  .card-face {
+    min-height: 350px;
+    padding: 30px 25px;
+  }
+  
+  .card-content {
+    font-size: 1.1em;
+  }
+  
+  .controls {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flashcard-container {
+  animation: slideIn 0.5s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📚 Review Your Mistakes</h1>
+    <p>Click cards to flip • Learn from wrong answers</p>
+  </div>
+  
+  <div id="flashcardArea"></div>
+  
+  <div class="controls">
+    <button class="btn btn-secondary" onclick="prevCard()" id="prevBtn">
+      ← Previous
+    </button>
+    <button class="btn btn-primary" onclick="flipCard()">
+      🔄 Flip Card
+    </button>
+    <button class="btn btn-secondary" onclick="nextCard()" id="nextBtn">
+      Next →
+    </button>
+  </div>
+  
+  <div class="export-options">
+    <button class="btn btn-secondary" onclick="exportAnki()">
+      🎴 Export to Anki
+    </button>
+    <button class="btn btn-secondary" onclick="exportPDF()">
+      📄 Export to PDF
+    </button>
+  </div>
+</div>
+
+<script>
+let wrongAnswers = [];
+let currentCard = 0;
+let isFlipped = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const data = sessionStorage.getItem('wrongAnswers');
+  
+  if (!data) {
+    showNoCards();
+    return;
+  }
+  
+  try {
+    wrongAnswers = JSON.parse(data);
+    
+    if (wrongAnswers.length === 0) {
+      showNoCards();
+      return;
+    }
+    
+    renderCard();
+  } catch (e) {
+    console.error('Error loading data:', e);
+    showNoCards();
+  }
+});
+
+function showNoCards() {
+  document.getElementById('flashcardArea').innerHTML = `
+    <div class="no-cards">
+      <h2>🎉 No mistakes to review!</h2>
+      <p>Either you got a perfect score, or there's no data available.</p>
+      <button class="btn btn-primary" onclick="window.close()">
+        Close Window
+      </button>
+    </div>
+  `;
+  document.querySelector('.controls').style.display = 'none';
+  document.querySelector('.export-options').style.display = 'none';
+}
+
+function renderCard() {
+  const card = wrongAnswers[currentCard];
+  
+  const html = `
+    <div class="counter">
+      Card ${currentCard + 1} of ${wrongAnswers.length}
+    </div>
+    
+    <div class="flashcard-container">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <div class="card-label">Question</div>
+          <div class="card-content">
+            ${escapeHtml(card.question)}
+          </div>
+          <div class="flip-hint">Click to see answer</div>
+        </div>
+        
+        <div class="card-face card-back">
+          <div class="card-label">Answer</div>
+          <div class="card-content">
+            <div class="your-answer">
+              <strong>Your Answer:</strong><br>
+              ${escapeHtml(card.yourAnswer)}
+            </div>
+            
+            <div class="correct-answer">
+              <strong>Correct Answer:</strong><br>
+              ${escapeHtml(card.correctAnswer)}
+            </div>
+            
+            <div class="explanation">
+              <strong>Explanation:</strong><br>
+              ${escapeHtml(card.explanation)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('flashcardArea').innerHTML = html;
+  isFlipped = false;
+  
+  document.getElementById('prevBtn').disabled = currentCard === 0;
+  document.getElementById('nextBtn').disabled = currentCard === wrongAnswers.length - 1;
+}
+
+function flipCard() {
+  const card = document.getElementById('flashcard');
+  if (card) {
+    card.classList.toggle('flipped');
+    isFlipped = !isFlipped;
+  }
+}
+
+function nextCard() {
+  if (currentCard < wrongAnswers.length - 1) {
+    currentCard++;
+    renderCard();
+  }
+}
+
+function prevCard() {
+  if (currentCard > 0) {
+    currentCard--;
+    renderCard();
+  }
+}
+
+function exportAnki() {
+  let ankiText = '';
+  
+  wrongAnswers.forEach(card => {
+    const front = card.question;
+    const back = `<strong>Your Answer:</strong> ${card.yourAnswer}<br><br>` +
+                 `<strong>Correct Answer:</strong> ${card.correctAnswer}<br><br>` +
+                 `<strong>Explanation:</strong> ${card.explanation}`;
+    
+    ankiText += `"${front.replace(/"/g, '""')}"\t"${back.replace(/"/g, '""')}"\n`;
+  });
+  
+  const blob = new Blob([ankiText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `wrong_answers_flashcards_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  alert('Anki deck exported! Import into Anki using "Fields separated by: Tab"');
+}
+
+function exportPDF() {
+  window.print();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') prevCard();
+  if (e.key === 'ArrowRight') nextCard();
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    flipCard();
+  }
+});
+</script>
+</body>
+</html>

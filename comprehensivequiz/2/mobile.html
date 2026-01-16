@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>1.3 Aquatic Biomes - Mobile</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --primary-red: #dc2626;
+  --dark-red: #991b1b;
+  --light-red: #fee2e2;
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --green: #22c55e;
+  --orange: #f97316;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  line-height: 1.6;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+/* Welcome Screen */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 10000;
+}
+
+.welcome-screen.hidden { display: none; }
+
+.welcome-header {
+  text-align: center;
+  padding: 30px 0;
+  color: var(--white);
+}
+
+.logo { width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 16px; }
+
+.welcome-header h1 {
+  font-size: 1.8em;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.welcome-content {
+  background: var(--white);
+  border-radius: 24px 24px 0 0;
+  padding: 30px 20px;
+  flex: 1;
+  margin-top: 20px;
+}
+
+.quiz-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.stat-box {
+  background: var(--light-red);
+  padding: 15px 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-box .icon { font-size: 2em; margin-bottom: 5px; }
+.stat-box .label { font-size: 0.85em; color: var(--gray-600); font-weight: 600; }
+.stat-box .value { font-size: 1.3em; font-weight: 700; color: var(--primary-red); }
+
+.form-section {
+  margin: 25px 0;
+}
+
+.form-section label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--gray-900);
+}
+
+.form-section input,
+.form-section select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--gray-300);
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.form-section input:focus,
+.form-section select:focus {
+  outline: none;
+  border-color: var(--primary-red);
+}
+
+.switch-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: var(--gray-50);
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.switch-group label { font-weight: 600; margin: 0; }
+
+.switch {
+  position: relative;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input { display: none; }
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gray-300);
+  border-radius: 28px;
+  transition: 0.3s;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .switch-slider { background: var(--primary-red); }
+.switch input:checked + .switch-slider:before { transform: translateX(22px); }
+
+.btn {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--primary-red);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Quiz Container */
+.quiz-container {
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.quiz-container.active { display: flex; }
+
+/* Top Bar */
+.top-bar {
+  background: var(--primary-red);
+  color: var(--white);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.top-bar-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.timer-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  min-width: 65px;
+  text-align: center;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  padding: 15px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 15px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95em;
+}
+
+.nav-btn-prev {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.nav-btn-submit {
+  background: var(--primary-red);
+  color: var(--white);
+  grid-column: 2;
+}
+
+.nav-btn-next {
+  background: var(--primary-red);
+  color: var(--white);
+  grid-column: 3;
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Progress Bar */
+.progress-container {
+  background: var(--white);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.progress-bar-outer {
+  height: 8px;
+  background: var(--gray-200);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
+  transition: width 0.5s ease;
+  border-radius: 8px;
+}
+
+.progress-text {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+
+/* Question Area */
+.question-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.question-header {
+  margin-bottom: 20px;
+}
+
+.question-number {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--primary-red);
+  margin-bottom: 8px;
+}
+
+.question-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-difficulty { background: var(--light-red); color: var(--primary-red); }
+.badge-topic { background: var(--gray-100); color: var(--gray-700); }
+
+.question-text {
+  font-size: 1.15em;
+  line-height: 1.7;
+  margin: 20px 0;
+  color: var(--gray-900);
+  font-weight: 500;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.option {
+  padding: 18px;
+  background: var(--white);
+  border: 3px solid var(--gray-300);
+  border-radius: 12px;
+  font-size: 1.05em;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  touch-action: manipulation;
+}
+
+.option:active {
+  transform: scale(0.98);
+}
+
+.option.selected {
+  border-color: var(--primary-red);
+  background: var(--light-red);
+  font-weight: 600;
+}
+
+.option.correct {
+  border-color: var(--green);
+  background: rgba(34, 197, 94, 0.1);
+  font-weight: 600;
+}
+
+.option.wrong {
+  border-color: var(--orange);
+  background: rgba(249, 115, 22, 0.1);
+  font-weight: 600;
+}
+
+.option-indicator {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option.correct .option-indicator { opacity: 1; color: var(--green); }
+.option.wrong .option-indicator { opacity: 1; color: var(--orange); }
+
+.explanation-box {
+  background: var(--light-red);
+  border-left: 4px solid var(--primary-red);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  display: none;
+}
+
+.explanation-box.show { display: block; animation: fadeIn 0.3s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.explanation-box h4 {
+  color: var(--primary-red);
+  margin-bottom: 10px;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+.explanation-box p {
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+
+/* Side Menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  max-width: 350px;
+  height: 100%;
+  background: var(--white);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s ease;
+  z-index: 200;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.side-menu.open { left: 0; }
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.menu-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.menu-header {
+  background: var(--primary-red);
+  color: var(--white);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+}
+
+.menu-close {
+  float: right;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.menu-header h3 {
+  margin-top: 10px;
+  font-size: 1.3em;
+}
+
+.menu-content {
+  padding: 20px;
+}
+
+.menu-section {
+  margin-bottom: 25px;
+}
+
+.menu-section h4 {
+  color: var(--gray-700);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.student-info {
+  background: var(--gray-50);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.student-info .name {
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.student-info .mode {
+  color: var(--gray-600);
+  font-size: 0.9em;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.grid-btn {
+  aspect-ratio: 1;
+  border: 2px solid var(--gray-300);
+  background: var(--white);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-btn:active { transform: scale(0.9); }
+.grid-btn.current { background: var(--primary-red); color: var(--white); border-color: var(--primary-red); }
+.grid-btn.answered { background: var(--green); color: var(--white); border-color: var(--green); }
+.grid-btn.answered.incorrect { background: var(--orange); border-color: var(--orange); }
+.grid-btn.visited { border-color: var(--primary-red); border-width: 3px; }
+
+.menu-submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary-red);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05em;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Results */
+.results-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.results-screen.show { display: flex; }
+
+.results-icon {
+  font-size: 5em;
+  margin-bottom: 20px;
+}
+
+.results-screen h2 {
+  font-size: 2em;
+  color: var(--primary-red);
+  margin-bottom: 20px;
+}
+
+.score-display {
+  width: 180px;
+  height: 180px;
+  border: 8px solid var(--primary-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px auto;
+  font-size: 3em;
+  font-weight: 700;
+  color: var(--primary-red);
+  background: var(--light-red);
+}
+
+.results-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  width: 100%;
+  max-width: 350px;
+  margin: 30px auto;
+}
+
+.result-box {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-box .label {
+  color: var(--gray-600);
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.result-box .value {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--primary-red);
+}
+
+.results-message {
+  font-size: 1.1em;
+  color: var(--gray-700);
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.results-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 350px;
+  margin-top: 30px;
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-header">
+    <img src="{{LOGO_URL}}" alt="Logo" class="logo" id="logo">
+    <h1>1.3 Aquatic Biomes</h1>
+    <p>AP Environmental Science</p>
+  </div>
+  
+  <div class="welcome-content">
+    <div class="quiz-stats">
+      <div class="stat-box">
+        <div class="icon">📝</div>
+        <div class="label">Questions</div>
+        <div class="value">{{TOTAL_QUESTIONS}}</div>
+      </div>
+      <div class="stat-box">
+        <div class="icon">⏱️</div>
+        <div class="label">Mode</div>
+        <div class="value" id="modeDisplay">Practice</div>
+      </div>
+      <div class="stat-box">
+        <div class="icon">📱</div>
+        <div class="label">Mobile</div>
+        <div class="value">✓</div>
+      </div>
+    </div>
+    
+    <form id="startForm">
+      <div class="form-section">
+        <label for="studentName">Your Name</label>
+        <input 
+          type="text" 
+          id="studentName" 
+          placeholder="Enter your name"
+          required
+          autocomplete="name"
+        >
+      </div>
+      
+      <div class="form-section">
+        <label for="quizMode">Quiz Mode</label>
+        <select id="quizMode" onchange="updateModeDisplay()">
+          <option value="practice">Practice (with answers)</option>
+          <option value="mock">Mock Exam (timed)</option>
+        </select>
+      </div>
+      
+      <div class="switch-group">
+        <label for="showTimer">Show Timer</label>
+        <div class="switch">
+          <input type="checkbox" id="showTimer" checked>
+          <span class="switch-slider"></span>
+        </div>
+      </div>
+      
+      <div class="switch-group">
+        <label for="shuffleQuestions">Shuffle Questions</label>
+        <div class="switch">
+          <input type="checkbox" id="shuffleQuestions">
+          <span class="switch-slider"></span>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">
+        Start Quiz
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="quiz-container" id="quizContainer">
+  <div class="top-bar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <div class="top-bar-title" id="questionCounter">Q1/{{TOTAL_QUESTIONS}}</div>
+    <div class="timer-badge" id="timerDisplay">0:00</div>
+  </div>
+  
+  <div class="progress-container">
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">0/{{TOTAL_QUESTIONS}} answered</div>
+  </div>
+  
+  <div class="question-container" id="questionArea"></div>
+  
+  <div class="bottom-nav">
+    <button class="nav-btn nav-btn-prev" id="prevBtn" onclick="prevQuestion()">← Prev</button>
+    <button class="nav-btn nav-btn-submit hidden" id="submitBtn" onclick="submitQuiz()">Submit</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="nextQuestion()">Next →</button>
+  </div>
+  
+  <div class="results-screen" id="resultsScreen">
+    <div class="results-icon">🎉</div>
+    <h2>Quiz Complete!</h2>
+    <div class="score-display" id="scoreDisplay">0%</div>
+    
+    <div class="results-stats">
+      <div class="result-box">
+        <div class="label">Correct</div>
+        <div class="value" style="color: var(--green);" id="correctCount">0</div>
+      </div>
+      <div class="result-box">
+        <div class="label">Incorrect</div>
+        <div class="value" style="color: var(--orange);" id="incorrectCount">0</div>
+      </div>
+      <div class="result-box">
+        <div class="label">Total</div>
+        <div class="value" id="totalCount">0</div>
+      </div>
+      <div class="result-box">
+        <div class="label">Time</div>
+        <div class="value" id="finalTime">0:00</div>
+      </div>
+    </div>
+    
+    <p class="results-message" id="resultsMessage"></p>
+    
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="downloadResults()">📥 Download Results</button>
+      <button class="btn btn-primary" onclick="viewWrongAnswers()">📚 Review Mistakes</button>
+      <button class="btn btn-primary" onclick="location.reload()">🔄 Retake Quiz</button>
+    </div>
+  </div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<div class="side-menu" id="sideMenu">
+  <div class="menu-header">
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+    <h3>Quiz Menu</h3>
+  </div>
+  
+  <div class="menu-content">
+    <div class="student-info">
+      <div class="name" id="studentDisplay"></div>
+      <div class="mode" id="modeInfoDisplay"></div>
+    </div>
+    
+    <div class="menu-section">
+      <h4>Question Navigator</h4>
+      <div class="question-grid" id="questionGrid"></div>
+    </div>
+    
+    <button class="menu-submit-btn" onclick="submitQuiz()">
+      Submit Quiz
+    </button>
+  </div>
+</div>
+
+<script>
+const QUIZ_DATA = {"unit": "1.3 Aquatic Biomes", "description": "Advanced assessment of freshwater and marine ecosystems, examining salinity gradients, productivity factors, and ecological zonation with emphasis on critical thinking and data interpretation", "company_name": "AP Environmental Science", "logo_url": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230077be'/%3E%3Cpath d='M30,60 Q40,50 50,55 T70,50' stroke='white' fill='none' stroke-width='3'/%3E%3Cpath d='M30,70 Q40,60 50,65 T70,60' stroke='white' fill='none' stroke-width='3'/%3E%3Ctext x='50' y='35' font-size='16' fill='white' text-anchor='middle' font-weight='bold'%3EAPES%3C/text%3E%3C/svg%3E", "questions": [{"id": 1, "question": "A research team measures dissolved oxygen (DO) levels at various depths in a stratified lake during summer. At 2m depth, DO is 9 mg/L; at 10m depth (thermocline), DO is 6 mg/L; at 20m depth (hypolimnion), DO is 2 mg/L. Which statement best explains this oxygen gradient?", "options": ["Deeper waters are colder and hold more dissolved oxygen due to increased solubility", "Photosynthetic activity decreases with depth due to light attenuation, while decomposition continues throughout, depleting oxygen in deeper layers", "Warmer surface waters hold less oxygen, causing it to sink to cooler depths", "The thermocline acts as a physical barrier that prevents oxygen diffusion to deeper waters only"], "answer": 1, "explanation": "Light penetration decreases exponentially with depth (turbidity), limiting photosynthesis in deeper zones. Meanwhile, decomposition of organic matter settling from above continues throughout the water column, consuming oxygen. The thermocline also prevents mixing, trapping oxygen-depleted water below. While cold water can hold more oxygen, decomposition demand exceeds this advantage in the hypolimnion.", "difficulty": "Hard", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["dissolved oxygen", "stratification", "photosynthesis", "decomposition", "thermocline"], "reference": "Unit 1.3.1 - Lake Zonation and DO Dynamics"}, {"id": 2, "question": "An estuary exhibits salinity measurements of 5 ppt near the river mouth, 15 ppt in the middle section, and 25 ppt near the ocean inlet. Which ecological characteristic would you predict for organisms in the middle section?", "options": ["Low species diversity with primarily freshwater specialists due to osmotic stress", "High species diversity with both freshwater and marine species coexisting easily", "Moderate species diversity dominated by euryhaline species adapted to salinity fluctuations", "High species diversity with equal representation of stenohaline freshwater and marine species"], "answer": 2, "explanation": "Estuarine middle zones (brackish water) experience variable salinity due to tidal cycles and freshwater input. Only euryhaline species (those tolerant of wide salinity ranges) can survive these osmotic challenges. Stenohaline species (narrow tolerance) from either freshwater or marine environments cannot adapt to these fluctuations. While estuaries overall are productive, the mixing zone has moderate diversity of specialized adaptable species.", "difficulty": "Hard", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["estuaries", "salinity", "euryhaline", "ecological tolerance", "brackish water"], "reference": "Unit 1.3.2 - Estuarine Ecology"}, {"id": 3, "question": "A coral reef ecosystem experiences a sudden decrease in turbidity following a decrease in river runoff during a drought. Paradoxically, coral health declines despite increased light penetration. What is the most likely explanation?", "options": ["Increased light causes photoinhibition, damaging coral zooxanthellae", "Decreased river runoff reduces nutrient input, limiting primary productivity and food web support", "Higher light intensity increases water temperature, causing thermal stress and bleaching", "Clearer water allows more UV radiation, damaging coral tissue directly"], "answer": 1, "explanation": "Coral reefs exist in oligotrophic (nutrient-poor) waters but depend on some nutrient input. River runoff, while increasing turbidity, provides essential nutrients (nitrogen, phosphorus) that support plankton populations, which feed reef organisms. During drought, reduced runoff means less nutrient delivery, potentially limiting the food web despite improved light conditions. This demonstrates the complex balance in reef ecosystems between light availability and nutrient limitation.", "difficulty": "Hard", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["coral reefs", "turbidity", "nutrients", "oligotrophic", "food webs"], "reference": "Unit 1.3.2 - Coral Reef Nutrient Dynamics"}, {"id": 4, "question": "Scientists studying two lakes of equal surface area find Lake A (temperate) has NPP of 400 g C/m\u00b2/yr while Lake B (tropical) has NPP of 800 g C/m\u00b2/yr. Both lakes have similar nutrient levels. What factor most likely explains this productivity difference?", "options": ["Tropical lakes have higher light intensity year-round, extending the growing season", "Temperate lakes experience thermal stratification that limits nutrient mixing", "Tropical lakes have higher biodiversity, which increases photosynthetic efficiency", "Temperate lakes have longer daylight hours during summer, compensating for winter"], "answer": 0, "explanation": "Temperature and light availability are primary drivers of productivity when nutrients are not limiting. Tropical lakes receive consistent high solar radiation year-round, maintaining warm temperatures and continuous photosynthesis. Temperate lakes experience seasonal variation with reduced light and cold temperatures in winter, halting or severely limiting productivity for months. While stratification affects both lake types, the key difference is the extended growing season in tropical regions.", "difficulty": "Medium", "topic": "Freshwater vs Marine Productivity", "subunit": "1.3 Aquatic Biomes", "tags": ["NPP", "productivity", "temperature", "light limitation", "growing season"], "reference": "Unit 1.3.4 - Comparative Aquatic Productivity"}, {"id": 5, "question": "A wetland system transitions from open water to emergent vegetation to shrubs to forest over a 50-year period. This succession is driven primarily by what mechanism?", "options": ["Climate change causing decreased precipitation and water levels", "Sediment accumulation and organic matter buildup raising the substrate elevation", "Invasive species outcompeting native aquatic plants", "Eutrophication increasing algal blooms and oxygen depletion"], "answer": 1, "explanation": "Wetland succession (hydrosere) occurs naturally as sediment carried by water settles and organic matter from dying plants accumulates over time. This gradually raises the soil elevation, making conditions less aquatic and more terrestrial. As water becomes shallower, emergent plants colonize, then shrubs, eventually forest if the succession continues. This is a natural process driven by sediment deposition and organic accumulation, not necessarily climate change or pollution.", "difficulty": "Medium", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["wetlands", "succession", "hydrosere", "sediment", "ecological change"], "reference": "Unit 1.3.1 - Wetland Succession"}, {"id": 6, "question": "In comparing the aphotic zone of a lake versus the aphotic zone of the ocean, which statement is most accurate regarding their respective depths and ecological characteristics?", "options": ["Both zones begin at the same absolute depth and have similar species composition", "The ocean's aphotic zone begins much deeper due to lower turbidity and supports a food web based entirely on chemosynthesis", "The lake's aphotic zone begins at shallower depth due to higher turbidity and relies completely on detritus from above, while the ocean's aphotic zone begins deeper but also depends primarily on detritus supplemented by some chemosynthetic production", "The ocean's aphotic zone is more productive than the lake's due to higher pressure increasing nutrient availability"], "answer": 2, "explanation": "Turbidity (suspended particles) determines light penetration depth. Lakes typically have higher turbidity from runoff, algae, and sediment, so the aphotic zone may begin at 10-20m. Oceans have clearer water, with the aphotic zone typically beginning at 200m depth. Both aphotic zones are heterotrophic (depending on organic matter from above), though deep-sea hydrothermal vents support localized chemosynthetic communities. The key difference is depth of light penetration, not productivity or nutrient mechanisms.", "difficulty": "Hard", "topic": "Freshwater vs Marine Productivity", "subunit": "1.3 Aquatic Biomes", "tags": ["aphotic zone", "turbidity", "light penetration", "heterotrophs", "chemosynthesis"], "reference": "Unit 1.3.3 - Aphotic Zone Comparison"}, {"id": 7, "question": "A river system flows from mountains (high elevation, cold, turbulent) to plains (low elevation, warm, slow-moving). A pollution event kills fish in the plains section but not the mountain section, despite equal pollutant concentration. What physical factor most likely explains this difference?", "options": ["Higher water velocity in mountains dilutes the pollutant more effectively", "Mountain fish have evolved higher pollution tolerance due to natural mineral content", "Cold, turbulent mountain water holds more dissolved oxygen, helping fish metabolize and survive pollution stress", "Lower water temperature in mountains slows fish metabolism, reducing pollutant uptake"], "answer": 2, "explanation": "Cold water holds more dissolved oxygen than warm water (Henry's Law), and turbulent flow increases aeration. Mountain streams are cold and highly oxygenated, providing fish with more oxygen to maintain aerobic metabolism despite pollution stress. Plains rivers are warmer (less dissolved oxygen) and slower (less aeration). Many pollutants increase biochemical oxygen demand (BOD) or directly impair gill function. Fish in oxygen-rich environments have a better chance of survival when challenged by toxins.", "difficulty": "Hard", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["dissolved oxygen", "temperature", "pollution", "BOD", "river ecology"], "reference": "Unit 1.3.1 - Stream Oxygen Dynamics"}, {"id": 8, "question": "Open ocean (pelagic) productivity averages 125 g C/m\u00b2/yr while coastal upwelling zones average 500 g C/m\u00b2/yr. What best explains this four-fold productivity difference despite both receiving similar sunlight?", "options": ["Upwelling zones have warmer water temperatures that accelerate photosynthesis", "Upwelling brings nutrient-rich deep water to the surface, alleviating nutrient limitation in the photic zone", "Coastal areas have higher CO\u2082 concentrations from terrestrial sources", "Open ocean has higher salinity that inhibits phytoplankton growth"], "answer": 1, "explanation": "Open ocean waters are typically oligotrophic\u2014nutrient-poor despite abundant sunlight. Dead organic matter sinks to deep waters, sequestering nutrients. Upwelling zones occur where wind patterns and Coriolis effect bring deep, cold, nutrient-rich water (high in nitrates and phosphates) to the surface. This delivers the limiting nutrients to the photic zone where sunlight is available, dramatically increasing phytoplankton productivity. This principle explains why coastal waters and upwelling zones are among Earth's most productive marine ecosystems.", "difficulty": "Medium", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["upwelling", "nutrients", "productivity", "oligotrophic", "phytoplankton"], "reference": "Unit 1.3.2 - Upwelling Zones"}, {"id": 9, "question": "Which freshwater ecosystem characteristic would most strongly predict high biodiversity and productivity?", "options": ["Deep water with minimal light penetration to the bottom", "High flow rate causing constant sediment resuspension", "Shallow depth with complex structural habitat (vegetation, woody debris) and moderate nutrient levels", "Very high nutrient levels from agricultural runoff"], "answer": 2, "explanation": "Biodiversity and productivity are maximized when multiple factors align: (1) sufficient light reaching the substrate allows rooted plants and periphyton; (2) structural complexity provides diverse niches and refuges; (3) moderate nutrients support growth without causing eutrophication. Deep/dark systems limit primary producers to phytoplankton. High flow prevents plant establishment. Excessive nutrients cause algal blooms, oxygen depletion, and reduced diversity. Shallow, structured, moderately fertile systems like healthy wetlands and stream margins support the highest biodiversity.", "difficulty": "Medium", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["biodiversity", "habitat complexity", "nutrients", "productivity", "light"], "reference": "Unit 1.3.1 - Factors Promoting Freshwater Diversity"}, {"id": 10, "question": "A mangrove forest ecosystem is characterized by trees with prop roots in intertidal saltwater. Which ecosystem service is LEAST directly provided by mangroves?", "options": ["Nursery habitat for juvenile fish and invertebrates", "Coastal storm surge protection and erosion control", "Carbon sequestration through biomass accumulation", "Nutrient upwelling from deep ocean waters"], "answer": 3, "explanation": "Mangroves provide critical ecosystem services: their complex root systems offer shelter for young fish and invertebrates (nursery habitat), their dense vegetation absorbs wave energy reducing storm damage and stabilizing coastlines, and they sequester significant carbon in biomass and sediments. However, upwelling is an oceanographic process caused by wind-driven currents bringing deep water to the surface\u2014this occurs in open ocean or coastal areas and is not a function of mangrove forests, which exist in protected intertidal zones.", "difficulty": "Medium", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["mangroves", "ecosystem services", "coastal protection", "nursery habitat"], "reference": "Unit 1.3.2 - Mangrove Ecology"}, {"id": 11, "question": "Scientists observe that a lake's epilimnion (surface layer) has 8 mg/L DO, while the hypolimnion (bottom layer) has 1 mg/L DO during summer stratification. What will most likely occur during fall turnover?", "options": ["The entire lake will reach 1 mg/L DO, causing widespread fish kills", "The thermocline will strengthen, preventing any mixing of layers", "Surface cooling will increase water density, causing mixing that distributes oxygen throughout the water column while also redistributing nutrients from the bottom", "Only the epilimnion will mix, leaving the hypolimnion unchanged"], "answer": 2, "explanation": "Fall turnover occurs when surface waters cool to the same temperature as deeper waters (typically around 4\u00b0C, water's maximum density). This eliminates density stratification, allowing wind to mix the entire water column. Oxygen from the surface gets distributed to deeper waters, while nutrients that accumulated in the hypolimnion get brought to the surface. This mixing is crucial for lake health\u2014reoxygenating deep waters and fertilizing surface waters for the next growing season. This is why fall turnover is a critical ecological event.", "difficulty": "Medium", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["turnover", "stratification", "dissolved oxygen", "nutrients", "mixing"], "reference": "Unit 1.3.1 - Lake Turnover Dynamics"}, {"id": 12, "question": "An environmental study compares primary productivity in a salt marsh versus a freshwater marsh of equal size. Both receive similar sunlight and have abundant vegetation. What nutrient-related factor would most likely limit productivity differently between these systems?", "options": ["Salt marshes are limited by carbon dioxide availability due to higher pH", "Freshwater marshes are more likely to be phosphorus-limited, while salt marshes are more likely to be nitrogen-limited", "Both systems are equally limited by the same nutrients due to similar vegetation", "Salt marshes have no nutrient limitations due to constant ocean water input"], "answer": 1, "explanation": "Freshwater systems are typically phosphorus-limited because phosphorus binds to soil particles and doesn't have a gaseous phase for atmospheric input. Nitrogen is more available through atmospheric deposition and nitrogen fixation. Marine and salt marsh systems are typically nitrogen-limited because while phosphorus is available from ocean water and sediments, nitrogen is the limiting factor. This fundamental difference in nutrient limitation patterns affects ecosystem management and responses to pollution.", "difficulty": "Hard", "topic": "Freshwater vs Marine Productivity", "subunit": "1.3 Aquatic Biomes", "tags": ["nutrients", "limiting factors", "marshes", "nitrogen", "phosphorus"], "reference": "Unit 1.3.3 - Nutrient Limitation Patterns"}, {"id": 13, "question": "In a stream ecosystem, the littoral zone (near shore with rooted plants) has higher invertebrate diversity than the open water zone. What ecological principle best explains this pattern?", "options": ["The littoral zone has more dissolved oxygen due to photosynthesis", "Greater structural complexity in the littoral zone provides more niches and microhabitats", "The open water zone is too deep for invertebrates to survive", "Higher salinity in the littoral zone supports more species"], "answer": 1, "explanation": "The principle of habitat heterogeneity states that structural complexity increases niche diversity. The littoral zone has rooted plants, submerged vegetation, algae on surfaces, varied substrate, and varied flow conditions\u2014creating numerous microhabitats for different invertebrate species (grazers, shredders, filter feeders, predators). The open water zone is more homogeneous, supporting fewer specialized niches. This principle applies broadly: complex habitats support higher biodiversity than simple ones.", "difficulty": "Medium", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["habitat complexity", "biodiversity", "niches", "littoral zone", "stream ecology"], "reference": "Unit 1.3.1 - Stream Zonation and Diversity"}, {"id": 14, "question": "A dam is built on a river, creating a reservoir. Over 20 years, the downstream river section shows decreased sediment load, increased water clarity, and declining fish populations. What cascade effect best explains the fish decline?", "options": ["Increased clarity allows more predation on fish by birds", "The dam blocks fish migration routes, preventing spawning", "Reduced sediment means less nutrient transport, decreasing algal productivity and collapsing the food web base that fish depend on", "Clearer water has higher oxygen levels that exceed fish tolerance ranges"], "answer": 2, "explanation": "While dams do block migration (a major impact), this question focuses on the sediment-clarity-productivity connection. Rivers naturally carry sediments that contain adsorbed nutrients (especially phosphorus). When dams trap sediment, downstream reaches receive clearer but nutrient-depleted water. This reduces primary productivity (algae and periphyton), which forms the base of the aquatic food web. Fewer primary producers mean fewer invertebrates, which means less food for fish. This demonstrates how physical changes (sediment trapping) cascade through trophic levels.", "difficulty": "Hard", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["dams", "sediment", "nutrients", "food webs", "cascade effects"], "reference": "Unit 1.3.1 - Dam Impacts on River Ecosystems"}, {"id": 15, "question": "Researchers measure phytoplankton productivity at various ocean depths: at 5m (high), at 50m (moderate), at 100m (low), and at 150m (near zero). Which TWO factors together best explain this productivity profile?", "options": ["Light availability decreases with depth, and nutrient availability increases with depth, creating a productivity squeeze in the middle photic zone", "Temperature decreases with depth reducing metabolic rates, and pressure increases with depth inhibiting photosynthesis", "Light intensity is optimal at moderate depths, and turbidity filters harmful UV at the surface", "Salinity increases with depth inhibiting phytoplankton, and dissolved oxygen decreases with depth"], "answer": 0, "explanation": "This describes the classic paradox of marine productivity. Phytoplankton need both light (for photosynthesis) and nutrients (nitrogen, phosphorus, iron). Light is abundant at the surface but decreases exponentially with depth. Nutrients are typically depleted at the surface (consumed by organisms, then sink) but abundant in deeper waters. Maximum productivity often occurs at intermediate depths where both resources are available. At 150m, light is insufficient despite nutrients. This explains why deep chlorophyll maxima occur in stratified oceans.", "difficulty": "Hard", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["phytoplankton", "light limitation", "nutrient limitation", "depth profile", "productivity"], "reference": "Unit 1.3.3 - Vertical Productivity Gradients"}, {"id": 16, "question": "A wetland receives agricultural runoff high in nitrates. Initially, plant growth increases dramatically, but after several years, open water areas develop, plant diversity declines, and water quality deteriorates. What ecological succession pattern occurred?", "options": ["Primary succession from bare substrate to climax community", "Eutrophication-driven succession where nutrient overloading caused algal dominance, oxygen depletion, and degradation from a diverse marsh to a degraded system", "Normal hydrosere succession accelerated by nutrient input", "Secondary succession following natural disturbance"], "answer": 1, "explanation": "This describes cultural eutrophication\u2014human-caused nutrient enrichment. Initial fertilization increases growth, but excessive nutrients trigger a destructive cascade: algal blooms block light to submerged plants, algae die and decompose, decomposition consumes oxygen (hypoxia), fish and invertebrates die, only pollution-tolerant species survive. Instead of natural succession toward diverse stable communities, the system degrades toward a simplified, often unstable state dominated by algae and pollution-tolerant species. This is succession in the wrong direction\u2014degradation rather than development.", "difficulty": "Hard", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["eutrophication", "succession", "nutrients", "algal blooms", "degradation"], "reference": "Unit 1.3.1 - Cultural Eutrophication"}, {"id": 17, "question": "Seagrass beds have productivity rates of 500-1000 g C/m\u00b2/yr, among the highest of any ecosystem. What combination of factors enables this high productivity?", "options": ["Deep water habitat protected from storms and high biodiversity of consumers", "Shallow depth allowing light penetration to rooted plants, constant nutrient regeneration from sediments, warm temperatures, and efficient photosynthesis by marine angiosperms", "High salinity that provides essential minerals and cold water with high dissolved oxygen", "Protection from herbivores and low nutrient requirements"], "answer": 1, "explanation": "Seagrass beds thrive in shallow coastal waters (1-10m) where multiple productivity factors align: (1) sufficient light reaches the bottom for rooted plant photosynthesis, (2) seagrasses access nutrients directly from sediments through roots\u2014bypassing the typical marine nitrogen limitation of phytoplankton, (3) tropical/subtropical locations provide warm temperatures and year-round growing seasons, (4) as angiosperms (flowering plants), seagrasses have efficient C3 or C4 photosynthesis. This combination\u2014light, nutrients, temperature, and plant physiology\u2014creates one of Earth's most productive ecosystems.", "difficulty": "Medium", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["seagrass", "productivity", "nutrients", "light", "coastal ecosystems"], "reference": "Unit 1.3.2 - Seagrass Productivity"}, {"id": 18, "question": "A lake experiences thermal stratification during summer. Which layer (epilimnion, thermocline, or hypolimnion) would you predict to have the HIGHEST concentration of dissolved nutrients (nitrates and phosphates), and why?", "options": ["Epilimnion, because photosynthesis produces organic compounds that release nutrients", "Thermocline, because it's the transition zone with optimal conditions", "Hypolimnion, because dead organic matter and waste products sink and decompose there, releasing nutrients, but lack of mixing prevents nutrients from returning to surface", "All layers have equal nutrients due to constant mixing"], "answer": 2, "explanation": "During stratification, dead organisms, feces, and organic particles sink from the productive epilimnion into the hypolimnion where decomposers break them down, releasing nutrients back into solution. However, the thermocline acts as a barrier preventing vertical mixing, so these nutrients accumulate in the hypolimnion rather than being recycled to the surface where phytoplankton could use them. This is why the epilimnion becomes nutrient-depleted over summer (high demand, no resupply) while the hypolimnion becomes nutrient-rich but oxygen-poor. Fall turnover redistributes these nutrients.", "difficulty": "Hard", "topic": "Freshwater Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["nutrients", "stratification", "decomposition", "hypolimnion", "cycling"], "reference": "Unit 1.3.1 - Nutrient Dynamics in Stratified Lakes"}, {"id": 19, "question": "Two coastal bays of similar size are studied: Bay A has a narrow inlet and long residence time (water stays 30 days); Bay B has a wide inlet and short residence time (water stays 3 days). Agricultural runoff enters both. Which bay will likely experience more severe water quality problems?", "options": ["Bay B, because rapid water exchange prevents dilution", "Bay A, because long residence time allows pollutants to accumulate and algae to bloom before water is flushed out", "Both equally, as bay size determines impact, not residence time", "Neither, as bays naturally filter all pollutants"], "answer": 1, "explanation": "Residence time (or retention time) is critical for water quality. Long residence time means pollutants remain in the system longer, accumulating to higher concentrations. Bay A's water takes 30 days to exchange\u2014plenty of time for nutrients from runoff to stimulate massive algal blooms, which then die, decompose, and deplete oxygen. Bay B's rapid 3-day flushing constantly dilutes and exports pollutants and prevents algae from blooming. This principle explains why some bays (like Chesapeake Bay with long residence time) are more vulnerable to eutrophication than others.", "difficulty": "Hard", "topic": "Marine Ecosystems", "subunit": "1.3 Aquatic Biomes", "tags": ["residence time", "eutrophication", "water quality", "estuaries", "pollution"], "reference": "Unit 1.3.2 - Bay Residence Time and Water Quality"}, {"id": 20, "question": "In comparing freshwater and marine ecosystems, which statement most accurately describes productivity patterns and their causes?", "options": ["Marine ecosystems are always more productive because they cover more surface area", "Freshwater ecosystems have higher average productivity per unit area than open ocean because they receive more terrestrial nutrient input and have higher light penetration in shallow systems, but coastal marine ecosystems (estuaries, reefs, upwelling zones) can match or exceed freshwater productivity", "Marine ecosystems are more productive because salt water has more nutrients", "Freshwater and marine ecosystems have identical productivity rates when adjusted for latitude"], "answer": 1, "explanation": "This requires synthesizing multiple concepts: Open ocean is relatively unproductive (oligotrophic) despite covering vast area\u2014nutrients are limiting and light doesn't penetrate deep. Freshwater systems receive nutrient-rich runoff from land and many are shallow enough for light to reach bottom-dwelling plants, giving them high per-area productivity. However, coastal marine zones (estuaries with riverine nutrients, coral reefs with efficient nutrient recycling, upwelling zones with deep nutrient delivery) can have productivity rivaling or exceeding freshwater systems. The key factors are nutrient availability and light penetration, not simply fresh vs. salt water.", "difficulty": "Hard", "topic": "Freshwater vs Marine Productivity", "subunit": "1.3 Aquatic Biomes", "tags": ["productivity comparison", "nutrients", "coastal zones", "open ocean", "synthesis"], "reference": "Unit 1.3.4 - Comparative Aquatic Productivity Patterns"}]};
+const HINTS_DATA = null;
+
+class MobileQuizState {
+  constructor() {
+    this.studentName = '';
+    this.quizMode = 'practice';
+    this.showTimer = true;
+    this.currentQuestion = 0;
+    this.answers = new Array(QUIZ_DATA.questions.length).fill(null);
+    this.visited = new Set();
+    this.startTime = null;
+    this.timerInterval = null;
+  }
+  
+  save() {
+    const state = {
+      studentName: this.studentName,
+      quizMode: this.quizMode,
+      showTimer: this.showTimer,
+      currentQuestion: this.currentQuestion,
+      answers: this.answers,
+      visited: Array.from(this.visited),
+      startTime: this.startTime
+    };
+    
+    try {
+      if (window.storage) {
+        window.storage.set('mobile_quiz_state', JSON.stringify(state));
+      } else {
+        localStorage.setItem('mobile_quiz_state', JSON.stringify(state));
+      }
+    } catch (e) {
+      console.error('Save error:', e);
+    }
+  }
+  
+  load() {
+    try {
+      const result = window.storage ? 
+        window.storage.get('mobile_quiz_state') : 
+        localStorage.getItem('mobile_quiz_state');
+      
+      if (result) {
+        const state = JSON.parse(result.value || result);
+        Object.assign(this, state);
+        this.visited = new Set(state.visited);
+        return true;
+      }
+    } catch (e) {
+      console.error('Load error:', e);
+    }
+    return false;
+  }
+  
+  clear() {
+    try {
+      if (window.storage) {
+        window.storage.delete('mobile_quiz_state');
+      } else {
+        localStorage.removeItem('mobile_quiz_state');
+      }
+    } catch (e) {
+      console.error('Clear error:', e);
+    }
+  }
+}
+
+const state = new MobileQuizState();
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (state.load()) {
+    if (confirm('Resume previous quiz?')) {
+      resumeQuiz();
+    } else {
+      state.clear();
+    }
+  }
+  
+  document.getElementById('startForm').addEventListener('submit', startQuiz);
+});
+
+function updateModeDisplay() {
+  const mode = document.getElementById('quizMode').value;
+  document.getElementById('modeDisplay').textContent = 
+    mode === 'practice' ? 'Practice' : 'Mock';
+}
+
+function startQuiz(e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('studentName').value.trim();
+  if (!name || name.length < 2) {
+    alert('Please enter your name');
+    return;
+  }
+  
+  state.studentName = name;
+  state.quizMode = document.getElementById('quizMode').value;
+  state.showTimer = document.getElementById('showTimer').checked;
+  state.startTime = Date.now();
+  
+  if (document.getElementById('shuffleQuestions').checked) {
+    shuffleArray(QUIZ_DATA.questions);
+  }
+  
+  document.getElementById('welcomeScreen').classList.add('hidden');
+  document.getElementById('quizContainer').classList.add('active');
+  
+  initQuiz();
+  
+  if (state.showTimer) {
+    startTimer();
+  } else {
+    document.getElementById('timerDisplay').style.display = 'none';
+  }
+}
+
+function resumeQuiz() {
+  document.getElementById('welcomeScreen').classList.add('hidden');
+  document.getElementById('quizContainer').classList.add('active');
+  initQuiz();
+  if (state.showTimer) startTimer();
+}
+
+function initQuiz() {
+  document.getElementById('studentDisplay').textContent = state.studentName;
+  document.getElementById('modeInfoDisplay').textContent = 
+    state.quizMode === 'practice' ? '📚 Practice Mode' : '⏱️ Mock Exam';
+  
+  buildQuestionGrid();
+  renderQuestion();
+  updateProgress();
+}
+
+function buildQuestionGrid() {
+  const grid = document.getElementById('questionGrid');
+  grid.innerHTML = '';
+  
+  QUIZ_DATA.questions.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'grid-btn';
+    btn.textContent = i + 1;
+    btn.onclick = () => goToQuestion(i);
+    grid.appendChild(btn);
+  });
+}
+
+function renderQuestion() {
+  const q = QUIZ_DATA.questions[state.currentQuestion];
+  const answered = state.answers[state.currentQuestion] !== null;
+  
+  state.visited.add(state.currentQuestion);
+  
+  document.getElementById('questionCounter').textContent = 
+    `Q${state.currentQuestion + 1}/${QUIZ_DATA.questions.length}`;
+  
+  let html = `
+    <div class="question-header">
+      <div class="question-number">
+        Question ${state.currentQuestion + 1} of ${QUIZ_DATA.questions.length}
+      </div>
+      <div class="question-badges">
+        ${q.difficulty ? `<span class="badge badge-difficulty">${q.difficulty}</span>` : ''}
+        ${q.topic ? `<span class="badge badge-topic">${q.topic}</span>` : ''}
+      </div>
+    </div>
+    
+    <div class="question-text">${escapeHtml(q.question)}</div>
+    
+    <div class="options-container">
+  `;
+  
+  q.options.forEach((opt, i) => {
+    let classes = 'option';
+    if (answered) classes += ' disabled';
+    if (state.answers[state.currentQuestion] === i) classes += ' selected';
+    
+    if (answered && state.quizMode === 'practice') {
+      if (i === q.answer) classes += ' correct';
+      if (state.answers[state.currentQuestion] === i && i !== q.answer) classes += ' wrong';
+    }
+    
+    html += `
+      <div class="${classes}" onclick="selectAnswer(${i})">
+        ${escapeHtml(opt)}
+        ${answered && state.quizMode === 'practice' && i === q.answer ? 
+          '<span class="option-indicator">✓</span>' : ''}
+        ${answered && state.quizMode === 'practice' && 
+          state.answers[state.currentQuestion] === i && i !== q.answer ? 
+          '<span class="option-indicator">✗</span>' : ''}
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  
+  if (answered && state.quizMode === 'practice') {
+    html += `
+      <div class="explanation-box show">
+        <h4>Explanation</h4>
+        <p>${escapeHtml(q.explanation)}</p>
+      </div>
+    `;
+  }
+  
+  document.getElementById('questionArea').innerHTML = html;
+  
+  document.getElementById('prevBtn').disabled = state.currentQuestion === 0;
+  
+  if (state.currentQuestion === QUIZ_DATA.questions.length - 1) {
+    document.getElementById('nextBtn').classList.add('hidden');
+    document.getElementById('submitBtn').classList.remove('hidden');
+  } else {
+    document.getElementById('nextBtn').classList.remove('hidden');
+    document.getElementById('submitBtn').classList.add('hidden');
+  }
+  
+  updateQuestionGrid();
+  state.save();
+  
+  document.getElementById('questionArea').scrollTop = 0;
+}
+
+function selectAnswer(index) {
+  if (state.answers[state.currentQuestion] !== null) return;
+  
+  state.answers[state.currentQuestion] = index;
+  renderQuestion();
+  updateProgress();
+}
+
+function nextQuestion() {
+  if (state.currentQuestion < QUIZ_DATA.questions.length - 1) {
+    state.currentQuestion++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function goToQuestion(index) {
+  state.currentQuestion = index;
+  renderQuestion();
+  toggleMenu();
+}
+
+function updateQuestionGrid() {
+  const buttons = document.querySelectorAll('.grid-btn');
+  
+  buttons.forEach((btn, i) => {
+    btn.className = 'grid-btn';
+    
+    if (i === state.currentQuestion) {
+      btn.classList.add('current');
+    }
+    
+    if (state.answers[i] !== null) {
+      btn.classList.add('answered');
+      
+      const q = QUIZ_DATA.questions[i];
+      if (state.answers[i] !== q.answer) {
+        btn.classList.add('incorrect');
+      }
+    }
+    
+    if (state.visited.has(i) && state.answers[i] === null) {
+      btn.classList.add('visited');
+    }
+  });
+}
+
+function updateProgress() {
+  const answered = state.answers.filter(a => a !== null).length;
+  const percent = (answered / QUIZ_DATA.questions.length) * 100;
+  
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressText').textContent = 
+    `${answered}/${QUIZ_DATA.questions.length} answered`;
+}
+
+function startTimer() {
+  state.timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    document.getElementById('timerDisplay').textContent = 
+      `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }, 1000);
+}
+
+function toggleMenu() {
+  document.getElementById('sideMenu').classList.toggle('open');
+  document.getElementById('menuOverlay').classList.toggle('show');
+}
+
+function submitQuiz() {
+  const unanswered = state.answers.filter(a => a === null).length;
+  
+  if (unanswered > 0) {
+    if (!confirm(`You have ${unanswered} unanswered questions. Submit anyway?`)) {
+      return;
+    }
+  }
+  
+  showResults();
+}
+
+function showResults() {
+  if (state.timerInterval) {
+    clearInterval(state.timerInterval);
+  }
+  
+  const correct = state.answers.filter((a, i) => 
+    a === QUIZ_DATA.questions[i].answer
+  ).length;
+  const incorrect = QUIZ_DATA.questions.length - correct;
+  const percent = Math.round((correct / QUIZ_DATA.questions.length) * 100);
+  
+  const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+  const timeStr = `${Math.floor(elapsed / 60)}:${(elapsed % 60).toString().padStart(2, '0')}`;
+  
+  document.getElementById('questionArea').style.display = 'none';
+  document.querySelector('.bottom-nav').style.display = 'none';
+  document.querySelector('.progress-container').style.display = 'none';
+  
+  const resultsScreen = document.getElementById('resultsScreen');
+  resultsScreen.classList.add('show');
+  
+  document.getElementById('scoreDisplay').textContent = percent + '%';
+  document.getElementById('correctCount').textContent = correct;
+  document.getElementById('incorrectCount').textContent = incorrect;
+  document.getElementById('totalCount').textContent = QUIZ_DATA.questions.length;
+  document.getElementById('finalTime').textContent = timeStr;
+  
+  let message = '';
+  if (percent >= 90) message = '🌟 Outstanding! Excellent work!';
+  else if (percent >= 70) message = '👍 Good job! Solid performance.';
+  else if (percent >= 50) message = '📚 Satisfactory. Review recommended.';
+  else message = '💪 Keep practicing! You can do better.';
+  
+  document.getElementById('resultsMessage').textContent = message;
+  
+  state.clear();
+}
+
+function downloadResults() {
+  const now = new Date();
+  const dateStr = now.toLocaleString();
+  const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+  const timeStr = `${Math.floor(elapsed / 60)}:${(elapsed % 60).toString().padStart(2, '0')}`;
+  
+  let tsv = `Student Name\t${state.studentName}\n`;
+  tsv += `Quiz Unit\t${QUIZ_DATA.unit}\n`;
+  tsv += `Date\t${dateStr}\n`;
+  tsv += `Time Taken\t${timeStr}\n\n`;
+  tsv += `Question\tYour Answer\tCorrect Answer\tCorrect?\tDifficulty\tTopic\n`;
+  
+  QUIZ_DATA.questions.forEach((q, i) => {
+    const yourAns = state.answers[i] !== null ? q.options[state.answers[i]] : 'No answer';
+    const correctAns = q.options[q.answer];
+    const isCorrect = state.answers[i] === q.answer ? 'Yes' : 'No';
+    
+    tsv += `"${q.question.replace(/"/g, '""')}"\t`;
+    tsv += `"${yourAns.replace(/"/g, '""')}"\t`;
+    tsv += `"${correctAns.replace(/"/g, '""')}"\t`;
+    tsv += `${isCorrect}\t${q.difficulty || ''}\t${q.topic || ''}\n`;
+  });
+  
+  const blob = new Blob([tsv], { type: 'text/tab-separated-values' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `quiz_${state.studentName.replace(/\W/g, '_')}_${Date.now()}.tsv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function viewWrongAnswers() {
+  const wrong = QUIZ_DATA.questions
+    .map((q, i) => ({q, i, ans: state.answers[i]}))
+    .filter(({q, ans}) => ans !== q.answer)
+    .map(({q, i, ans}) => ({
+      question: q.question,
+      yourAnswer: ans !== null ? q.options[ans] : 'No answer',
+      correctAnswer: q.options[q.answer],
+      explanation: q.explanation
+    }));
+  
+  if (wrong.length === 0) {
+    alert('Perfect score! No mistakes to review.');
+    return;
+  }
+  
+  sessionStorage.setItem('wrongAnswers', JSON.stringify(wrong));
+  window.open('flashcards.html', '_blank');
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+setInterval(() => {
+  if (state.startTime) state.save();
+}, 30000);
+
+window.addEventListener('beforeunload', (e) => {
+  if (state.startTime && state.answers.some(a => a !== null)) {
+    state.save();
+  }
+});
+</script>
+</body>
+</html>
