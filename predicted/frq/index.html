@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Environmental Science 2026 · Predicted FRQ · mitali.gide.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0a0a;--ink2:#2a2a2a;--ink3:#555;--ink4:#888;
+  --bg:#f2f0eb;--page:#ffffff;--rule:#bbb;--rule2:#e0e0e0;
+  --stripe:#f7f6f2;--hdr:#111;
+  --good:#1a5c1a;--gbg:#edfaed;--gbrd:#2a7a2a;
+  --bad:#8a1a1a;--bbg:#faeded;--bbrd:#aa2a2a;
+  --warn:#7a5200;--wbg:#fffaed;--wbrd:#c8a020;
+  --green:#1B5E20;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:"Source Sans 3",sans-serif;font-size:14px;color:var(--ink);line-height:1.6}
+h1,h2,h3,h4{font-family:"Source Serif 4",Georgia,serif;font-weight:600;line-height:1.2}
+p{margin-bottom:.5rem;color:var(--ink2)}
+ul,ol{color:var(--ink2);padding-left:1.5rem}
+li{margin-bottom:3px}
+strong{color:var(--ink);font-weight:600}
+em{font-style:italic}
+svg text{font-family:"Source Sans 3",Arial,sans-serif}
+
+/* ── PAGE ── */
+.page{width:870px;margin:2rem auto;background:var(--page);box-shadow:0 4px 40px rgba(0,0,0,.18);border-top:5px solid var(--ink)}
+
+/* ── HEADER ── */
+.exam-header{border-bottom:3px solid var(--ink)}
+.hdr-top{display:flex;align-items:stretch;min-height:84px}
+.hdr-ap{background:var(--ink);color:#fff;padding:1rem 1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:110px;flex-shrink:0}
+.hdr-ap .ap-big{font-family:"Source Serif 4",serif;font-size:46px;font-weight:700;line-height:1;letter-spacing:-1px}
+.hdr-ap .ap-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;opacity:.6;margin-top:3px}
+.hdr-title{flex:1;padding:1rem 1.5rem;display:flex;flex-direction:column;justify-content:center}
+.hdr-title h1{font-size:20px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.hdr-title h2{font-size:13px;font-weight:400;color:var(--ink3)}
+.hdr-title .sub{font-size:11px;color:var(--ink4);margin-top:.3rem}
+.hdr-logo{padding:1rem 1.5rem;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;border-left:1px solid var(--rule2)}
+.hdr-meta{background:var(--ink);color:#aaa;padding:.4rem 1.5rem;display:flex;gap:2rem;font-size:11.5px;flex-wrap:wrap}
+.hdr-meta span::before{content:"· ";opacity:.4}
+.hdr-meta span:first-child::before{content:""}
+
+/* ── BANNERS ── */
+.pred-banner{background:var(--ink);color:#888;text-align:center;padding:.5rem;font-size:11px;letter-spacing:.3px}
+.pred-banner strong{color:#ccc;font-size:12px;letter-spacing:.8px}
+.byline-bar{display:flex;align-items:center;justify-content:space-between;padding:.45rem 1.5rem;border-bottom:1px solid var(--rule2);background:#fafaf8}
+.byline-bar .bl{font-size:10.5px;color:var(--ink3)}
+.byline-bar .bl span{font-weight:600;color:var(--ink);font-style:italic}
+.new-2026{display:inline-flex;align-items:center;gap:6px;background:#fff3cd;border:1px solid #f0a500;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:700;color:#7a5200;margin-left:.5rem}
+
+/* ── INSTRUCTIONS ── */
+.instructions{margin:1.5rem;padding:1rem 1.25rem;border:1.5px solid var(--ink);background:#fff}
+.instructions h3{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.6rem;color:var(--ink);border-bottom:1px solid var(--rule2);padding-bottom:.35rem}
+.instructions ul{font-size:12.5px;line-height:1.85}
+.ref-sheet-note{background:var(--stripe);border:1px solid var(--rule);padding:.65rem 1rem;margin:.75rem 0 0;font-size:12px;line-height:1.6}
+.ref-sheet-note strong{color:var(--green)}
+
+/* ── SECTION DIVIDERS ── */
+.sec-div{background:var(--ink);color:#fff;padding:.55rem 1.5rem;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.sec-sub{padding:.5rem 1.5rem;font-size:12px;background:var(--stripe);border-bottom:1px solid var(--rule2);color:var(--ink2)}
+
+/* ── QUESTION WRAPPER ── */
+.question{padding:1.75rem 1.5rem 1.25rem;border-bottom:2px solid var(--rule)}
+.q-hdr{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule2);flex-wrap:wrap}
+.q-num{font-family:"Source Serif 4",serif;font-size:22px;font-weight:700;color:var(--ink);min-width:28px}
+.q-badge{display:inline-block;border:1.5px solid var(--ink);font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 9px;color:var(--ink)}
+.q-badge.calc{background:var(--ink);color:#fff}
+.q-pts-box{margin-left:auto;border:1px solid var(--rule);padding:.2rem .75rem;font-size:11px;color:var(--ink3);text-align:center}
+.q-pts-box .n{display:block;font-size:18px;font-weight:700;color:var(--ink);font-family:"Source Serif 4",serif;line-height:1}
+.q-type-label{font-size:11px;color:var(--ink3);font-style:italic}
+
+/* ── CONTEXT ── */
+.ctx-box{border:1px solid var(--rule);padding:.9rem 1.1rem;margin-bottom:1.1rem;background:#fefefe;font-size:13px;line-height:1.75}
+.ctx-lbl{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:.35rem}
+
+/* ── FIGURES ── */
+.fig{margin:.9rem 0;border:1px solid var(--rule);background:#fff;padding:.65rem}
+.fig-title{font-size:11.5px;font-weight:700;text-align:center;margin-bottom:.4rem;color:var(--ink)}
+.fig-cap{font-size:10.5px;text-align:center;color:var(--ink4);margin-top:.3rem;font-style:italic}
+.two-fig{display:flex;gap:.75rem;margin:.9rem 0}
+.two-fig .fig{flex:1}
+.dtbl{width:100%;border-collapse:collapse;font-size:12px;margin:.3rem 0}
+.dtbl th{background:var(--ink);color:#fff;padding:6px 10px;text-align:center;border:1px solid var(--ink)}
+.dtbl td{padding:5px 10px;border:1px solid var(--rule);text-align:center;vertical-align:middle}
+.dtbl tr:nth-child(even) td{background:var(--stripe)}
+.dtbl .rh{text-align:left;font-weight:600;background:#eee;border-left:3px solid var(--ink)}
+
+/* ── PARTS ── */
+.part{margin-bottom:.875rem;padding-left:1rem}
+.part-lbl{font-weight:700;font-size:14px;display:inline;margin-right:.3rem}
+.cmd{font-style:italic;font-weight:700}
+.part-pts{font-size:10.5px;color:var(--ink3);margin-left:.2rem}
+.sub-ctx{background:var(--stripe);border-left:3px solid var(--ink);padding:.6rem 1rem;margin:.65rem 0;font-size:12.5px;line-height:1.65;color:var(--ink2)}
+
+/* ── REVEAL BUTTON ── */
+.reveal-btn{display:block;margin:1.25rem 0 .5rem;padding:.55rem 1.25rem;background:#fff;border:1.5px solid var(--ink);font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;font-family:"Source Sans 3",sans-serif;text-align:center;transition:all .15s;color:var(--ink);width:100%}
+.reveal-btn:hover{background:var(--ink);color:#fff}
+.reveal-btn.done{background:var(--ink);color:#fff;pointer-events:none}
+
+/* ── ANSWER PANEL ── */
+.ans-panel{display:none;border:1.5px solid var(--ink);border-top:3px solid var(--green);margin:.25rem 0 .75rem;background:#fafaf8}
+.ans-panel.open{display:block}
+.ans-hdr{background:var(--green);color:#fff;padding:.5rem 1.1rem;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center}
+.ans-hdr .tot{margin-left:auto;background:rgba(255,255,255,.15);padding:2px 10px;border-radius:2px;font-size:10px}
+.ans-part{padding:1rem 1.1rem;border-bottom:1px solid var(--rule2)}
+.ans-part:last-child{border-bottom:none}
+.ans-part-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:.35rem;display:flex;align-items:center;gap:.5rem}
+.pts-badge{background:var(--green);color:#fff;font-size:9px;padding:1px 7px;border-radius:2px}
+.ans-body{font-size:13px;line-height:1.7;color:var(--ink2)}
+.ans-body strong{color:var(--ink)}
+.tip{margin-top:.65rem;padding:.55rem 1rem;background:#fffde7;border-left:3px solid #f9a825;font-size:12.5px;color:#555;line-height:1.6}
+.tip::before{content:"Scoring key · ";font-weight:700;color:#f9a825}
+
+/* ── SEMANTIC SCORER ── */
+.score-toggle{font-size:11px;color:var(--ink4);font-style:italic;cursor:pointer;margin-top:.5rem;display:inline-block}
+.score-toggle:hover{color:var(--ink)}
+.score-panel{display:none;border:1px solid var(--rule);margin:.4rem 0;background:#fff}
+.score-panel.open{display:block}
+.score-hdr{background:var(--ink);color:#fff;padding:.35rem 1rem;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.score-wrap{padding:.65rem 1rem}
+.score-input{width:100%;min-height:72px;border:1px solid var(--rule);padding:.45rem;font-family:"Source Sans 3",sans-serif;font-size:13px;resize:vertical;line-height:1.6}
+.score-btn{margin-top:.4rem;padding:.4rem 1rem;background:var(--green);color:#fff;border:none;cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;font-family:"Source Sans 3",sans-serif}
+.score-result{margin-top:.65rem;padding:.6rem .875rem;border:1px solid var(--rule);background:var(--stripe);font-size:12.5px;display:none}
+.kw-hit{color:var(--good);font-weight:600;font-size:10.5px;display:inline-block;margin:1px 3px;padding:1px 6px;border:1px solid var(--good);background:var(--gbg)}
+.kw-miss{color:var(--ink4);font-size:10.5px;display:inline-block;margin:1px 3px;padding:1px 6px;border:1px solid var(--rule2);background:#f5f5f5;text-decoration:line-through;opacity:.55}
+.score-bar{height:9px;background:#eee;border:1px solid var(--rule);margin:.5rem 0}
+.score-fill{height:100%;background:var(--green);transition:width .4s}
+.score-num{font-size:22px;font-weight:700;font-family:"Source Serif 4",serif;color:var(--ink)}
+.score-fb{margin-top:.35rem;font-size:12px;padding:.4rem;border-left:3px solid var(--ink)}
+
+/* ── REFERENCE SHEET ── */
+.ref-box{margin:1.5rem;padding:1rem 1.25rem;border:1.5px dashed var(--rule);background:var(--stripe)}
+.ref-box h3{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.6rem;color:var(--ink);border-bottom:1px solid var(--rule2);padding-bottom:.3rem}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;font-size:12px}
+.ref-item{padding:.35rem .6rem;background:#fff;border:1px solid var(--rule);font-family:"JetBrains Mono",monospace;font-size:11.5px;line-height:1.5}
+.ref-item .label{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);display:block;font-family:"Source Sans 3",sans-serif;margin-bottom:1px}
+
+/* ── TOTAL SCORE ── */
+.total-bar{margin:1.5rem;padding:1.25rem;border:2px solid var(--ink);background:#fff;display:flex;align-items:center;gap:2rem}
+.tb-num{font-family:"Source Serif 4",serif;font-size:48px;font-weight:700;color:var(--ink);line-height:1}
+.tb-detail{flex:1}
+.tb-prog{height:11px;background:#eee;border:1px solid var(--rule);margin:.35rem 0}
+.tb-fill{height:100%;background:var(--ink)}
+
+/* ── FOOTER ── */
+.exam-footer{background:var(--ink);color:#888;font-size:10.5px;text-align:center;padding:.6rem}
+.page-cont{text-align:right;font-size:10.5px;color:var(--ink4);padding:.3rem 1.5rem;font-style:italic}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- PREDICTED BANNER -->
+<div class="pred-banner">
+  <strong>PREDICTED EXAMINATION · NOT AN OFFICIAL COLLEGE BOARD DOCUMENT</strong><br>
+  Constructed from analysis of 2020–2025 released FRQs, the 2025–26 CED, 2026 format changes, and trending environmental research · Educational use only
+</div>
+
+<!-- HEADER -->
+<div class="exam-header">
+  <div class="hdr-top">
+    <div class="hdr-ap">
+      <span class="ap-big">AP</span>
+      <span class="ap-sub">College Board</span>
+    </div>
+    <div class="hdr-title">
+      <h1>AP® Environmental Science Examination — 2026 (Predicted)</h1>
+      <h2>Free-Response Questions · Section II · 1 hour 10 minutes</h2>
+      <div class="sub">3 Questions · 30 Total Points · 40% of examination score · Digital exam (Bluebook) · Calculator available throughout</div>
+    </div>
+    <div class="hdr-logo">
+      <svg width="120" height="52" viewBox="0 0 120 52">
+        <rect width="120" height="52" fill="#0a0a0a" rx="2"/>
+        <text x="8" y="32" font-family="Source Serif 4,serif" font-size="26" font-weight="700" fill="#ffffff">m</text>
+        <circle cx="34" cy="27" r="2.5" fill="#3a6a3a"/>
+        <text x="39" y="32" font-family="Source Sans 3,Arial,sans-serif" font-size="13" font-weight="600" fill="#aaffaa">gide.ai</text>
+        <text x="8" y="45" font-family="Source Sans 3,Arial,sans-serif" font-size="8" fill="#3a6a3a" letter-spacing="1.5">MITALI</text>
+        <text x="72" y="45" font-family="Source Sans 3,Arial,sans-serif" font-size="7" fill="#2a4a2a">ENV. SCIENCE</text>
+      </svg>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <span>Friday, 15 May 2026 · Morning Session · 8:00 AM local time</span>
+    <span>Section II begins after Section I is submitted</span>
+    <span>Graphing calculator available (Bluebook) throughout exam</span>
+    <span>Reference sheet available for Question 3</span>
+  </div>
+</div>
+
+<!-- BYLINE -->
+<div class="byline-bar">
+  <div class="bl">Authored &amp; designed <span>BY mitali.gide.ai</span> · Semantic answer scoring powered by keyword analysis · No AI in scoring engine</div>
+  <div class="bl" style="font-size:10px;color:var(--ink4)">Revision 1.0 · 2026 Exam Cycle · Digital Bluebook format</div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div class="instructions">
+  <h3>Section II Instructions</h3>
+  <ul>
+    <li>Answer all three free-response questions. Write your responses directly in Bluebook.</li>
+    <li>If asked to <strong>explain, describe, or justify</strong>, respond in complete sentences with relevant information and/or specific examples. Do not restate the question in your response.</li>
+    <li>If asked to <strong>identify</strong>, a brief response is acceptable (complete sentences not required).</li>
+    <li>Do not provide more responses than the number of examples or reasons called for — only the first response(s) will be scored.</li>
+    <li>A graphing calculator is available in Bluebook and may be used throughout the entire exam.</li>
+    <li>For parts of Question 3 requiring <strong>calculations</strong>, clearly show how you arrived at your answer, including setup, formula, and units. Partial credit is awarded for correct methodology.</li>
+    <li><span class="new-2026">★ NEW 2026</span> A <strong>reference sheet</strong> with conversion factors and formulae is provided for Question 3. See the reference sheet at the end of this booklet.</li>
+    <li>Semantic self-scoring is available: after each question, click <em>Reveal Answer</em> to see the model answer. Type your response in the scoring box for keyword-based feedback.</li>
+  </ul>
+  <div class="ref-sheet-note">
+    <strong>Question 3 Reference Sheet</strong> — provided at the end of this booklet. Contains: unit conversions (energy, mass, area), key formulae (percent change, doubling time, population growth rate), and notation guide for entering calculations in Bluebook.
+  </div>
+</div>
+
+<!-- SECTION II DIVIDER -->
+<div class="sec-div">Section II — Free-Response Questions</div>
+<div class="sec-sub"><strong>Question 1</strong> — Investigation Design · <strong>Question 2</strong> — Environmental Problem and Solution · <strong>Question 3</strong> — Environmental Problem, Solution, and Calculations · Each question worth <strong>10 points</strong></div>
+
+<!-- ════════════════════════════════════════════════
+     QUESTION 1 — Investigation Design
+     Urban Heat Island / Tree Canopy / Evapotranspiration / Environmental Justice
+════════════════════════════════════════════════ -->
+<div class="question" id="q1">
+  <div class="q-hdr">
+    <span class="q-num">1</span>
+    <span class="q-badge">Investigation Design</span>
+    <span class="q-type-label">~22–25 minutes</span>
+    <div class="q-pts-box"><span class="n">10</span>pts</div>
+  </div>
+
+  <div class="ctx-box">
+    <div class="ctx-lbl">Background</div>
+    The urban heat island (UHI) effect causes city temperatures to be significantly warmer than surrounding rural areas, primarily due to impervious surfaces (asphalt, concrete), waste heat from vehicles and buildings, and reduced vegetation. Research shows that urban tree canopy can reduce surface temperatures through shading and evapotranspiration — the process by which trees release water vapour, cooling the surrounding air. Studies have also documented that low-income and minority neighbourhoods within US cities have, on average, 33% less tree canopy cover than high-income neighbourhoods (American Forests, 2021). Scientists working with three mid-sized US cities are investigating whether increasing urban tree canopy cover reduces maximum afternoon surface temperatures in residential neighbourhoods and whether this effect differs between low-income and high-income neighbourhoods.
+  </div>
+
+  <!-- Figure 1: Scatter plot showing UHI data -->
+  <div class="fig">
+    <div class="fig-title">Figure 1. Relationship between tree canopy cover (%) and maximum afternoon surface temperature (°C) in 60 urban residential census tracts across three cities</div>
+    <svg viewBox="0 0 580 200" style="width:100%;display:block">
+      <rect width="580" height="200" fill="#f9f9f7"/>
+      <line x1="55" y1="15" x2="55" y2="165" stroke="#111" stroke-width="1.5"/>
+      <line x1="55" y1="165" x2="555" y2="165" stroke="#111" stroke-width="1.5"/>
+      <!-- Y axis -->
+      <text x="50" y="168" text-anchor="end" font-size="9">28</text>
+      <text x="50" y="140" text-anchor="end" font-size="9">30</text>
+      <text x="50" y="112" text-anchor="end" font-size="9">32</text>
+      <text x="50" y="84" text-anchor="end" font-size="9">34</text>
+      <text x="50" y="56" text-anchor="end" font-size="9">36</text>
+      <text x="50" y="28" text-anchor="end" font-size="9">38</text>
+      <!-- Y gridlines -->
+      <line x1="55" y1="140" x2="555" y2="140" stroke="#eee" stroke-width="1"/>
+      <line x1="55" y1="112" x2="555" y2="112" stroke="#eee" stroke-width="1"/>
+      <line x1="55" y1="84" x2="555" y2="84" stroke="#eee" stroke-width="1"/>
+      <line x1="55" y1="56" x2="555" y2="56" stroke="#eee" stroke-width="1"/>
+      <line x1="55" y1="28" x2="555" y2="28" stroke="#eee" stroke-width="1"/>
+      <!-- Y axis label -->
+      <text x="14" y="92" text-anchor="middle" font-size="10" font-weight="bold" transform="rotate(-90 14 92)">Max. surface temp. (°C)</text>
+      <!-- X axis labels -->
+      <text x="110" y="178" text-anchor="middle" font-size="9">5</text>
+      <text x="210" y="178" text-anchor="middle" font-size="9">15</text>
+      <text x="310" y="178" text-anchor="middle" font-size="9">25</text>
+      <text x="410" y="178" text-anchor="middle" font-size="9">35</text>
+      <text x="510" y="178" text-anchor="middle" font-size="9">45</text>
+      <text x="305" y="193" text-anchor="middle" font-size="10" font-weight="bold">Tree canopy cover (%)</text>
+      <!-- Low-income data points (filled circles) - negative correlation -->
+      <circle cx="80" cy="38" r="4" fill="#111"/>
+      <circle cx="90" cy="45" r="4" fill="#111"/>
+      <circle cx="100" cy="42" r="4" fill="#111"/>
+      <circle cx="115" cy="50" r="4" fill="#111"/>
+      <circle cx="130" cy="48" r="4" fill="#111"/>
+      <circle cx="120" cy="55" r="4" fill="#111"/>
+      <circle cx="145" cy="58" r="4" fill="#111"/>
+      <circle cx="160" cy="62" r="4" fill="#111"/>
+      <circle cx="155" cy="68" r="4" fill="#111"/>
+      <circle cx="170" cy="72" r="4" fill="#111"/>
+      <circle cx="180" cy="75" r="4" fill="#111"/>
+      <circle cx="195" cy="80" r="4" fill="#111"/>
+      <circle cx="210" cy="84" r="4" fill="#111"/>
+      <circle cx="220" cy="90" r="4" fill="#111"/>
+      <!-- High-income data points (open circles) - same correlation, lower temps -->
+      <circle cx="255" cy="88" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="270" cy="95" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="290" cy="98" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="305" cy="105" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="320" cy="108" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="340" cy="112" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="360" cy="118" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="375" cy="122" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="390" cy="128" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="410" cy="130" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="430" cy="136" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="450" cy="138" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="470" cy="142" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <circle cx="490" cy="145" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <!-- Trend lines -->
+      <line x1="75" y1="35" x2="225" y2="95" stroke="#111" stroke-width="1.5" stroke-dasharray="none"/>
+      <line x1="245" y1="84" x2="500" y2="148" stroke="#111" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <!-- Legend -->
+      <circle cx="80" cy="195" r="4" fill="#111"/>
+      <text x="88" y="198" font-size="9">Low-income neighbourhoods (avg. canopy: 12%)</text>
+      <circle cx="310" cy="195" r="4" fill="none" stroke="#111" stroke-width="1.5"/>
+      <text x="318" y="198" font-size="9">High-income neighbourhoods (avg. canopy: 28%)</text>
+    </svg>
+    <div class="fig-cap">Each point = one census tract. Lines = linear regression fit for each income category. n = 30 tracts per income category, 3 cities pooled.</div>
+  </div>
+
+  <!-- PARTS -->
+  <div class="part">
+    <span class="part-lbl">(a)</span>
+    <span class="part-body">Scientists propose that increasing urban tree canopy cover reduces maximum afternoon surface temperatures through two mechanisms: shading and evapotranspiration. <span class="cmd">Describe</span> one of these two mechanisms and <span class="cmd">explain</span> how it reduces surface temperature. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(b)</span>
+    <span class="part-body">Scientists plan to design a controlled experiment using 20 identical vacant lots in a single city, randomly assigning 10 lots to receive tree planting (treatment) and 10 lots to serve as controls. <span class="cmd">Identify</span> the independent variable and the dependent variable in this experiment. <span class="cmd">Describe</span> what the control group will demonstrate in this experiment. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(c)</span>
+    <span class="part-body">Using Figure 1, <span class="cmd">describe</span> the relationship between tree canopy cover and maximum surface temperature. <span class="cmd">Identify</span> one confounding variable, other than tree canopy cover, that could explain differences in surface temperature between low-income and high-income neighbourhoods. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(d)</span>
+    <span class="part-body"><span class="cmd">Explain</span> one specific human health consequence of the urban heat island effect that would disproportionately affect low-income residents. <span class="part-pts">(1 point)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(e)</span>
+    <span class="part-body"><span class="cmd">Describe</span> one specific long-term consequence of increased urban tree canopy cover on the urban water cycle, beyond temperature reduction. <span class="cmd">Explain</span> the mechanism by which tree canopy produces this effect. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(f)</span>
+    <span class="part-body"><span class="cmd">Propose</span> one specific policy mechanism a city government could use to increase tree canopy cover specifically in low-income neighbourhoods, and <span class="cmd">describe</span> how this policy would address the environmental justice concern documented in Figure 1. <span class="part-pts">(1 point)</span></span>
+  </div>
+
+  <!-- REVEAL BUTTON -->
+  <button class="reveal-btn" id="r1-btn" onclick="reveal(1)">▼ Reveal Model Answer — Question 1</button>
+
+  <!-- ANSWER PANEL -->
+  <div class="ans-panel" id="a1-panel">
+    <div class="ans-hdr">Model Answer — Question 1 (Investigation Design) <span class="tot">10 points available</span></div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (a) — Mechanism for temperature reduction <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Option A — Evapotranspiration (1 pt for naming + 1 pt for mechanism):</strong><br>
+        Trees absorb liquid water from the soil through their roots and release it as water vapour (H₂O gas) through pores in their leaves (stomata) — this combined process is called evapotranspiration. The phase change from liquid water to vapour requires a large input of latent heat energy (approximately 2,270 J per gram of water evaporated). This latent heat is drawn from the surrounding air and surfaces rather than from raising air temperature — the process is thermodynamically equivalent to the cooling effect of sweating. Trees in urban areas release hundreds of litres of water vapour per day, cooling the surrounding air and reducing maximum afternoon surface temperatures in the process.<br><br>
+        <strong>Option B — Shading (1 pt for naming + 1 pt for mechanism):</strong><br>
+        Tree canopies intercept incoming solar radiation (shortwave energy) before it reaches impervious surfaces (asphalt, concrete, rooftops) below. Without shade, these surfaces absorb solar radiation and convert it to longwave (thermal/infrared) radiation re-emitted back into the surrounding air, dramatically raising local temperatures. Tree canopies absorb and reflect incoming solar radiation, preventing it from reaching and heating surfaces below. The resulting shaded surfaces remain significantly cooler than unshaded surfaces — reducing the total thermal energy stored and re-emitted into the urban air mass.
+      </div>
+      <div class="tip">Must NAME one mechanism AND explain the physical/biological mechanism by which it reduces temperature. "Trees provide shade and that cools things down" earns no points — must explain WHY shade reduces temperature (less solar energy absorbed by surfaces below) or WHY evapotranspiration cools (latent heat of vaporisation removes heat from air).</div>
+      <span class="score-toggle" onclick="toggleScorer('s1a')">▸ Check your answer for Part (a)</span>
+      <div class="score-panel" id="s1a">
+        <div class="score-hdr">Semantic Keyword Checker — Q1(a)</div>
+        <div class="score-wrap">
+          <textarea class="score-input" id="t1a" placeholder="Type your answer here..."></textarea>
+          <button class="score-btn" onclick="scoreAnswer('t1a','r1a',['evapotranspiration','shading','latent heat','water vapour','stomata','solar radiation','impervious','absorb','intercept','phase change','cool','temperature','mechanism'])">Score My Answer</button>
+          <div class="score-result" id="r1a"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (b) — IV, DV, and control group purpose <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Independent variable (IV):</strong> Presence or absence of tree planting (planted trees vs no trees planted). OR: Number of trees planted per lot / tree canopy cover (%).<br><br>
+        <strong>Dependent variable (DV):</strong> Maximum afternoon surface temperature (°C) measured on each lot.<br><br>
+        <strong>Control group purpose (1 pt):</strong> The 10 unplanted lots serve as the control group — they establish the baseline maximum afternoon surface temperature in identical lots without tree cover. Comparing temperatures in planted lots to the control lots allows scientists to determine how much of any temperature difference is specifically due to tree planting, rather than other factors. Without the control group, scientists could not attribute temperature changes to trees alone — temperatures might change for other reasons (weather, season, traffic patterns) unrelated to the treatment.
+      </div>
+      <div class="tip">IV = what the scientists CHANGE or MANIPULATE (tree planting). DV = what they MEASURE (temperature). Control group purpose = establish baseline to compare; isolate the effect of the treatment. "The control shows what happens without trees" earns partial credit; "establishes baseline temperature to determine if any temperature change is due specifically to tree planting" earns full credit.</div>
+      <span class="score-toggle" onclick="toggleScorer('s1b')">▸ Check your answer for Part (b)</span>
+      <div class="score-panel" id="s1b">
+        <div class="score-hdr">Semantic Keyword Checker — Q1(b)</div>
+        <div class="score-wrap">
+          <textarea class="score-input" id="t1b" placeholder="Type your answer..."></textarea>
+          <button class="score-btn" onclick="scoreAnswer('t1b','r1b',['independent variable','tree planting','dependent variable','surface temperature','control','baseline','compare','isolate','treatment','attribute'])">Score</button>
+          <div class="score-result" id="r1b"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (c) — Figure 1 relationship + confounding variable <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Relationship (1 pt):</strong> As tree canopy cover increases (x-axis), maximum afternoon surface temperature decreases (y-axis) — a negative (inverse) correlation. This relationship is present in both low-income and high-income neighbourhood categories, though low-income neighbourhoods have systematically lower canopy cover and higher surface temperatures than high-income neighbourhoods at equivalent canopy levels.<br><br>
+        <strong>Confounding variable (1 pt):</strong> Percentage of impervious surface coverage (pavement, roads, parking lots, rooftops) — low-income neighbourhoods typically have more densely packed buildings and paved surfaces and fewer parks, which would absorb more solar radiation and generate more urban heat independent of tree cover. Other acceptable answers: proximity to industrial facilities (waste heat), building density and material types (high thermal mass), differences in green space and park access, or amount of waste heat from lower-efficiency building HVAC systems.
+      </div>
+      <div class="tip">Confounding variable must be different from tree canopy cover (that's the IV). Must be a variable that: (1) differs between low-income and high-income neighbourhoods AND (2) independently affects surface temperature. Simply saying "pollution" or "cars" is too vague — be specific about the variable and HOW it affects temperature.</div>
+      <span class="score-toggle" onclick="toggleScorer('s1c')">▸ Check your answer for Part (c)</span>
+      <div class="score-panel" id="s1c">
+        <div class="score-hdr">Semantic Keyword Checker — Q1(c)</div>
+        <div class="score-wrap">
+          <textarea class="score-input" id="t1c" placeholder="Type your answer..."></textarea>
+          <button class="score-btn" onclick="scoreAnswer('t1c','r1c',['negative','inverse','decreases','increases','canopy','temperature','confounding','impervious','pavement','building density','industrial','correlation'])">Score</button>
+          <div class="score-result" id="r1c"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (d) — Health consequence disproportionately affecting low-income residents <span class="pts-badge">1 pt</span></div>
+      <div class="ans-body">
+        <strong>Heat-related illness and mortality (heat stroke, hyperthermia):</strong> During heat waves, extremely high surface and air temperatures in low-canopy urban neighbourhoods can cause heat exhaustion, heat stroke (core body temperature >40°C), organ failure, and death. Low-income residents are disproportionately affected because they are more likely to: (1) live in poorly insulated, poorly ventilated housing without air conditioning (air conditioning is costly — low-income households often cannot afford installation or operating costs); (2) work in outdoor or non-air-conditioned occupations (construction, agriculture, landscaping); (3) lack access to cooling centres or transport to reach them. The combination of greater UHI exposure (less canopy) and less adaptive capacity makes heat waves a life-threatening environmental justice issue.
+      </div>
+      <div class="tip">Must specifically connect the UHI effect (elevated temperatures) to a human health outcome AND explain WHY it disproportionately affects low-income residents. "Heat is bad for people" earns no points. "Heat stroke/death from extreme temperatures in residents without air conditioning who cannot afford it" earns the point.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (e) — Urban water cycle consequence + mechanism <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Consequence (1 pt): Reduced stormwater runoff volume / increased groundwater recharge:</strong> Increased urban tree canopy significantly reduces the volume of stormwater that runs off into streets and storm drains during rain events.<br><br>
+        <strong>Mechanism (1 pt):</strong> Tree canopies intercept rainfall — leaves, branches, and bark capture water droplets that would otherwise hit impervious surfaces and run off. Some intercepted water evaporates directly from leaf surfaces (interception loss). Additionally, tree root systems break up compacted urban soil, increasing infiltration rates — allowing more rainfall to percolate downward into the soil and groundwater aquifer rather than running off over sealed surfaces. Roots also take up water, which reduces soil saturation and increases the soil's capacity to absorb the next rainfall event. Together, interception and infiltration can reduce runoff volume by 10–40% depending on canopy density, reducing flood peak flows, combined sewer overflow events, and downstream streambank erosion.
+      </div>
+      <div class="tip">Must state a SPECIFIC water cycle consequence (reduced runoff, increased infiltration, reduced flooding, increased groundwater recharge) — not just "trees help the water cycle." Then explain the mechanism: interception of rainfall by canopy + increased soil infiltration through root channels.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (f) — Policy for environmental justice + mechanism <span class="pts-badge">1 pt</span></div>
+      <div class="ans-body">
+        <strong>Policy: Targeted urban tree canopy equity program</strong> — A city could pass legislation or allocate funding specifically to plant trees exclusively in neighbourhoods with the lowest existing canopy cover (below a threshold, e.g., &lt;15%), which research shows are disproportionately low-income and minority communities. The city could partner with community organisations to engage residents in species selection and planting locations, and commit to maintenance funding for newly planted trees. This directly addresses the environmental justice concern documented in Figure 1 — that low-income neighbourhoods have lower canopy cover and higher surface temperatures — by actively directing resources to the most heat-burdened and tree-deficient communities rather than allowing private tree planting to accumulate in wealthier areas. The Inflation Reduction Act (2022) designated Urban and Community Forestry funding that states can use for exactly this purpose.
+      </div>
+      <div class="tip">Policy must be SPECIFIC (not just "plant more trees") and must explicitly describe how it addresses the environmental justice concern (targeting low-income areas with less canopy). Acceptable policies: targeted grants for tree planting in low-income areas; inclusion of urban forestry requirements in planning permits for development in low-income areas; public-private partnerships for greening disadvantaged neighbourhoods.</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-cont">Question 2 begins below ↓</div>
+
+<!-- ════════════════════════════════════════════════
+     QUESTION 2 — PFAS Contamination / Environmental Problem + Solution
+════════════════════════════════════════════════ -->
+<div class="question" id="q2">
+  <div class="q-hdr">
+    <span class="q-num">2</span>
+    <span class="q-badge">Environmental Problem and Solution</span>
+    <span class="q-type-label">~22–25 minutes</span>
+    <div class="q-pts-box"><span class="n">10</span>pts</div>
+  </div>
+
+  <div class="ctx-box">
+    <div class="ctx-lbl">Background</div>
+    Per- and polyfluoroalkyl substances (PFAS) are a group of over 12,000 synthetic chemicals that have been used since the 1950s in non-stick cookware, waterproof clothing, food packaging, firefighting foam (AFFF), and industrial processes. PFAS are extremely chemically stable — the carbon-fluorine (C-F) bond is one of the strongest in organic chemistry — making them highly persistent in both the environment and the human body, earning them the nickname "forever chemicals." In April 2024, the US Environmental Protection Agency (EPA) established the first-ever maximum contaminant level (MCL) for PFOA and PFOS in drinking water at 4 parts per trillion (ppt). Scientists have found elevated PFAS concentrations in groundwater and surface water near military bases, airports, and industrial sites across the United States. Table 1 shows PFAS concentrations in drinking water wells near a hypothetical military base. Figure 2 shows health effects associated with PFAS exposure.
+  </div>
+
+  <div class="two-fig">
+    <div class="fig">
+      <div class="fig-title">Table 1. PFAS concentrations in drinking water wells near Lakeview Military Installation</div>
+      <table class="dtbl">
+        <thead>
+          <tr><th>Well ID</th><th>Distance from base (km)</th><th>PFOA (ppt)</th><th>PFOS (ppt)</th><th>Total PFAS (ppt)</th><th>EPA MCL for PFOA/PFOS (ppt)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rh">W-1</td><td>0.2</td><td>88</td><td>142</td><td>312</td><td>4</td></tr>
+          <tr><td class="rh">W-2</td><td>0.8</td><td>47</td><td>78</td><td>185</td><td>4</td></tr>
+          <tr><td class="rh">W-3</td><td>2.1</td><td>18</td><td>31</td><td>72</td><td>4</td></tr>
+          <tr><td class="rh">W-4</td><td>4.5</td><td>6</td><td>9</td><td>22</td><td>4</td></tr>
+          <tr><td class="rh">W-5</td><td>7.8</td><td>2</td><td>3</td><td>8</td><td>4</td></tr>
+          <tr><td class="rh">W-6</td><td>12.0</td><td>&lt;1</td><td>&lt;1</td><td>&lt;2</td><td>4</td></tr>
+        </tbody>
+      </table>
+      <div class="fig-cap">AFFF (aqueous film-forming foam) containing PFAS was used for firefighting training at the base from 1972–2018. MCL values from EPA's April 2024 PFAS National Primary Drinking Water Regulation.</div>
+    </div>
+
+    <div class="fig">
+      <div class="fig-title">Figure 2. Health effects associated with chronic PFAS exposure (PFOA ≥ 20 ppt)</div>
+      <svg viewBox="0 0 260 195" style="width:100%;display:block">
+        <rect width="260" height="195" fill="#f9f9f7"/>
+        <text x="12" y="16" font-size="10" font-weight="bold" fill="#111">Relative risk increase vs. unexposed population</text>
+        <!-- Bars - horizontal -->
+        <!-- Kidney cancer -->
+        <text x="118" y="36" text-anchor="end" font-size="9" fill="#333">Kidney cancer</text>
+        <rect x="120" y="26" width="95" height="14" fill="#111"/>
+        <text x="219" y="37" font-size="9" fill="#111">+70%</text>
+        <!-- Testicular cancer -->
+        <text x="118" y="58" text-anchor="end" font-size="9" fill="#333">Testicular cancer</text>
+        <rect x="120" y="48" width="82" height="14" fill="#555"/>
+        <text x="206" y="59" font-size="9" fill="#555">+60%</text>
+        <!-- Thyroid disease -->
+        <text x="118" y="80" text-anchor="end" font-size="9" fill="#333">Thyroid disease</text>
+        <rect x="120" y="70" width="55" height="14" fill="#555"/>
+        <text x="179" y="81" font-size="9" fill="#555">+40%</text>
+        <!-- Elevated cholesterol -->
+        <text x="118" y="102" text-anchor="end" font-size="9" fill="#333">High cholesterol</text>
+        <rect x="120" y="92" width="41" height="14" fill="#888"/>
+        <text x="165" y="103" font-size="9" fill="#888">+30%</text>
+        <!-- Immune suppression -->
+        <text x="118" y="124" text-anchor="end" font-size="9" fill="#333">Immune suppression</text>
+        <rect x="120" y="114" width="41" height="14" fill="#888"/>
+        <text x="165" y="125" font-size="9" fill="#888">+30%</text>
+        <!-- Low birth weight -->
+        <text x="118" y="146" text-anchor="end" font-size="9" fill="#333">Low birth weight</text>
+        <rect x="120" y="136" width="27" height="14" fill="#aaa"/>
+        <text x="151" y="147" font-size="9" fill="#aaa">+20%</text>
+        <!-- Vaccine response -->
+        <text x="118" y="168" text-anchor="end" font-size="9" fill="#333">Vaccine efficacy reduction</text>
+        <rect x="120" y="158" width="20" height="14" fill="#bbb"/>
+        <text x="144" y="169" font-size="9" fill="#bbb">+15%</text>
+        <!-- Baseline -->
+        <line x1="120" y1="16" x2="120" y2="178" stroke="#333" stroke-width="1.5"/>
+        <text x="120" y="188" text-anchor="middle" font-size="8" fill="#888">0% = baseline (unexposed)</text>
+      </svg>
+      <div class="fig-cap">Figure 2. Based on epidemiological studies of communities near PFAS-contaminated sites. Associations do not establish causation.</div>
+    </div>
+  </div>
+
+  <!-- PARTS -->
+  <div class="part">
+    <span class="part-lbl">(a)</span>
+    <span class="part-body"><span class="cmd">Identify</span> whether PFAS contamination of groundwater from the military base constitutes a point source or nonpoint source of water pollution. <span class="cmd">Justify</span> your identification. <span class="part-pts">(1 point)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(b)</span>
+    <span class="part-body"><span class="cmd">Describe</span> the specific mechanism by which PFAS from firefighting foam applied at the military base entered the groundwater aquifer that supplies the drinking water wells shown in Table 1. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(c)</span>
+    <span class="part-body">Using Table 1, <span class="cmd">describe</span> the relationship between distance from the military base and PFAS concentration in drinking water wells. <span class="cmd">Identify</span> the well closest to the base and <span class="cmd">calculate</span> how many times above the EPA MCL for PFOA the PFOA concentration in that well is. Show your work. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(d)</span>
+    <span class="part-body">Using Figure 2, <span class="cmd">explain</span> why pregnant women and infants are considered an especially vulnerable population to PFAS contamination from Well W-1. Reference at least two specific health effects from Figure 2. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(e)</span>
+    <span class="part-body"><span class="cmd">Describe</span> one specific technology or treatment method that could be used to remove PFAS from contaminated drinking water, and <span class="cmd">explain</span> the mechanism by which it removes PFAS. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(f)</span>
+    <span class="part-body"><span class="cmd">Identify</span> the specific US federal regulation or law established in 2024 that directly addresses PFAS in drinking water and <span class="cmd">describe</span> one limitation of this regulation in protecting communities near military bases. <span class="part-pts">(1 point)</span></span>
+  </div>
+
+  <button class="reveal-btn" id="r2-btn" onclick="reveal(2)">▼ Reveal Model Answer — Question 2</button>
+
+  <div class="ans-panel" id="a2-panel">
+    <div class="ans-hdr">Model Answer — Question 2 (Environmental Problem and Solution) <span class="tot">10 points available</span></div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (a) — Point vs nonpoint source identification + justification <span class="pts-badge">1 pt</span></div>
+      <div class="ans-body">
+        <strong>Classification: Point source pollution.</strong><br>
+        <strong>Justification:</strong> The PFAS contamination originates from a single, identifiable, discrete location — the Lakeview Military Installation, where AFFF firefighting foam was used for training on specific designated areas of the base. The source is geographically identifiable and legally attributable to a specific facility (the military base), making it a point source. The data in Table 1 confirms point source characteristics — PFAS concentrations are highest at the well closest to the base (W-1: 88 ppt PFOA, 142 ppt PFOS) and decrease progressively with distance in a clear gradient pattern, consistent with contamination emanating from a single fixed source.
+      </div>
+      <div class="tip">Point source = single identifiable, fixed location with discrete discharge. Nonpoint source = diffuse, multiple, no single entry point. The military base is an identifiable fixed facility → point source. The gradient pattern in Table 1 (highest near the base, decreasing with distance) is supporting evidence. Must JUSTIFY — not just say "point source."</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (b) — PFAS pathway to groundwater <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Pathway (2 steps = 2 points):</strong><br>
+        <strong>Step 1 — Surface application and runoff:</strong> During firefighting training exercises from 1972–2018, AFFF containing PFAS was sprayed across training areas on the base. PFAS-containing foam and water pooled on the surface, contaminating soil and surface water at the training sites. Because PFAS have very low affinity for soil particles (they do not readily adsorb to soil organic matter the way many other pollutants do), they remain highly mobile in water.<br><br>
+        <strong>Step 2 — Leaching/infiltration through the vadose zone to the aquifer:</strong> Rainfall and irrigation water percolated downward through the unsaturated (vadose) zone of the soil, carrying dissolved PFAS molecules with it. Because PFAS do not significantly adsorb to soil particles and are extremely chemically stable (the C-F bond is not broken by soil bacteria or environmental conditions), they migrated continuously downward through the soil profile until reaching the water table. Once in the saturated zone, dissolved PFAS became part of the groundwater flow system and were transported by groundwater movement toward nearby wells, with concentrations decreasing as the plume dispersed and diluted with distance from the source.
+      </div>
+      <div class="tip">Two steps = 2 points: (1) AFFF applied to surface → PFAS in soil/water at surface; (2) PFAS leach through soil to groundwater (emphasise PFAS mobility = low soil adsorption + chemical persistence = not degraded by bacteria). Distance-related dilution/dispersion explains the gradient in Table 1.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (c) — Relationship + identification + calculation <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Relationship (1 pt):</strong> As distance from the military base increases, PFAS concentrations in drinking water wells decrease — an inverse (negative) relationship. PFOA concentrations fall from 88 ppt at 0.2 km to less than 1 ppt at 12.0 km. This pattern is consistent with contaminant dilution and dispersion as the PFAS plume moves through the groundwater system with distance from the source.<br><br>
+        <strong>Identification and calculation (1 pt):</strong> Well W-1 (0.2 km from the base) has the highest PFOA concentration: 88 ppt.<br>
+        Times above EPA MCL = 88 ppt ÷ 4 ppt = <strong>22 times above the EPA MCL for PFOA</strong>.
+      </div>
+      <div class="tip">Relationship must describe the direction (as distance increases, concentration decreases) and use data (cite actual values). Calculation: W-1 PFOA (88 ppt) ÷ EPA MCL (4 ppt) = 22×. Show the division. Both halves earn 1 point each.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (d) — Vulnerable population justification with Figure 2 data <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        Pregnant women and infants are particularly vulnerable to PFAS contamination at W-1 (PFOA = 88 ppt, PFOS = 142 ppt — far exceeding the 4 ppt MCL) for two key reasons:<br><br>
+        <strong>Health effect 1 — Low birth weight (1 pt):</strong> Figure 2 shows that chronic PFAS exposure is associated with a 20% increased relative risk of low birth weight. Fetuses are particularly susceptible because PFAS cross the placental barrier and accumulate in fetal tissue during critical developmental windows. Low birth weight is a serious health outcome associated with developmental delays, respiratory problems, and increased infant mortality. The extremely high PFAS concentrations at W-1 (88 ppt PFOA = 22× the MCL) would place pregnant women at substantial risk for this outcome.<br><br>
+        <strong>Health effect 2 — Reduced vaccine efficacy / immune suppression (1 pt):</strong> Infants depend on vaccinations for protection against childhood diseases during a period when their immune systems are immature. Figure 2 shows a 15–30% increase in immune suppression and vaccine efficacy reduction with PFAS exposure. This means infants of mothers consuming water from W-1 may not develop adequate immune responses from standard childhood vaccines (measles, polio, diphtheria), leaving them vulnerable to preventable infectious diseases.
+      </div>
+      <div class="tip">Must reference at least TWO specific health effects from Figure 2 AND explain WHY fetuses/infants are especially vulnerable (placental transfer; immature immune system; developmental windows). Simply listing Figure 2 effects without explaining the mechanism for infant/fetal vulnerability earns only 1 point.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (e) — PFAS removal technology + mechanism <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Technology: Granular Activated Carbon (GAC) Filtration</strong><br>
+        <strong>Mechanism (2 pts = technology + mechanism):</strong> Water from contaminated wells is passed through beds of granular activated carbon — charcoal that has been processed to create an enormous internal surface area (up to 1,500 m² per gram). PFAS molecules, despite being extremely stable in water, have hydrophobic (water-repelling) fluorinated carbon chains that are attracted to the hydrophobic surface of activated carbon through van der Waals forces and hydrophobic interactions. PFAS molecules adsorb (stick) to the carbon surface as water passes through, effectively removing them from the drinking water supply. GAC can reduce PFAS concentrations by 90% or more when properly sized and maintained. The carbon must be periodically replaced or thermally regenerated when saturated. GAC is EPA-approved for PFAS removal and is currently being required at many contaminated sites under the 2024 PFAS MCL.<br><br>
+        <strong>Alternative: High-pressure membrane filtration (nanofiltration/reverse osmosis)</strong> — Forcing water at high pressure through semi-permeable membranes with pore sizes &lt;1 nm physically excludes PFAS molecules (which are 1–14 nm in length), preventing them from passing through. Removes &gt;95% of PFAS but produces a concentrated PFAS-containing brine waste stream requiring safe disposal.
+      </div>
+      <div class="tip">Technology must be NAMED (GAC, reverse osmosis, nanofiltration, ion-exchange resins, foam fractionation). Mechanism must explain HOW it physically removes PFAS — adsorption to carbon surface (GAC), physical size exclusion (RO/NF), or ion exchange. "Filter the water" earns zero points. Must be specific about the mechanism.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (f) — 2024 regulation + limitation <span class="pts-badge">1 pt</span></div>
+      <div class="ans-body">
+        <strong>Regulation: EPA's National Primary Drinking Water Regulation for PFAS (April 2024)</strong> — established the first legally enforceable maximum contaminant level (MCL) for PFOA and PFOS in public drinking water systems at 4 ppt (parts per trillion).<br><br>
+        <strong>Limitation:</strong> The 2024 PFAS MCL applies only to public water systems regulated under the Safe Drinking Water Act — it does NOT directly apply to private wells, which are the most common water source in rural areas near military bases where communities may rely on individually owned wells. Residents using private wells (like potentially those at W-1 through W-4 in Table 1) are not protected by this MCL — they must test their own wells and fund their own treatment systems without federal mandate. This creates a significant protection gap in communities near contaminated military installations where private well use is common.
+      </div>
+      <div class="tip">Must NAME the 2024 EPA PFAS MCL regulation specifically. Limitation must be realistic and specific: (1) doesn't apply to private wells; (2) requires 5 years for compliance; (3) military installations may claim national security exemptions; (4) enforcement depends on state primacy; (5) doesn't address contaminated soil/sediment, only drinking water.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     REFERENCE SHEET (for Question 3)
+════════════════════════════════════════════════ -->
+<div class="ref-box">
+  <h3>Reference Sheet — Question 3 (Calculations) <span class="new-2026">★ NEW 2026</span></h3>
+  <div class="ref-grid">
+    <div class="ref-item"><span class="label">Percent Change</span>% change = (New − Old) ÷ Old × 100</div>
+    <div class="ref-item"><span class="label">Population Doubling Time</span>Doubling time (yr) = 70 ÷ r (%)</div>
+    <div class="ref-item"><span class="label">Energy conversion</span>1 MW = 1,000 kW = 1,000,000 W</div>
+    <div class="ref-item"><span class="label">Energy output</span>Energy (kWh) = Power (kW) × Time (h)</div>
+    <div class="ref-item"><span class="label">CO₂ from coal combustion</span>~2.1 kg CO₂ per kg coal burned (avg. bituminous)</div>
+    <div class="ref-item"><span class="label">CO₂ from natural gas</span>~1.2 kg CO₂ per kg natural gas burned (avg.)</div>
+    <div class="ref-item"><span class="label">Mass units</span>1 metric ton (MT) = 1,000 kg = 2,205 lb</div>
+    <div class="ref-item"><span class="label">Area units</span>1 km² = 100 ha = 247 acres</div>
+    <div class="ref-item"><span class="label">Wind capacity factor (avg. US)</span>~35% (wind turbines generate ~35% of rated capacity annually)</div>
+    <div class="ref-item"><span class="label">Solar capacity factor (avg. US)</span>~25% (solar panels generate ~25% of rated capacity annually)</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     QUESTION 3 — Soil Organic Carbon · Regenerative Agriculture · Carbon Markets
+     CALCULATIONS REQUIRED · Reference Sheet Provided
+════════════════════════════════════════════════ -->
+<div class="question" id="q3">
+  <div class="q-hdr">
+    <span class="q-num">3</span>
+    <span class="q-badge calc">Environmental Problem, Solution &amp; Calculations</span>
+    <span class="q-type-label">~22–25 minutes · Reference sheet provided <span class="new-2026">★ NEW 2026</span></span>
+    <div class="q-pts-box"><span class="n">10</span>pts</div>
+  </div>
+
+  <div class="ctx-box">
+    <div class="ctx-lbl">Background</div>
+    Soil organic carbon (SOC) — the carbon stored in soil organic matter — represents the largest terrestrial carbon pool on Earth, containing approximately 1,500 Pg of carbon in the top metre alone. Conventional tillage agriculture accelerates SOC loss through oxidation and erosion, releasing CO₂ to the atmosphere. Regenerative agriculture practices (no-till farming, cover cropping, diverse rotations) can rebuild SOC over time. Since 2022, voluntary carbon markets have allowed farmers to earn verified carbon credits by sequestering soil carbon, with each credit representing 1 Mg CO₂ equivalent (CO₂e) removed from the atmosphere. Harrowfield County operates 240 hectares of cropland currently under conventional tillage. County officials are considering transitioning the entire farm to certified regenerative no-till practices and enrolling in a voluntary soil carbon credit program. Scientists collected soil samples at a depth of 0–30 cm each year to measure SOC percentage and soil bulk density. Table 1 shows measurements at Year 0 (baseline) and Year 5 under each practice type.
+  </div>
+
+  <!-- Figure: SOC data table + bar chart -->
+  <div class="two-fig">
+    <div class="fig">
+      <div class="fig-title">Table 1. Soil measurements at 0–30 cm depth, Harrowfield County</div>
+      <table class="dtbl">
+        <thead>
+          <tr><th>Measurement</th><th>Conventional Tillage (Year 0)</th><th>Conventional Tillage (Year 5)</th><th>Regenerative No-Till (Year 0)</th><th>Regenerative No-Till (Year 5)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rh">SOC (%)</td><td>2.10</td><td>1.75</td><td>2.10</td><td>3.20</td></tr>
+          <tr><td class="rh">Bulk density (g/cm³)</td><td>1.40</td><td>1.50</td><td>1.40</td><td>1.20</td></tr>
+          <tr><td class="rh">N₂O flux (kg N₂O-N/ha/yr)</td><td>2.8</td><td>3.4</td><td>2.8</td><td>1.6</td></tr>
+        </tbody>
+      </table>
+      <div class="fig-cap">SOC% measured by loss-on-ignition; bulk density by core method; N₂O by static chamber. Year 0 values identical (same field, split into treatment plots). Harrowfield County, 2020–2025 (simulated data).</div>
+    </div>
+
+    <div class="fig">
+      <div class="fig-title">Figure 3. SOC Stock comparison (Mg C/ha) — calculated from Table 1 data</div>
+      <svg viewBox="0 0 300 185" style="width:100%;display:block">
+        <rect width="300" height="185" fill="#f9f9f7"/>
+        <line x1="45" y1="15" x2="45" y2="145" stroke="#111" stroke-width="1.5"/>
+        <line x1="45" y1="145" x2="285" y2="145" stroke="#111" stroke-width="1.5"/>
+        <!-- Y gridlines and labels -->
+        <line x1="45" y1="105" x2="285" y2="105" stroke="#eee" stroke-width="1"/>
+        <line x1="45" y1="65" x2="285" y2="65" stroke="#eee" stroke-width="1"/>
+        <line x1="45" y1="25" x2="285" y2="25" stroke="#eee" stroke-width="1"/>
+        <text x="40" y="148" text-anchor="end" font-size="9">0</text>
+        <text x="40" y="108" text-anchor="end" font-size="9">25</text>
+        <text x="40" y="68" text-anchor="end" font-size="9">50</text>
+        <text x="40" y="28" text-anchor="end" font-size="9">75</text>
+        <text x="165" y="175" text-anchor="middle" font-size="9" font-weight="bold">Practice and Year</text>
+        <text x="10" y="85" text-anchor="middle" font-size="9" font-weight="bold" transform="rotate(-90 10 85)">SOC Stock (Mg C/ha)</text>
+        <!-- Bars: Conv Y0 = 88.2 Mg/ha (scale: 75→25px, so 88.2→?). scale: 0→145, 75→25 → 1 unit=1.6px -->
+        <!-- Conv Year 0: (2.10/100)×1.40×30×100 = 88.2. bar height=88.2×1.6=141px → from 145 to 4 — off chart. Scale: 0→145,100→5 → 1 unit=1.4px -->
+        <!-- Conv Y0: 88.2 → bar from 145 to 145-88.2×1.4=145-123=22 (too much). Use scale 0→145, 120→15 → 1px=(145-15)/120=1.08 -->
+        <!-- Conv Y0: 88.2 Mg/ha → px height = 88.2×1.08=95 → top=145-95=50 -->
+        <!-- Conv Y5: (1.75/100)×1.50×30×100 = 78.75 → px=85 → top=60 -->
+        <!-- Reg Y0: same as Conv Y0: 88.2 → top=50 -->
+        <!-- Reg Y5: (3.20/100)×1.20×30×100 = 115.2 → px=124 → top=21 -->
+        <!-- Conv Year 0 -->
+        <rect x="55" y="50" width="35" height="95" fill="#555"/>
+        <text x="72" y="158" text-anchor="middle" font-size="7.5">Conv. Y0</text>
+        <text x="72" y="46" text-anchor="middle" font-size="8" fill="#555">88.2</text>
+        <!-- Conv Year 5 -->
+        <rect x="100" y="60" width="35" height="85" fill="#888"/>
+        <text x="117" y="158" text-anchor="middle" font-size="7.5">Conv. Y5</text>
+        <text x="117" y="56" text-anchor="middle" font-size="8" fill="#888">78.8</text>
+        <!-- Regen Year 0 -->
+        <rect x="165" y="50" width="35" height="95" fill="#1B5E20" opacity=".6"/>
+        <text x="182" y="158" text-anchor="middle" font-size="7.5">Regen. Y0</text>
+        <text x="182" y="46" text-anchor="middle" font-size="8" fill="#1B5E20">88.2</text>
+        <!-- Regen Year 5 — ANSWER BAR (question mark, outlined only) -->
+        <rect x="210" y="20" width="35" height="125" fill="none" stroke="#1B5E20" stroke-width="2" stroke-dasharray="4,3"/>
+        <text x="227" y="158" text-anchor="middle" font-size="7.5">Regen. Y5</text>
+        <text x="227" y="15" text-anchor="middle" font-size="9" fill="#1B5E20" font-weight="bold">? (part b)</text>
+        <!-- Arrow showing SOC loss vs gain -->
+        <line x1="72" y1="50" x2="117" y2="60" stroke="#BF360C" stroke-width="1.5" marker-end="url(#arrdn)"/>
+        <defs><marker id="arrdn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#BF360C"/></marker>
+        <marker id="arrup" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#1B5E20"/></marker></defs>
+        <text x="90" y="52" font-size="7.5" fill="#BF360C">−loss</text>
+        <line x1="182" y1="50" x2="227" y2="25" stroke="#1B5E20" stroke-width="1.5" marker-end="url(#arrup)"/>
+        <text x="204" y="35" font-size="7.5" fill="#1B5E20">+gain</text>
+      </svg>
+      <div class="fig-cap">Figure 3. SOC stocks calculated from Table 1 using reference sheet formula. Regenerative Year 5 bar left blank — calculated in part (b). Scale: Mg C/ha. Loss (conventional) and gain (regenerative) arrows shown.</div>
+    </div>
+  </div>
+
+  <!-- Reference Sheet embedded for Q3 -->
+  <div class="ref-sheet-note" style="margin-bottom:1rem">
+    <strong>Question 3 Reference Sheet <span class="new-2026">★ NEW 2026</span></strong><br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;display:block;margin-top:.4rem;line-height:2">
+      SOC Stock (Mg C/ha) = (SOC% ÷ 100) × Bulk Density (g/cm³) × Sample Depth (cm) × 100<br>
+      CO₂e from soil C: 1 Mg C = 3.67 Mg CO₂e (multiply by 44/12)<br>
+      1 carbon credit = 1 Mg CO₂e (verified removal from atmosphere)<br>
+      GWP-100: N₂O = 265 × CO₂; CH₄ = 28 × CO₂; CO₂ = 1<br>
+      Percent change = (New − Old) ÷ Old × 100<br>
+      1 Mg = 1 metric ton = 1,000 kg
+    </span>
+  </div>
+
+  <!-- PARTS -->
+  <div class="part">
+    <span class="part-lbl">(a)</span>
+    <span class="part-body"><span class="cmd">Describe</span> the specific mechanism by which conventional tillage reduces soil organic carbon (SOC) compared to no-till practices. <span class="cmd">Identify</span> one additional environmental consequence — other than SOC loss — of conventional tillage shown in Table 1. <span class="part-pts">(2 points)</span></span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(b)</span>
+    <div class="sub-ctx">Using the formula on the reference sheet and the data in Table 1:</div>
+    <span class="cmd">Calculate</span> the SOC stock (in Mg C/ha) for the regenerative no-till plots at <strong>Year 5</strong>. Show all work including formula setup, substitution, and units. Then <span class="cmd">calculate</span> the <span class="kw">net change in SOC stock</span> (Mg C/ha) between Year 0 and Year 5 for the regenerative practice. <span class="part-pts">(3 points)</span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(c)</span>
+    <div class="sub-ctx">Harrowfield County plans to enroll its entire 240-hectare farm in regenerative no-till. Assume the net SOC gain per hectare calculated in part (b) accrues uniformly over 5 years. The voluntary carbon market pays <strong>$22 per Mg CO₂e</strong> for verified soil carbon credits.</div>
+    <span class="cmd">Calculate</span> the total annual CO₂e sequestered across the entire 240-hectare farm. Then <span class="cmd">calculate</span> the total carbon credit <span class="kw">revenue</span> the farm would earn over the full 5-year crediting period. Show all steps and units. <span class="part-pts">(3 points)</span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(d)</span>
+    Using Table 1, <span class="cmd">calculate</span> the <span class="kw">percent reduction</span> in N₂O flux from Year 0 to Year 5 under regenerative no-till. Then <span class="cmd">explain</span> why this N₂O reduction provides an <span class="kw">additional climate benefit</span> beyond the SOC gain, referencing the GWP value on the reference sheet. <span class="part-pts">(2 points)</span>
+  </div>
+
+  <div class="part">
+    <span class="part-lbl">(e)</span>
+    Research shows that voluntary carbon market programs primarily benefit large-scale farms in high-income countries, while smallholder farmers in the Global South are largely excluded. <span class="cmd">Explain</span> one specific reason why this environmental justice disparity exists and <span class="cmd">propose</span> one specific policy that would make carbon credit markets more accessible to smallholder farmers. <span class="part-pts">(2 points — see scoring note)</span></span>
+  </div>
+
+  <button class="reveal-btn" id="r3-btn" onclick="reveal(3)">▼ Reveal Model Answer — Question 3</button>
+
+  <div class="ans-panel" id="a3-panel">
+    <div class="ans-hdr">Model Answer — Question 3 (Soil Carbon / Regenerative Agriculture / Carbon Markets) <span class="tot">10 points</span></div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (a) — SOC loss mechanism + additional consequence <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>SOC loss mechanism (1 pt):</strong> Conventional tillage physically breaks up soil aggregates that protect organic matter from microbial decomposition. When soil is ploughed, (1) previously protected organic matter is exposed to oxygen and soil bacteria, accelerating aerobic decomposition and releasing CO₂; (2) soil structure is disrupted, reducing the stable macro- and micro-aggregates that physically occlude organic matter from microbial enzymes; (3) tillage increases soil surface area exposed to sunlight and wind, accelerating drying and erosion which removes topsoil (the most SOC-rich layer). Over time, repeated tillage systematically depletes SOC, as shown by the decline from 2.10% to 1.75% in Table 1.<br><br>
+        <strong>Additional consequence from Table 1 (1 pt): Increased N₂O flux.</strong> Table 1 shows N₂O flux increased from 2.8 to 3.4 kg N₂O-N/ha/yr under conventional tillage (+21.4%). Tillage disrupts soil aggregates, exposing anaerobic microsites where denitrifying bacteria convert soil nitrate to N₂O gas — a potent greenhouse gas (GWP-100 = 265). Conventional tillage also increases nitrogen fertiliser needs (as organic matter cannot supply N), and synthetic fertiliser application elevates soil N₂O emissions further.
+      </div>
+      <div class="tip">Two distinct points needed: mechanism for SOC loss (tillage → aggregate disruption → oxidation → CO₂ release) AND a separate consequence from Table 1 data. N₂O increase is directly readable from the table and ties into GWP/climate impact. Must cite specific data: "from 2.8 to 3.4 kg N₂O-N/ha/yr."</div>
+      <span class="score-toggle" onclick="toggleScorer('s3a')">▸ Score your Part (a)</span>
+      <div class="score-panel" id="s3a"><div class="score-hdr">Keyword Checker — Q3(a)</div><div class="score-wrap">
+        <textarea class="score-input" id="t3a" placeholder="Type your answer…"></textarea>
+        <button class="score-btn" onclick="scoreAnswer('t3a','r3a',['aggregate','decomposition','oxygen','aerobic','tillag','SOC','organic matter','N2O','nitrous oxide','flux','denitrif','mechanism','exposed','bacteria'])">Score</button>
+        <div class="score-result" id="r3a"></div>
+      </div></div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (b) — SOC stock calculation + net change <span class="pts-badge">3 pts</span></div>
+      <div class="ans-body">
+        <strong>SOC Stock formula (reference sheet):</strong> SOC Stock (Mg C/ha) = (SOC% ÷ 100) × Bulk Density (g/cm³) × Sample Depth (cm) × 100<br><br>
+        <strong>Regenerative No-Till, Year 5:</strong><br>
+        SOC Stock = (3.20 ÷ 100) × 1.20 g/cm³ × 30 cm × 100<br>
+        = 0.0320 × 1.20 × 30 × 100<br>
+        = 0.0320 × 3,600<br>
+        = <strong>115.2 Mg C/ha</strong><br><br>
+        <strong>Year 0 baseline (same for both practices):</strong><br>
+        SOC Stock = (2.10 ÷ 100) × 1.40 × 30 × 100 = 0.0210 × 4,200 = <strong>88.2 Mg C/ha</strong><br><br>
+        <strong>Net SOC gain (Regenerative, Year 0 → Year 5):</strong><br>
+        ΔSOCₘₑ₃ = 115.2 − 88.2 = <strong>27.0 Mg C/ha gained over 5 years</strong>
+      </div>
+      <div class="tip">3 pts: (1) correct formula setup with all four components written explicitly; (2) correct Year 5 regen calculation = 115.2 Mg C/ha; (3) correct net change = 27.0 Mg C/ha. Note: Year 0 SOC stock must also be calculated (not just given) using the formula — both use Table 1 data. Units must be included throughout. Common error: using 2.10 instead of 3.20 for Year 5.</div>
+      <span class="score-toggle" onclick="toggleScorer('s3b')">▸ Score your Part (b)</span>
+      <div class="score-panel" id="s3b"><div class="score-hdr">Keyword Checker — Q3(b)</div><div class="score-wrap">
+        <textarea class="score-input" id="t3b" placeholder="Type your calculation…"></textarea>
+        <button class="score-btn" onclick="scoreAnswer('t3b','r3b',['115.2','88.2','27.0','3.20','1.20','formula','setup','Mg C/ha','net change','100','30 cm'])">Score</button>
+        <div class="score-result" id="r3b"></div>
+      </div></div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (c) — Annual CO₂e + 5-year revenue <span class="pts-badge">3 pts</span></div>
+      <div class="ans-body">
+        <strong>Step 1 — Annual SOC gain per hectare:</strong><br>
+        Net SOC over 5 years = 27.0 Mg C/ha<br>
+        Annual SOC gain = 27.0 ÷ 5 = <strong>5.4 Mg C/ha/year</strong><br><br>
+        <strong>Step 2 — Convert annual C gain to CO₂e:</strong><br>
+        Annual CO₂e per hectare = 5.4 Mg C/ha × 3.67 Mg CO₂e/Mg C = <strong>19.818 Mg CO₂e/ha/year</strong><br><br>
+        <strong>Step 3 — Scale to 240-hectare farm:</strong><br>
+        Annual CO₂e (farm total) = 19.818 × 240 = <strong>4,756.3 Mg CO₂e/year</strong><br>
+        (≈ 4,756 carbon credits per year)<br><br>
+        <strong>Step 4 — 5-year carbon credit revenue:</strong><br>
+        Total CO₂e over 5 years = 4,756.3 × 5 = 23,781.6 Mg CO₂e<br>
+        Revenue = 23,781.6 Mg CO₂e × $22/Mg CO₂e = <strong>$523,195</strong> ≈ $523,200 over 5 years
+      </div>
+      <div class="tip">3 pts: (1) correct annual CO₂e per ha (5.4 × 3.67 = 19.82 Mg CO₂e/ha/yr); (2) correct farm-scale annual total (×240 ha = 4,756 Mg CO₂e/yr); (3) correct 5-year revenue (×5 yr × $22 = ~$523,200). All three multiplication steps must be shown. Minor rounding differences (±5%) accepted. Units at each step required.</div>
+      <span class="score-toggle" onclick="toggleScorer('s3c')">▸ Score your Part (c)</span>
+      <div class="score-panel" id="s3c"><div class="score-hdr">Keyword Checker — Q3(c)</div><div class="score-wrap">
+        <textarea class="score-input" id="t3c" placeholder="Show all steps…"></textarea>
+        <button class="score-btn" onclick="scoreAnswer('t3c','r3c',['5.4','3.67','19.8','240','4756','523','annual','CO2e','credits','revenue','5 years','Mg'])">Score</button>
+        <div class="score-result" id="r3c"></div>
+      </div></div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (d) — N₂O percent reduction + climate benefit explanation <span class="pts-badge">2 pts</span></div>
+      <div class="ans-body">
+        <strong>Percent reduction in N₂O flux (1 pt):</strong><br>
+        Year 0: 2.8 kg N₂O-N/ha/yr; Year 5 (Regen): 1.6 kg N₂O-N/ha/yr<br>
+        % reduction = (1.6 − 2.8) ÷ 2.8 × 100 = (−1.2 ÷ 2.8) × 100 = <strong>−42.9% reduction</strong><br><br>
+        <strong>Additional climate benefit (1 pt):</strong> N₂O has a GWP-100 of 265, meaning each molecule of N₂O traps 265 times as much heat over 100 years as an equivalent molecule of CO₂. Therefore, reducing N₂O flux by 1.2 kg N₂O-N/ha/yr provides a climate benefit equivalent to avoiding (1.2 × 44/28 × 265) ≈ 500 kg CO₂e/ha/yr — a substantial additional greenhouse gas benefit beyond the SOC sequestration calculated in parts (b) and (c). This means regenerative agriculture addresses two greenhouse gases simultaneously, making its total climate mitigation value significantly greater than SOC sequestration alone.
+      </div>
+      <div class="tip">2 pts: (1) correct percent change = −42.9% (must show formula and substitution); (2) explain N₂O's GWP-100 = 265 means each unit of N₂O reduction is 265× more impactful than equivalent CO₂ — quantify or explain this multiplication. Must reference the specific GWP value from the reference sheet.</div>
+    </div>
+
+    <div class="ans-part">
+      <div class="ans-part-lbl">Part (e) — Environmental justice disparity + policy <span class="pts-badge">2 pts — 1 explain + 1 propose</span></div>
+      <div class="ans-body">
+        <strong>Reason for disparity (1 pt): High transaction costs and verification barriers exclude smallholder farmers.</strong> Voluntary carbon market programs require extensive measurement, reporting, and verification (MRV) of SOC changes using soil sampling, laboratory analysis, and third-party auditors. These verification costs can range from $5,000–$50,000 per project enrollment — costs that large industrial farms can spread across thousands of hectares, but that make participation economically impossible for smallholder farmers with 1–5 hectare plots. Additionally, most carbon market platform contracts require minimum lot sizes (e.g., 1,000+ Mg CO₂e), which smallholders cannot individually achieve. The result: agri-chemical firms, agri-tech companies, and carbon farming startups mainly target large-scale farmers in the Global North, while smallholder farmers in Asia, Africa, and Latin America who stand to benefit most from supplemental income are structurally excluded.<br><br>
+        <strong>Policy to address (1 pt): Aggregation cooperatives with subsidised MRV costs.</strong> Governments or international development banks (World Bank, IFAD) could fund farmer cooperative models that aggregate the soil carbon credits from hundreds of smallholder farms within a region into a single pooled project large enough to meet market minimums. A central cooperative body would fund shared soil testing and MRV costs, negotiate carbon credit pricing collectively, and distribute revenue to member farmers proportionally. This "stacking" cooperative model — similar to what farmer cooperatives already do for crop commodity marketing — has been piloted by Boomitra and Agreena in South Asia and Europe. Subsidising MRV costs for farmers below an income threshold through USDA or international climate finance mechanisms would further reduce the structural barriers to entry.
+      </div>
+      <div class="tip">Must explain WHY the disparity exists (not just say "big farms benefit more") — the mechanism is verification cost relative to farm size, minimum lot requirements, and access to technology. Policy must address the specific mechanism: cooperative aggregation, subsidised verification, or tiered credit minimum requirements. "Create programs for small farmers" is too vague.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOTAL SCORE TRACKER -->
+<!-- TOTAL SCORE TRACKER -->
+<div class="total-bar" id="total-bar" style="display:none">
+  <div><div class="tb-num" id="tot-num">0</div><div style="font-size:11px;color:var(--ink4);margin-top:2px">/ 30 points</div></div>
+  <div class="tb-detail">
+    <h3 style="font-size:14px;margin-bottom:.35rem">Semantic Keyword Score (keyword match)</h3>
+    <div class="tb-prog"><div class="tb-fill" id="tot-fill" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--ink4)" id="tot-label">Complete and score all answer parts to see your total.</div>
+  </div>
+</div>
+
+<!-- END OF EXAM -->
+<div style="padding:1.25rem 1.5rem;text-align:center;border-top:2px solid var(--ink);margin-top:.5rem">
+  <p style="font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--ink);text-transform:uppercase;margin-bottom:.3rem">End of Examination — Section II</p>
+  <p style="font-size:11px;color:var(--ink4)">Check that you have answered all parts of all three questions. Submit in Bluebook when complete.</p>
+</div>
+
+<div class="exam-footer">
+  AP® Environmental Science 2026 · Predicted Free-Response Questions · <strong>BY mitali.gide.ai</strong> · Keyword-based semantic scoring · Not affiliated with College Board · For educational preparation only
+</div>
+
+<!-- DESIGN RATIONALE -->
+  AP® Environmental Science 2026 · Predicted FRQ Paper with Scoring Guidelines · <strong>BY mitali.gide.ai</strong> · All biological and environmental contexts based on real published research · Not affiliated with College Board
+</div>
+
+</div><!-- .page -->
+
+<script>
+// ══ REVEAL ANSWERS
+function reveal(n){
+  const btn=document.getElementById('r'+n+'-btn');
+  const panel=document.getElementById('a'+n+'-panel');
+  panel.classList.add('open');
+  btn.classList.add('done');
+  btn.textContent='✓ Answer Revealed — Question '+n;
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ══ TOGGLE SCORER
+function toggleScorer(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ══ FEEDBACK TIERS
+const FB={
+  90:['Outstanding — full marks very likely.','Your answer shows strong command of the concept and mechanism.'],
+  75:['Strong answer — likely earns full or near-full credit.','Good use of key environmental science terminology.'],
+  55:['Partial credit likely — key concepts present but gaps remain.','Review the highlighted missing keywords below.'],
+  35:['Weak answer — significant gaps in environmental mechanism.','Study the model answer and identify what you missed.'],
+  0:['Insufficient — most key concepts missing.','Re-read the model answer carefully, then try again.']
+};
+function getFB(pct){
+  if(pct>=90)return FB[90];if(pct>=75)return FB[75];
+  if(pct>=55)return FB[55];if(pct>=35)return FB[35];return FB[0];
+}
+
+let scoreData={};
+
+function scoreAnswer(inputId,resultId,keywords){
+  const text=document.getElementById(inputId).value.toLowerCase();
+  const resultDiv=document.getElementById(resultId);
+  if(!text.trim()){resultDiv.style.display='block';resultDiv.innerHTML='<em style="color:var(--ink4)">Please type your answer first.</em>';return;}
+  let hits=0,khHtml='',missHtml='';
+  keywords.forEach(kw=>{
+    const kwL=kw.toLowerCase();
+    if(text.includes(kwL)||text.includes(kwL.replace('-',''))||text.includes(kwL.replace('+',' '))||text.includes(kwL.replace(',',''))){
+      hits++;kwHtml+=`<span class="kw-hit">✓ ${kw}</span>`;
+    }else{missHtml+=`<span class="kw-miss">${kw}</span>`;}
+  });
+  const pct=Math.round((hits/keywords.length)*100);
+  const fb=getFB(pct);
+  scoreData[resultId]={pct,hits,total:keywords.length};
+  resultDiv.style.display='block';
+  resultDiv.innerHTML=`
+    <div style="display:flex;align-items:baseline;gap:.75rem;margin-bottom:.4rem">
+      <span class="score-num">${pct}%</span>
+      <span style="font-size:11px;color:var(--ink4)">${hits} of ${keywords.length} key concepts found</span>
+    </div>
+    <div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div>
+    <div class="score-fb" style="border-left-color:${pct>=75?'var(--green)':pct>=50?'#7a5200':'var(--bad)'}">
+      <strong>${fb[0]}</strong> ${fb[1]}
+    </div>
+    <div style="margin-top:.45rem;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:2px">Found:</div>
+    <div>${kwHtml||'<span style="font-size:12px;color:var(--ink4)">None detected</span>'}</div>
+    ${missHtml?`<div style="margin-top:.35rem;font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:2px">Consider adding:</div><div>${missHtml}</div>`:''}
+  `;
+  updateTotal();
+}
+
+function updateTotal(){
+  const keys=Object.keys(scoreData);
+  if(keys.length===0)return;
+  let sum=0;keys.forEach(k=>{sum+=scoreData[k].pct;});
+  const avg=Math.round(sum/keys.length);
+  const pts=Math.round((avg/100)*30);
+  const bar=document.getElementById('total-bar');
+  bar.style.display='flex';
+  document.getElementById('tot-num').textContent=pts;
+  document.getElementById('tot-fill').style.width=avg+'%';
+  document.getElementById('tot-label').textContent=
+    `Based on ${keys.length} scored part${keys.length>1?'s':''} — average keyword match rate: ${avg}%`;
+}
+</script>
+</body>
+</html>
