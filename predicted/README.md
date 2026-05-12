@@ -1,3 +1,3 @@
-[frq/](frq/)
+[frq/](frq/index.html)
 
-[mcq/](mcq/)
+[mcq/](mcq/index.html)
